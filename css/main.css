@@ -2,6 +2,9 @@
   box-sizing: border-box;
 }
 
+/* font-family: 'Quicksand', sans-serif;
+font-family: 'Press Start 2P', cursive; */
+
 body {
   height: 100vh;
   margin: 0;
@@ -9,5 +12,18 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Press Start 2P', cursive;
 }
+
+
+
+#board {
+  height: 50vmin;
+  width: 50vmin;
+  background-image: url('../media/chess-board-sprites/Black-and-white-board.svg');
+  background-size: cover;
+}
+
+button {
+  font-family: 'Press Start 2P', cursive;
+} 
