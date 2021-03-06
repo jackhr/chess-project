@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    -4, -3, -2, -5, -6, -2, -3, -4,
-    -1, -1, -1, -1, -1, -1, -1, -1,
+    null, 2, null, -1, -2, null, -2, null,
+    null, null, null, null, null, 2, null, null,
+    null, null, null, null, -2, null, -2, null,
+    null, 2, null, null, null, null, 2, null,
+    2, null, null, null, null, null, null, 2,
+    null, 2, null, null, null, null, 2, null,
     null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, 2, null, null, null,
-    null, null, null, null, null, null, null, null,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    4, 3, 2, 5, 6, null, 3, 4
+    null, 2, null, -1, -2, null, 2, null
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -272,37 +272,48 @@ function whiteBishopMove(pieceIdx) {
   let lUDiag = squareAbove - left;
   let rDDiag = squareBelow + right;
   let lDDiag = squareBelow - left;
-  while (board[rUDiag] === null) {
-    legalMoves.push(rUDiag);
-    right++;
-    up += boardWidth;
-    rUDiag = pieceIdx - up + right;
-  }
-  up = boardWidth;
-  right = 1;
-  while (board[lUDiag] === null) {
-    legalMoves.push(lUDiag);
-    left++;
-    up += boardWidth;
-    lUDiag = pieceIdx - up - left;
-  }
-  up = boardWidth;
-  left = 1;
-  while (board[rDDiag] === null) {
-    legalMoves.push(rDDiag);
-    right++;
-    down += boardWidth;
-    rDDiag = pieceIdx + down + right;
-  }
-  down = boardWidth;
-  right = 1;
-  while (board[lDDiag] === null) {
-    legalMoves.push(lDDiag);
-    left++;
-    down += boardWidth;
-    lDDiag = pieceIdx + down - left;
-  }
-  console.log(legalMoves)
+    while (board[rUDiag] === null || board[rUDiag] < 0) {
+      // console.log(`left up diagonal is = ${board[rUDiag]}`);
+      legalMoves.push(rUDiag);
+      if (modal === 7 || (rUDiag % boardWidth) === 7 || board[rUDiag] < 0) break;
+      right++;
+      up += boardWidth;
+      rUDiag = pieceIdx - up + right;
+    }
+    // console.log(legalMoves);
+    up = boardWidth;
+    right = 1;
+    while (board[rDDiag] === null || board[rDDiag] < 0) {
+      // console.log(`right down diagonal is = ${board[rDDiag]}`);
+      legalMoves.push(rDDiag);
+      if (modal === 7 || (rDDiag % boardWidth) === 7 || board[rDDiag] < 0) break;
+      right++;
+      down += boardWidth;
+      rDDiag = pieceIdx + down + right;
+    }
+    // console.log(legalMoves);
+    down = boardWidth;
+    right = 1;
+    while (board[lUDiag] === null || board[lUDiag] < 0) {
+      // console.log(`left up diagonal is = ${board[lUDiag]}`);
+      legalMoves.push(lUDiag);
+      if (modal === 0 || (lUDiag % boardWidth) === 0 || board[lUDiag] < 0) break;
+      left++;
+      up += boardWidth;
+      lUDiag = pieceIdx - up - left;
+    }
+    // console.log(legalMoves);
+    up = boardWidth;
+    left = 1;
+    while (board[lDDiag] === null || board[lDDiag] < 0) {
+      // console.log(`left down diagonal is = ${board[lDDiag]}`);
+      legalMoves.push(lDDiag);
+      if (modal === 0 || (lDDiag % boardWidth) === 0 || board[lDDiag] < 0) break;
+      left++;
+      down += boardWidth;
+      lDDiag = pieceIdx + down - left;
+    }
+  console.log(legalMoves);
   
 }
 
