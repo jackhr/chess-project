@@ -257,11 +257,53 @@ function whitePawnMove(pieceIdx) {
   } else if (board[squareAbove - 1] !== null) {
     legalMoves.push(squareAbove - 1);
   };
+  console.log(legalMoves)
 }
 
 function whiteBishopMove(pieceIdx) {
-  // if (Math.abs(pieceIdx) === 2) return;
-
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  let right = 1;
+  let left = 1;
+  let up = boardWidth;
+  let down = boardWidth;
+  let rUDiag = squareAbove + right;
+  let lUDiag = squareAbove - left;
+  let rDDiag = squareBelow + right;
+  let lDDiag = squareBelow - left;
+  while (board[rUDiag] === null) {
+    legalMoves.push(rUDiag);
+    right++;
+    up += boardWidth;
+    rUDiag = pieceIdx - up + right;
+  }
+  up = boardWidth;
+  right = 1;
+  while (board[lUDiag] === null) {
+    legalMoves.push(lUDiag);
+    left++;
+    up += boardWidth;
+    lUDiag = pieceIdx - up - left;
+  }
+  up = boardWidth;
+  left = 1;
+  while (board[rDDiag] === null) {
+    legalMoves.push(rDDiag);
+    right++;
+    down += boardWidth;
+    rDDiag = pieceIdx + down + right;
+  }
+  down = boardWidth;
+  right = 1;
+  while (board[lDDiag] === null) {
+    legalMoves.push(lDDiag);
+    left++;
+    down += boardWidth;
+    lDDiag = pieceIdx + down - left;
+  }
+  console.log(legalMoves)
+  
 }
 
 function whiteKnightMove() {
