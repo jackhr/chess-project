@@ -105,7 +105,7 @@ const boardMoveLookup = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth;
+let board, winner, turn, pieceIdx, boardWidth, clickCounter;
 
 /*
 icebox
@@ -167,27 +167,35 @@ function render() {
   }
   // msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
+  clickCounter = -1;
 }
 
 function handlePieceSelection(evt) {
-  let div = evt.target;
-  let idx = squareEls.indexOf(div);
-  let piece = board[idx];
+  if (clickCounter > -1) return;
+  clickCounter++;
+  let selectedDiv = evt.target;
+  let selectedIdx = squareEls.indexOf(selectedDiv);
+  let pieceValue = board[selectedIdx];
   // console.log(piece)
-  if ((piece > 0 && turn < 0) || (piece < 0 && turn > 0) || piece === null || winner) return;
-  pieceIdx = idx;
-  console.log(piece)
+  if ((pieceValue > 0 && turn < 0) || (pieceValue < 0 && turn > 0) || pieceValue === null || winner) return;
+  pieceIdx = selectedIdx;
+  console.log(`the div ID = #${selectedDiv.id}, pieceIdx = ${pieceIdx}`);
+  selectedDiv.style.transform = 'scale(1.5)';
+  selectedDiv.style.transition = 'all 0.05s ease-in';
   /*
   icebox
-  div.style.transform = 'scale(1.1)';
-  div.style.transition = 'all 0.05s ease-in';
   play a sound when selecting the piece.
   */
   highlightMoves(pieceIdx);
 }
 
 function handlePiecePlacement(evt) {
-
+  clickCounter++;
+  if (clickCounter < 2) return;
+  let selectedDiv = evt.target;
+  let selectedIdx = squareEls.indexOf(selectedDiv);
+  let pieceValue = board[selectedIdx];
+  if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
   // inCheck()
   // winner = getWinner();
   // turn *= -1;
