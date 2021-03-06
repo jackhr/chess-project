@@ -15,15 +15,34 @@ body {
   font-family: 'Press Start 2P', cursive;
 }
 
+header {
+  margin: 8vmin;
+  font-size: 30px;
+  line-height: 0;
+}
 
+#message-section {
+  display: flex;
+
+}
+
+/* .board-sprite {
+  max-width: 50px;
+  background-image: url('../media/chess-board-option-sprites/Creampuff-board-option.svg');
+} */
 
 #board {
-  height: 50vmin;
-  width: 50vmin;
-  background-image: url('../media/chess-board-sprites/Black-and-white-board.svg');
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  height: 400px;
+  width: 400px;
+  background-image: url('../media/chess-board-sprites/Creampuff-board.svg');
   background-size: cover;
 }
 
 button {
+  margin: auto 0;
   font-family: 'Press Start 2P', cursive;
-} 
+}
+
