@@ -63,7 +63,7 @@ const playerLookup = {
   'null': {
     imgURL: "url('')"
   }
-}
+};
 const boardMoveLookup = {
   '-1': {
 
@@ -102,10 +102,10 @@ const boardMoveLookup = {
 
   },
   
-}
+};
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv;
+let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves;
 
 /*
 icebox
@@ -138,15 +138,14 @@ function init() {
     -1, -1, -1, -1, -1, -1, -1, -1,
     null, null, null, null, null, null, null, null,
     null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
+    null, null, null, null, 2, null, null, null,
     null, null, null, null, null, null, null, null,
     1, 1, 1, 1, 1, 1, 1, 1,
-    4, 3, 2, 5, 6, 2, 3, 4
+    4, 3, 2, 5, 6, null, 3, 4
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
-  boardWidth = 8;
   pieceIdx = null;
-  turn = -1;
+  turn = 1;
   winner = null;
   render();
 }
@@ -168,6 +167,8 @@ function render() {
   // msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   clickCounter = -2;
+  legalMoves = [];
+  boardWidth = 8;
 }
 
 function handlePieceSelection(evt) {
@@ -179,14 +180,21 @@ function handlePieceSelection(evt) {
   // console.log(piece)
   if ((pieceValue > 0 && turn < 0) || (pieceValue < 0 && turn > 0) || pieceValue === null || winner) return;
   pieceIdx = selectedIdx;
-  console.log(`the div ID = #${selectedDiv.id}, pieceIdx = ${pieceIdx}`);
-  selectedDiv.style.transform = 'scale(1.5)';
+  // console.log(`the div ID = #${selectedDiv.id}, pieceIdx = ${pieceIdx}`);
+  selectedDiv.style.transform = 'scale(1.35)';
   selectedDiv.style.transition = 'all 0.05s ease-in';
   /*
   icebox
   play a sound when selecting the piece.
   */
-  highlightMoves(pieceIdx);
+  if (Math.abs(pieceValue) === 1) whitePawnMove(pieceIdx);
+  if (Math.abs(pieceValue) === 2) whiteBishopMove(pieceIdx);
+  if (Math.abs(pieceValue) === 3) whiteKnightMove(pieceIdx);
+  if (Math.abs(pieceValue) === 4) whiteRookMove(pieceIdx);
+  if (Math.abs(pieceValue) === 5) whiteQueenMove(pieceIdx);
+  if (Math.abs(pieceValue) === 6) whiteKingMove(pieceIdx);
+  // highlightMoves(pieceIdx);
+  // These functions should return an array of possible moves that I can itterate through and if the index is -1, it's an illegal move.
 }
 
 function handlePiecePlacement(evt) {
@@ -195,20 +203,20 @@ function handlePiecePlacement(evt) {
   placementDiv = evt.target;
   let selectedIdx = squareEls.indexOf(placementDiv);
   let pieceValue = board[selectedIdx];
-  console.log(placementDiv === selectedDiv)
-  console.log(selectedDiv)
-  // if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
-  // inCheck()
-  // winner = getWinner();
-  // turn *= -1;
   if (selectedDiv === placementDiv) {
     placementDiv.style.transform = 'scale(1)';
     placementDiv.style.transition = 'all 0.05s ease-in';
     render();
   }
+  // console.log('hey!')
+  if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
+  // console.log('hey!')
+  // inCheck()
+  // winner = getWinner();
+  // turn *= -1;
   // render();
 }
-
+/*
 function highlightMoves(piece) {
   let pieceValue = board[piece];
   if (Math.abs(pieceValue) === 1) {
@@ -232,27 +240,88 @@ function highlightMoves(piece) {
   } else {return}
 }
 
-function pawnMove() {
+*/
+
+
+function whitePawnMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let modal = pieceIdx % boardWidth;
+  if (board[squareAbove] === null) {
+    legalMoves.push(squareAbove);
+  };
+  if (modal === 7 || board[squareAbove + 1] > 0) {
+  } else if (board[squareAbove + 1] !== null) {
+    legalMoves.push(squareAbove + 1);
+  };
+  if (modal === 0 || board[squareAbove - 1] > 0) {
+  } else if (board[squareAbove - 1] !== null) {
+    legalMoves.push(squareAbove - 1);
+  };
+}
+
+function whiteBishopMove(pieceIdx) {
+  // if (Math.abs(pieceIdx) === 2) return;
 
 }
- 
-function bishopMove() {
+
+function whiteKnightMove() {
+  // if (Math.abs(pieceIdx) === 3) return;
+  
+}
+
+function WhiteRookMove() {
+  // if (Math.abs(pieceIdx) === 4) return;
+  
+}
+
+function WhiteQueenMove() {
+  // if (Math.abs(pieceIdx) === 5) return;
+  
+}
+
+function WhiteKingMove() {
+  // if (Math.abs(pieceIdx) === 6) return;
 
 }
- 
-function knightMove() {
 
+function blackPawnMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let modal = pieceIdx % boardWidth;
+  if (board[squareAbove] === null) {
+    legalMoves.push(squareAbove);
+  };
+  if (modal === 7 || board[squareAbove + 1] > 0) {
+  } else if (board[squareAbove + 1] !== null) {
+    legalMoves.push(squareAbove + 1);
+  };
+  if (modal === 0 || board[squareAbove - 1] > 0) {
+  } else if (board[squareAbove - 1] !== null) {
+    legalMoves.push(squareAbove - 1);
+  };
 }
- 
-function rookMove() {
 
+function blackBishopMove() {
+  // if (Math.abs(pieceIdx) === 2) return;
+  
 }
- 
-function queenMove() {
 
+function blackKnightMove() {
+  // if (Math.abs(pieceIdx) === 3) return;
+  
 }
- 
-function kingMove() {
+
+function blackRookMove() {
+  // if (Math.abs(pieceIdx) === 4) return;
+  
+}
+
+function blackQueenMove() {
+  // if (Math.abs(pieceIdx) === 5) return;
+  
+}
+
+function blackKingMove() {
+  // if (Math.abs(pieceIdx) === 6) return;
 
 }
 
