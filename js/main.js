@@ -105,7 +105,7 @@ const boardMoveLookup = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth, clickCounter;
+let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv;
 
 /*
 icebox
@@ -146,7 +146,7 @@ function init() {
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   boardWidth = 8;
   pieceIdx = null;
-  turn = 1;
+  turn = -1;
   winner = null;
   render();
 }
@@ -167,13 +167,13 @@ function render() {
   }
   // msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
-  clickCounter = -1;
+  clickCounter = -2;
 }
 
 function handlePieceSelection(evt) {
   if (clickCounter > -1) return;
   clickCounter++;
-  let selectedDiv = evt.target;
+  selectedDiv = evt.target;
   let selectedIdx = squareEls.indexOf(selectedDiv);
   let pieceValue = board[selectedIdx];
   // console.log(piece)
@@ -191,14 +191,21 @@ function handlePieceSelection(evt) {
 
 function handlePiecePlacement(evt) {
   clickCounter++;
-  if (clickCounter < 2) return;
-  let selectedDiv = evt.target;
-  let selectedIdx = squareEls.indexOf(selectedDiv);
+  if (clickCounter < 1) return;
+  placementDiv = evt.target;
+  let selectedIdx = squareEls.indexOf(placementDiv);
   let pieceValue = board[selectedIdx];
-  if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
+  console.log(placementDiv === selectedDiv)
+  console.log(selectedDiv)
+  // if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
   // inCheck()
   // winner = getWinner();
   // turn *= -1;
+  if (selectedDiv === placementDiv) {
+    placementDiv.style.transform = 'scale(1)';
+    placementDiv.style.transition = 'all 0.05s ease-in';
+    render();
+  }
   // render();
 }
 
