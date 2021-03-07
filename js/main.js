@@ -134,18 +134,18 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    -1, -1, -1, -1, null, 1, 2, -1,
-    -1, -1, 1, null, null, 1, -1, null,
-    null, 1, -1, null, -1, null, 1, null,
-    null, null, null, null, -1, -1, null, -1,
-    -1, null, null, -1, null, null, -1, -1,
+    -2, -2, -2, -2, null, 1, 2, -2,
+    -2, -2, 1, null, null, 1, -2, null,
+    null, 1, -2, null, -2, null, 1, null,
+    null, null, null, null, -2, -2, null, -2,
+    -2, null, null, -2, null, null, -2, -2,
     null, 1, null, null, null, null, 1, null,
-    -1, -1, 1, null, null, 1, -1, null,
-    -1, null, null, -1, null, null, null, -1
+    -2, -2, 1, null, null, 1, -2, null,
+    -2, null, null, -2, null, null, null, -2
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
-  turn = 1;
+  turn = -1;
   winner = null;
   render();
 }
@@ -474,8 +474,56 @@ function blackPawnMove(pieceIdx) {
 }
 
 function blackBishopMove() {
-  // if (Math.abs(pieceIdx) === 2) return;
-  
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  let right = 1;
+  let left = 1;
+  let up = boardWidth;
+  let down = boardWidth;
+  let rUDiag = squareAbove + right;
+  let lUDiag = squareAbove - left;
+  let rDDiag = squareBelow + right;
+  let lDDiag = squareBelow - left; //Maybe I don't need the "board[rUDiag] < 0" at all
+    while (board[rUDiag] === null || board[rUDiag] > 0) {
+      if (modal === 7) break;
+      legalMoves.push(rUDiag);
+      if (board[rUDiag] > 0 || (rUDiag % boardWidth) === 7) break;
+      right++;
+      up += boardWidth;
+      rUDiag = pieceIdx - up + right;
+    }
+    up = boardWidth;
+    right = 1;
+    while (board[rDDiag] === null || board[rDDiag] > 0) {
+      if (modal === 7) break;
+      legalMoves.push(rDDiag);
+      if (board[rDDiag] > 0 || (rDDiag % boardWidth) === 7) break;
+      right++;
+      down += boardWidth;
+      rDDiag = pieceIdx + down + right;
+    }
+    down = boardWidth;
+    right = 1;
+    while (board[lUDiag] === null || board[lUDiag] > 0) {
+      if (modal === 0) break;
+      legalMoves.push(lUDiag);
+      if (board[lUDiag] > 0 || (lUDiag % boardWidth) === 0) break;
+      left++;
+      up += boardWidth;
+      lUDiag = pieceIdx - up - left;
+    }
+    up = boardWidth;
+    left = 1;
+    while (board[lDDiag] === null || board[lDDiag] > 0) {
+      if (modal === 0) break;
+      legalMoves.push(lDDiag);
+      if (board[lDDiag] > 0 || (lDDiag % boardWidth) === 0) break;
+      left++;
+      down += boardWidth;
+      lDDiag = pieceIdx + down - left;
+    }
+  // console.log(legalMoves);
 }
 
 function blackKnightMove() {
