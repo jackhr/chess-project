@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    3, 3, null, -1, null, null, null, 3,
-    null, 3, 1, null, null, 1, 3, null,
-    null, 1, 3, null, 3, null, 1, null,
-    null, null, null, null, -5, -5, null, null,
-    null, null, null, -4, null, null, null, null,
+    4, 4, null, -1, null, null, null, 5,
+    5, 5, 1, null, null, 1, 5, null,
+    null, 1, 5, null, 5, null, 1, null,
+    null, null, null, null, -5, -5, null, 5,
+    null, null, null, -5, null, null, 5, -2,
     null, 1, null, null, null, null, 1, null,
-    null, 3, 1, null, null, 1, 3, null,
-    3, null, null, -1, null, null, null, 3
+    null, 5, 1, null, null, 1, 5, null,
+    5, null, null, -1, null, null, null, 5
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -271,7 +271,7 @@ function whiteBishopMove(pieceIdx) {
   let rUDiag = squareAbove + right;
   let lUDiag = squareAbove - left;
   let rDDiag = squareBelow + right;
-  let lDDiag = squareBelow - left;
+  let lDDiag = squareBelow - left; //Maybe I don't need the "board[rUDiag] < 0" at all
     while (board[rUDiag] === null || board[rUDiag] < 0) {
       legalMoves.push(rUDiag);
       if (modal === 7 || (rUDiag % boardWidth) === 7 || board[rUDiag] < 0) break;
@@ -369,9 +369,35 @@ function whiteKnightMove(pieceIdx) {
   console.log(legalMoves)  
 }
 
-function WhiteRookMove() {
-  // if (Math.abs(pieceIdx) === 4) return;
-  
+function whiteRookMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  let right = 1;
+  let left = 1;
+  while (board[squareAbove] === null || board[squareAbove] < 0) {
+    legalMoves.push(squareAbove);
+    if (board[squareAbove] < 0) break;
+    squareAbove -= boardWidth;
+  }
+  while (board[pieceIdx + right] === null || board[pieceIdx + right] < 0) {
+    if (modal === 7) break;
+    legalMoves.push(pieceIdx + right);
+    if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right] < 0) break;
+    right++;
+  }
+  while (board[squareBelow] === null || board[squareBelow] < 0) {
+    legalMoves.push(squareBelow);
+    if (board[squareBelow] < 0) break;
+    squareBelow += boardWidth;
+  }
+  while (board[pieceIdx - left] === null || board[pieceIdx - left] < 0) {
+    if (modal === 0) break;
+    legalMoves.push(pieceIdx - left);
+    if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left] < 0) break;
+    left++;
+  }
+  console.log(legalMoves);
 }
 
 function WhiteQueenMove() {
