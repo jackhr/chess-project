@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    4, 4, null, -1, null, null, 2, 4,
-    4, 4, 1, null, null, 1, 4, null,
-    null, 1, 4, null, 4, null, 1, null,
-    null, null, null, null, -4, -4, null, 4,
-    4, null, null, -4, null, null, 4, -4,
+    6, 6, 6, -1, null, null, 2, 6,
+    6, 6, 1, null, null, 1, 6, null,
+    null, 1, 6, null, 6, null, 1, null,
+    null, null, null, null, -6, -6, null, 6,
+    6, null, null, -6, null, null, 6, -6,
     null, 1, null, null, null, null, 1, null,
-    4, 4, 1, null, null, 1, 4, null,
-    4, null, null, -1, null, null, null, 4
+    6, 6, 1, null, null, 1, 6, null,
+    6, null, null, -1, null, null, null, 6
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -258,7 +258,7 @@ function whitePawnMove(pieceIdx) {
   } else if (board[squareAbove - 1] !== null) {
     legalMoves.push(squareAbove - 1);
   };
-  console.log(legalMoves);
+  // console.log(legalMoves);
 }
 
 function whiteBishopMove(pieceIdx) {
@@ -371,7 +371,7 @@ function whiteKnightMove(pieceIdx) {
       legalMoves.push(left - boardWidth);
     }
   }
-  console.log(legalMoves)  
+  // console.log(legalMoves)  
 }
 
 function whiteRookMove(pieceIdx) {
@@ -410,9 +410,43 @@ function whiteQueenMove(pieceIdx) {
   whiteRookMove(pieceIdx);
 }
 
-function whiteKingMove() {
-  // if (Math.abs(pieceIdx) === 6) return;
-
+function whiteKingMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  console.log(pieceIdx)
+  if (pieceIdx < 8) {
+  } else if (board[squareAbove] === null || board[squareAbove] < 0) {
+      legalMoves.push(squareAbove);
+    }
+  if (modal === 7) { 
+  } else {
+    if (board[squareAbove + 1] === null || board[squareAbove + 1] < 0) {
+      legalMoves.push(squareAbove + 1);
+    }
+    if (board[pieceIdx + 1] === null || board[pieceIdx + 1] < 0) {
+      legalMoves.push(pieceIdx + 1);
+    }
+    if (board[squareBelow + 1] === null || board[squareBelow + 1] < 0) {
+      legalMoves.push(squareBelow + 1);
+    }
+  }
+  if (pieceIdx > 55) {
+  } else if (board[squareBelow] === null || board[squareBelow] < 0) {
+    legalMoves.push(squareBelow);
+  }
+  if (modal === 0) {
+  } else {
+    if (board[squareBelow - 1] === null || board[squareBelow - 1] < 0) {
+      legalMoves.push(squareBelow - 1);
+    }
+    if (board[pieceIdx - 1] === null || board[pieceIdx - 1] < 0) {
+      legalMoves.push(pieceIdx - 1);
+    }
+    if (board[squareAbove - 1] === null || board[squareAbove - 1] < 0) {
+      legalMoves.push(squareAbove - 1);
+    }
+  }
 }
 
 function blackPawnMove(pieceIdx) {
