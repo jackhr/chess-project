@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    -4, -4, -4, -4, null, 1, 2, -4,
-    -4, -4, 1, null, null, 1, -4, null,
-    null, 1, -4, null, -4, null, 1, null,
-    null, null, null, null, -4, -4, null, -4,
-    -4, null, null, -4, null, null, -4, -4,
+    -5, -5, -5, -5, null, 1, 2, -5,
+    -5, -5, 1, null, null, 1, -5, null,
+    null, 1, -5, null, -5, null, 1, null,
+    null, null, null, null, -5, -5, null, -5,
+    -5, null, null, -5, null, null, -5, -5,
     null, 1, 1, null, null, null, 1, null,
-    -4, -4, null, null, null, 1, -4, null,
-    -4, null, null, -4, null, null, null, -4
+    -5, -5, null, null, null, 1, -5, null,
+    -5, null, null, -5, null, null, null, -5
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -620,13 +620,48 @@ function blackRookMove(pieceIdx) {
   
 }
 
-function blackQueenMove() {
-  // if (Math.abs(pieceIdx) === 5) return;
-  
+function blackQueenMove(pieceIdx) {
+  blackBishopMove(pieceIdx);
+  blackRookMove(pieceIdx);
 }
 
-function blackKingMove() {
-  // if (Math.abs(pieceIdx) === 6) return;
+function blackKingMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  console.log(pieceIdx)
+  if (pieceIdx < 8) {
+  } else if (board[squareAbove] === null || board[squareAbove] > 0) {
+      legalMoves.push(squareAbove);
+    }
+  if (modal === 7) { 
+  } else {
+    if (board[squareAbove + 1] === null || board[squareAbove + 1] > 0) {
+      legalMoves.push(squareAbove + 1);
+    }
+    if (board[pieceIdx + 1] === null || board[pieceIdx + 1] > 0) {
+      legalMoves.push(pieceIdx + 1);
+    }
+    if (board[squareBelow + 1] === null || board[squareBelow + 1] > 0) {
+      legalMoves.push(squareBelow + 1);
+    }
+  }
+  if (pieceIdx > 55) {
+  } else if (board[squareBelow] === null || board[squareBelow] > 0) {
+    legalMoves.push(squareBelow);
+  }
+  if (modal === 0) {
+  } else {
+    if (board[squareBelow - 1] === null || board[squareBelow - 1] > 0) {
+      legalMoves.push(squareBelow - 1);
+    }
+    if (board[pieceIdx - 1] === null || board[pieceIdx - 1] > 0) {
+      legalMoves.push(pieceIdx - 1);
+    }
+    if (board[squareAbove - 1] === null || board[squareAbove - 1] > 0) {
+      legalMoves.push(squareAbove - 1);
+    }
+  }
 
 }
 
