@@ -170,7 +170,7 @@ function render() {
   legalMoves = [];
   boardWidth = 8;
 }
-
+console.log(legalMoves);
 function handlePieceSelection(evt) {
   if (clickCounter > -1) return;
   clickCounter++;
@@ -200,6 +200,10 @@ function handlePieceSelection(evt) {
   if (pieceValue === -5) blackQueenMove(pieceIdx);
   if (pieceValue === -6) blackKingMove(pieceIdx);
   console.log(legalMoves);
+  legalMoves.forEach(function(move) {
+    console.log(squareEls[move]);
+    squareEls[move].style.backgroundColor = 'green';
+  }); 
   // highlightMoves(pieceIdx);
   // These functions should return an array of possible moves that I can itterate through and if the index is -1, it's an illegal move.
 }
@@ -210,11 +214,16 @@ function handlePiecePlacement(evt) {
   placementDiv = evt.target;
   let selectedIdx = squareEls.indexOf(placementDiv);
   let pieceValue = board[selectedIdx];
+  
   if (selectedDiv === placementDiv) {
     placementDiv.style.transform = 'scale(1)';
     placementDiv.style.transition = 'all 0.05s ease-in';
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = '';
+    });
     render();
   }
+
   // console.log('hey!')
   if ((pieceValue > 0 && turn > 0) || (pieceValue < 0 && turn < 0)) return;
   // console.log('hey!')
@@ -222,6 +231,9 @@ function handlePiecePlacement(evt) {
   // winner = getWinner();
   // turn *= -1;
   // render();
+  
+  /* icebox items
+  */
 }
 /*
 function highlightMoves(piece) {
@@ -328,7 +340,6 @@ function whiteKnightMove(pieceIdx) {
   let down = pieceIdx + height;
   let left = pieceIdx - 2;
   let modal = pieceIdx % boardWidth;
-  console.log(modal);
   if (pieceIdx < 16 && modal >= 0) {
   } else {
     if (modal === 0) {  
@@ -377,7 +388,6 @@ function whiteKnightMove(pieceIdx) {
     if (board[left + boardWidth] < 0 || board[left + boardWidth] === null) {
       legalMoves.push(left + boardWidth);
     }
-    console.log(modal)
     if (board[left - boardWidth] < 0 || board[left - boardWidth] === null) {
       legalMoves.push(left - boardWidth);
     }
@@ -425,7 +435,6 @@ function whiteKingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
-  console.log(pieceIdx)
   if (pieceIdx < 8) {
   } else if (board[squareAbove] === null || board[squareAbove] < 0) {
       legalMoves.push(squareAbove);
@@ -458,6 +467,7 @@ function whiteKingMove(pieceIdx) {
       legalMoves.push(squareAbove - 1);
     }
   }
+  // console.log(legalMoves);
 }
 
 function blackPawnMove(pieceIdx) {
@@ -475,6 +485,7 @@ function blackPawnMove(pieceIdx) {
   } else if (board[squareAbove - 1] !== null) {
     legalMoves.push(squareAbove - 1);
   };
+  // console.log(legalMoves);
 }
 
 function blackBishopMove(pieceIdx) {
@@ -537,7 +548,6 @@ function blackKnightMove(pieceIdx) {
   let down = pieceIdx + height;
   let left = pieceIdx - 2;
   let modal = pieceIdx % boardWidth;
-  console.log(modal);
   if (pieceIdx < 16 && modal >= 0) {
   } else {
     if (modal === 0) {  
@@ -586,7 +596,6 @@ function blackKnightMove(pieceIdx) {
     if (board[left + boardWidth] > 0 || board[left + boardWidth] === null) {
       legalMoves.push(left + boardWidth);
     }
-    console.log(modal)
     if (board[left - boardWidth] > 0 || board[left - boardWidth] === null) {
       legalMoves.push(left - boardWidth);
     }
@@ -622,9 +631,7 @@ function blackRookMove(pieceIdx) {
     if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left] > 0) break;
     left++;
   }
-  console.log(left, right, squareAbove, squareBelow)
   // console.log(legalMoves);
-  
 }
 
 function blackQueenMove(pieceIdx) {
@@ -636,7 +643,6 @@ function blackKingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
-  console.log(pieceIdx)
   if (pieceIdx < 8) {
   } else if (board[squareAbove] === null || board[squareAbove] > 0) {
       legalMoves.push(squareAbove);
@@ -669,7 +675,7 @@ function blackKingMove(pieceIdx) {
       legalMoves.push(squareAbove - 1);
     }
   }
-
+  // console.log(legalMoves)
 }
 
 function getWinner() {
