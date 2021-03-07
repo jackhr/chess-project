@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    null, 2, null, -1, -2, null, -2, null,
-    null, null, null, null, null, 2, null, null,
-    null, null, null, null, -2, null, -2, null,
-    null, 2, null, null, null, null, 2, null,
-    2, null, null, null, null, null, null, 2,
-    null, 2, null, null, null, null, 2, null,
-    null, null, null, null, null, null, null, null,
-    null, 2, null, -1, -2, null, 2, null
+    3, 3, null, -1, null, null, null, 3,
+    null, 3, 1, null, null, 1, 3, null,
+    null, 1, 3, null, 3, null, 1, null,
+    null, null, null, null, -5, -5, null, null,
+    null, null, null, -4, null, null, null, null,
+    null, 1, null, null, null, null, 1, null,
+    null, 3, 1, null, null, 1, 3, null,
+    3, null, null, -1, null, null, null, 3
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -257,7 +257,7 @@ function whitePawnMove(pieceIdx) {
   } else if (board[squareAbove - 1] !== null) {
     legalMoves.push(squareAbove - 1);
   };
-  console.log(legalMoves)
+  console.log(legalMoves);
 }
 
 function whiteBishopMove(pieceIdx) {
@@ -273,40 +273,33 @@ function whiteBishopMove(pieceIdx) {
   let rDDiag = squareBelow + right;
   let lDDiag = squareBelow - left;
     while (board[rUDiag] === null || board[rUDiag] < 0) {
-      // console.log(`left up diagonal is = ${board[rUDiag]}`);
       legalMoves.push(rUDiag);
       if (modal === 7 || (rUDiag % boardWidth) === 7 || board[rUDiag] < 0) break;
       right++;
       up += boardWidth;
       rUDiag = pieceIdx - up + right;
     }
-    // console.log(legalMoves);
     up = boardWidth;
     right = 1;
     while (board[rDDiag] === null || board[rDDiag] < 0) {
-      // console.log(`right down diagonal is = ${board[rDDiag]}`);
       legalMoves.push(rDDiag);
       if (modal === 7 || (rDDiag % boardWidth) === 7 || board[rDDiag] < 0) break;
       right++;
       down += boardWidth;
       rDDiag = pieceIdx + down + right;
     }
-    // console.log(legalMoves);
     down = boardWidth;
     right = 1;
     while (board[lUDiag] === null || board[lUDiag] < 0) {
-      // console.log(`left up diagonal is = ${board[lUDiag]}`);
       legalMoves.push(lUDiag);
       if (modal === 0 || (lUDiag % boardWidth) === 0 || board[lUDiag] < 0) break;
       left++;
       up += boardWidth;
       lUDiag = pieceIdx - up - left;
     }
-    // console.log(legalMoves);
     up = boardWidth;
     left = 1;
     while (board[lDDiag] === null || board[lDDiag] < 0) {
-      // console.log(`left down diagonal is = ${board[lDDiag]}`);
       legalMoves.push(lDDiag);
       if (modal === 0 || (lDDiag % boardWidth) === 0 || board[lDDiag] < 0) break;
       left++;
@@ -314,12 +307,66 @@ function whiteBishopMove(pieceIdx) {
       lDDiag = pieceIdx + down - left;
     }
   console.log(legalMoves);
-  
 }
 
-function whiteKnightMove() {
-  // if (Math.abs(pieceIdx) === 3) return;
-  
+function whiteKnightMove(pieceIdx) {
+  let height = boardWidth * 2;
+  let up = pieceIdx - height;
+  let right = pieceIdx + 2;
+  let down = pieceIdx + height;
+  let left = pieceIdx - 2;
+  let modal = pieceIdx % boardWidth;
+  console.log(modal);
+  if (pieceIdx < 16 && modal >= 0) {
+  } else {
+    if (board[up - 1] < 0 || board[up - 1] === null) {
+      if (pieceIdx === 56) {  
+      } else {
+      legalMoves.push(up - 1);
+      }
+    }
+    if (board[up + 1] < 0 || board[up + 1] === null) {
+      if (pieceIdx === 63) {
+      } else {
+        legalMoves.push(up + 1);
+      }
+    }
+  }
+  if (modal > 5) {
+  } else {
+    if (board[right - boardWidth] < 0 || board[right - boardWidth] === null) {
+      legalMoves.push(right - boardWidth);
+    }
+    if (board[right + boardWidth] < 0 || board[right + boardWidth] === null) {
+      legalMoves.push(right + boardWidth);
+    }
+  }
+  if (pieceIdx > 47 && modal >= 0) {
+  } else {
+    if (board[down + 1] < 0 || board[down + 1] === null) {
+      if (pieceIdx === 7) {
+      } else {
+        legalMoves.push(down + 1);
+      }
+    }
+    if (board[down - 1] < 0 || board[down - 1] === null) {
+      if (pieceIdx === 0) {
+      } else {
+        legalMoves.push(down - 1);
+      }
+    }
+  }
+  if (modal < 2) {
+  } else {
+    if (board[left + boardWidth] < 0 || board[left + boardWidth] === null) {
+      legalMoves.push(left + boardWidth);
+    }
+    console.log(modal)
+    if (board[left - boardWidth] < 0 || board[left - boardWidth] === null) {
+      legalMoves.push(left - boardWidth);
+    }
+  }
+  console.log(legalMoves)  
 }
 
 function WhiteRookMove() {
