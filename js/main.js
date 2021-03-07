@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    6, 6, 6, -1, null, null, 2, 6,
-    6, 6, 1, null, null, 1, 6, null,
-    null, 1, 6, null, 6, null, 1, null,
-    null, null, null, null, -6, -6, null, 6,
-    6, null, null, -6, null, null, 6, -6,
+    -1, -1, -1, -1, null, 1, 2, -1,
+    -1, -1, 1, null, null, 1, -1, null,
+    null, 1, -1, null, -1, null, 1, null,
+    null, null, null, null, -1, -1, null, -1,
+    -1, null, null, -1, null, null, -1, -1,
     null, 1, null, null, null, null, 1, null,
-    6, 6, 1, null, null, 1, 6, null,
-    6, null, null, -1, null, null, null, 6
+    -1, -1, 1, null, null, 1, -1, null,
+    -1, null, null, -1, null, null, null, -1
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -187,12 +187,18 @@ function handlePieceSelection(evt) {
   icebox
   play a sound when selecting the piece.
   */
-  if (Math.abs(pieceValue) === 1) whitePawnMove(pieceIdx);
-  if (Math.abs(pieceValue) === 2) whiteBishopMove(pieceIdx);
-  if (Math.abs(pieceValue) === 3) whiteKnightMove(pieceIdx);
-  if (Math.abs(pieceValue) === 4) whiteRookMove(pieceIdx);
-  if (Math.abs(pieceValue) === 5) whiteQueenMove(pieceIdx);
-  if (Math.abs(pieceValue) === 6) whiteKingMove(pieceIdx);
+  if (pieceValue === 1) whitePawnMove(pieceIdx);
+  if (pieceValue === 2) whiteBishopMove(pieceIdx);
+  if (pieceValue === 3) whiteKnightMove(pieceIdx);
+  if (pieceValue === 4) whiteRookMove(pieceIdx);
+  if (pieceValue === 5) whiteQueenMove(pieceIdx);
+  if (pieceValue === 6) whiteKingMove(pieceIdx);
+  if (pieceValue === -1) blackPawnMove(pieceIdx);
+  if (pieceValue === -2) blackBishopMove(pieceIdx);
+  if (pieceValue === -3) blackKnightMove(pieceIdx);
+  if (pieceValue === -4) blackRookMove(pieceIdx);
+  if (pieceValue === -5) blackQueenMove(pieceIdx);
+  if (pieceValue === -6) blackKingMove(pieceIdx);
   console.log(legalMoves);
   // highlightMoves(pieceIdx);
   // These functions should return an array of possible moves that I can itterate through and if the index is -1, it's an illegal move.
@@ -247,6 +253,7 @@ function highlightMoves(piece) {
 function whitePawnMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let modal = pieceIdx % boardWidth;
+  if (pieceIdx < 8) return;
   if (board[squareAbove] === null) {
     legalMoves.push(squareAbove);
   };
@@ -450,16 +457,17 @@ function whiteKingMove(pieceIdx) {
 }
 
 function blackPawnMove(pieceIdx) {
-  let squareAbove = pieceIdx - boardWidth;
+  let squareAbove = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
+  if (pieceIdx > 55) return;
   if (board[squareAbove] === null) {
     legalMoves.push(squareAbove);
   };
-  if (modal === 7 || board[squareAbove + 1] > 0) {
+  if (modal === 7 || board[squareAbove + 1] < 0) {
   } else if (board[squareAbove + 1] !== null) {
     legalMoves.push(squareAbove + 1);
   };
-  if (modal === 0 || board[squareAbove - 1] > 0) {
+  if (modal === 0 || board[squareAbove - 1] < 0) {
   } else if (board[squareAbove - 1] !== null) {
     legalMoves.push(squareAbove - 1);
   };
