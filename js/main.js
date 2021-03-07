@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    -5, -5, -5, -5, null, 1, 2, -5,
-    -5, -5, 1, null, null, 1, -5, null,
-    null, 1, -5, null, -5, null, 1, null,
-    null, null, null, null, -5, -5, null, -5,
-    -5, null, null, -5, null, null, -5, -5,
-    null, 1, 1, null, null, null, 1, null,
-    -5, -5, null, null, null, 1, -5, null,
-    -5, null, null, -5, null, null, null, -5
+    -3, -3, -3, -3, null, -3, 2, 3,
+    3, 3, 3, null, null, -3, -3, null,
+    null, 3, 3, null, 3, null, -3, null,
+    null, null, null, null, -3, -3, null, -3,
+    3, null, null, 3, null, null, 3, -3,
+    null, -3, -3, null, null, null, -3, null,
+    -3, -3, null, null, null, -3, -3, null,
+    -3, null, null, -3, null, null, null, -3
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -331,13 +331,15 @@ function whiteKnightMove(pieceIdx) {
   console.log(modal);
   if (pieceIdx < 16 && modal >= 0) {
   } else {
-    if (board[up - 1] < 0 || board[up - 1] === null) {
+    if (modal === 0) {  
+    } else if (board[up - 1] < 0 || board[up - 1] === null) {
       if (pieceIdx === 56) {  
       } else {
       legalMoves.push(up - 1);
       }
     }
-    if (board[up + 1] < 0 || board[up + 1] === null) {
+    if (modal === 7) {
+    } else if (board[up + 1] < 0 || board[up + 1] === null) {
       if (pieceIdx === 63) {
       } else {
         legalMoves.push(up + 1);
@@ -355,13 +357,15 @@ function whiteKnightMove(pieceIdx) {
   }
   if (pieceIdx > 47 && modal >= 0) {
   } else {
-    if (board[down + 1] < 0 || board[down + 1] === null) {
+    if (modal === 7) {
+    } else if (board[down + 1] < 0 || board[down + 1] === null) {
       if (pieceIdx === 7) {
       } else {
         legalMoves.push(down + 1);
       }
     }
-    if (board[down - 1] < 0 || board[down - 1] === null) {
+    if (modal === 0) {
+    } else if (board[down - 1] < 0 || board[down - 1] === null) {
       if (pieceIdx === 0) {
       } else {
         legalMoves.push(down - 1);
@@ -526,66 +530,69 @@ function blackBishopMove(pieceIdx) {
   // console.log(legalMoves);
 }
 
-// function blackKnightMove(pieceIdx) {
-//   let height = boardWidth * 2;
-//   let up = pieceIdx - height;
-//   let right = pieceIdx + 2;
-//   let down = pieceIdx + height;
-//   let left = pieceIdx - 2;
-//   let modal = pieceIdx % boardWidth;
-//   console.log(modal);
-//   if (pieceIdx < 16 && modal >= 0) {
-//   } else {
-//     if (board[up - 1] > 0 || board[up - 1] === null) {
-//       if (pieceIdx === 56) {  
-//       } else {
-//       legalMoves.push(up - 1);
-//       }
-//     }
-//     if (board[up + 1] > 0 || board[up + 1] === null) {
-//       if (pieceIdx === 63) {
-//       } else {
-//         legalMoves.push(up + 1);
-//       }
-//     }
-//   }
-//   if (modal > 5) {
-//   } else {
-//     if (board[right - boardWidth] > 0 || board[right - boardWidth] === null) {
-//       legalMoves.push(right - boardWidth);
-//     }
-//     if (board[right + boardWidth] > 0 || board[right + boardWidth] === null) {
-//       legalMoves.push(right + boardWidth);
-//     }
-//   }
-//   if (pieceIdx > 47 && modal >= 0) {
-//   } else {
-//     if (board[down + 1] > 0 || board[down + 1] === null) {
-//       if (pieceIdx === 7) {
-//       } else {
-//         legalMoves.push(down + 1);
-//       }
-//     }
-//     if (board[down - 1] > 0 || board[down - 1] === null) {
-//       if (pieceIdx === 0) {
-//       } else {
-//         legalMoves.push(down - 1);
-//       }
-//     }
-//   }
-//   if (modal < 2) {
-//   } else {
-//     if (board[left + boardWidth] > 0 || board[left + boardWidth] === null) {
-//       legalMoves.push(left + boardWidth);
-//     }
-//     console.log(modal)
-//     if (board[left - boardWidth] > 0 || board[left - boardWidth] === null) {
-//       legalMoves.push(left - boardWidth);
-//     }
-//   }
-//   // console.log(legalMoves)  
-  
-// }
+function blackKnightMove(pieceIdx) {
+  let height = boardWidth * 2;
+  let up = pieceIdx - height;
+  let right = pieceIdx + 2;
+  let down = pieceIdx + height;
+  let left = pieceIdx - 2;
+  let modal = pieceIdx % boardWidth;
+  console.log(modal);
+  if (pieceIdx < 16 && modal >= 0) {
+  } else {
+    if (modal === 0) {  
+    } else if (board[up - 1] > 0 || board[up - 1] === null) {
+      if (pieceIdx === 56) {  
+      } else {
+      legalMoves.push(up - 1);
+      }
+    }
+    if (modal === 7) {
+    } else if (board[up + 1] > 0 || board[up + 1] === null) {
+      if (pieceIdx === 63) {
+      } else {
+        legalMoves.push(up + 1);
+      }
+    }
+  }
+  if (modal > 5) {
+  } else {
+    if (board[right - boardWidth] > 0 || board[right - boardWidth] === null) {
+      legalMoves.push(right - boardWidth);
+    }
+    if (board[right + boardWidth] > 0 || board[right + boardWidth] === null) {
+      legalMoves.push(right + boardWidth);
+    }
+  }
+  if (pieceIdx > 47 && modal >= 0) {
+  } else {
+    if (modal === 7) {
+    } else if (board[down + 1] > 0 || board[down + 1] === null) {
+      if (pieceIdx === 7) {
+      } else {
+        legalMoves.push(down + 1);
+      }
+    }
+    if (modal === 0) {
+    } else if (board[down - 1] > 0 || board[down - 1] === null) {
+      if (pieceIdx === 0) {
+      } else {
+        legalMoves.push(down - 1);
+      }
+    }
+  }
+  if (modal < 2) {
+  } else {
+    if (board[left + boardWidth] > 0 || board[left + boardWidth] === null) {
+      legalMoves.push(left + boardWidth);
+    }
+    console.log(modal)
+    if (board[left - boardWidth] > 0 || board[left - boardWidth] === null) {
+      legalMoves.push(left - boardWidth);
+    }
+  }
+  // console.log(legalMoves)  
+}
 
 function blackRookMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
