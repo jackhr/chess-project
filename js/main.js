@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    4, 4, null, -1, null, null, null, 5,
-    5, 5, 1, null, null, 1, 5, null,
-    null, 1, 5, null, 5, null, 1, null,
-    null, null, null, null, -5, -5, null, 5,
-    null, null, null, -5, null, null, 5, -2,
+    4, 4, null, -1, null, null, 2, 4,
+    4, 4, 1, null, null, 1, 4, null,
+    null, 1, 4, null, 4, null, 1, null,
+    null, null, null, null, -4, -4, null, 4,
+    4, null, null, -4, null, null, 4, -4,
     null, 1, null, null, null, null, 1, null,
-    null, 5, 1, null, null, 1, 5, null,
-    5, null, null, -1, null, null, null, 5
+    4, 4, 1, null, null, 1, 4, null,
+    4, null, null, -1, null, null, null, 4
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -193,6 +193,7 @@ function handlePieceSelection(evt) {
   if (Math.abs(pieceValue) === 4) whiteRookMove(pieceIdx);
   if (Math.abs(pieceValue) === 5) whiteQueenMove(pieceIdx);
   if (Math.abs(pieceValue) === 6) whiteKingMove(pieceIdx);
+  console.log(legalMoves);
   // highlightMoves(pieceIdx);
   // These functions should return an array of possible moves that I can itterate through and if the index is -1, it's an illegal move.
 }
@@ -273,8 +274,9 @@ function whiteBishopMove(pieceIdx) {
   let rDDiag = squareBelow + right;
   let lDDiag = squareBelow - left; //Maybe I don't need the "board[rUDiag] < 0" at all
     while (board[rUDiag] === null || board[rUDiag] < 0) {
+      if (modal === 7) break;
       legalMoves.push(rUDiag);
-      if (modal === 7 || (rUDiag % boardWidth) === 7 || board[rUDiag] < 0) break;
+      if (board[rUDiag] < 0 || (rUDiag % boardWidth) === 7) break;
       right++;
       up += boardWidth;
       rUDiag = pieceIdx - up + right;
@@ -282,8 +284,9 @@ function whiteBishopMove(pieceIdx) {
     up = boardWidth;
     right = 1;
     while (board[rDDiag] === null || board[rDDiag] < 0) {
+      if (modal === 7) break;
       legalMoves.push(rDDiag);
-      if (modal === 7 || (rDDiag % boardWidth) === 7 || board[rDDiag] < 0) break;
+      if (board[rDDiag] < 0 || (rDDiag % boardWidth) === 7) break;
       right++;
       down += boardWidth;
       rDDiag = pieceIdx + down + right;
@@ -291,8 +294,9 @@ function whiteBishopMove(pieceIdx) {
     down = boardWidth;
     right = 1;
     while (board[lUDiag] === null || board[lUDiag] < 0) {
+      if (modal === 0) break;
       legalMoves.push(lUDiag);
-      if (modal === 0 || (lUDiag % boardWidth) === 0 || board[lUDiag] < 0) break;
+      if (board[lUDiag] < 0 || (lUDiag % boardWidth) === 0) break;
       left++;
       up += boardWidth;
       lUDiag = pieceIdx - up - left;
@@ -300,13 +304,14 @@ function whiteBishopMove(pieceIdx) {
     up = boardWidth;
     left = 1;
     while (board[lDDiag] === null || board[lDDiag] < 0) {
+      if (modal === 0) break;
       legalMoves.push(lDDiag);
-      if (modal === 0 || (lDDiag % boardWidth) === 0 || board[lDDiag] < 0) break;
+      if (board[lDDiag] < 0 || (lDDiag % boardWidth) === 0) break;
       left++;
       down += boardWidth;
       lDDiag = pieceIdx + down - left;
     }
-  console.log(legalMoves);
+  // console.log(legalMoves);
 }
 
 function whiteKnightMove(pieceIdx) {
@@ -397,15 +402,15 @@ function whiteRookMove(pieceIdx) {
     if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left] < 0) break;
     left++;
   }
-  console.log(legalMoves);
+  // console.log(legalMoves);
 }
 
-function WhiteQueenMove() {
-  // if (Math.abs(pieceIdx) === 5) return;
-  
+function whiteQueenMove(pieceIdx) {
+  whiteBishopMove(pieceIdx);
+  whiteRookMove(pieceIdx);
 }
 
-function WhiteKingMove() {
+function whiteKingMove() {
   // if (Math.abs(pieceIdx) === 6) return;
 
 }
