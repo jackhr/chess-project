@@ -134,14 +134,14 @@ msgEl.assEventListener('click', handleBoardChoice)
 /*----- functions -----*/
 function init() {
   board = [
-    -2, -2, -2, -2, null, 1, 2, -2,
-    -2, -2, 1, null, null, 1, -2, null,
-    null, 1, -2, null, -2, null, 1, null,
-    null, null, null, null, -2, -2, null, -2,
-    -2, null, null, -2, null, null, -2, -2,
-    null, 1, null, null, null, null, 1, null,
-    -2, -2, 1, null, null, 1, -2, null,
-    -2, null, null, -2, null, null, null, -2
+    -4, -4, -4, -4, null, 1, 2, -4,
+    -4, -4, 1, null, null, 1, -4, null,
+    null, 1, -4, null, -4, null, 1, null,
+    null, null, null, null, -4, -4, null, -4,
+    -4, null, null, -4, null, null, -4, -4,
+    null, 1, 1, null, null, null, 1, null,
+    -4, -4, null, null, null, 1, -4, null,
+    -4, null, null, -4, null, null, null, -4
   ];
   // Not sure whether or not to either have the board tracking the player or different pieces set to different values or even one kind of piece to one value whether it's black or white.
   pieceIdx = null;
@@ -473,7 +473,7 @@ function blackPawnMove(pieceIdx) {
   };
 }
 
-function blackBishopMove() {
+function blackBishopMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
@@ -526,13 +526,97 @@ function blackBishopMove() {
   // console.log(legalMoves);
 }
 
-function blackKnightMove() {
-  // if (Math.abs(pieceIdx) === 3) return;
+// function blackKnightMove(pieceIdx) {
+//   let height = boardWidth * 2;
+//   let up = pieceIdx - height;
+//   let right = pieceIdx + 2;
+//   let down = pieceIdx + height;
+//   let left = pieceIdx - 2;
+//   let modal = pieceIdx % boardWidth;
+//   console.log(modal);
+//   if (pieceIdx < 16 && modal >= 0) {
+//   } else {
+//     if (board[up - 1] > 0 || board[up - 1] === null) {
+//       if (pieceIdx === 56) {  
+//       } else {
+//       legalMoves.push(up - 1);
+//       }
+//     }
+//     if (board[up + 1] > 0 || board[up + 1] === null) {
+//       if (pieceIdx === 63) {
+//       } else {
+//         legalMoves.push(up + 1);
+//       }
+//     }
+//   }
+//   if (modal > 5) {
+//   } else {
+//     if (board[right - boardWidth] > 0 || board[right - boardWidth] === null) {
+//       legalMoves.push(right - boardWidth);
+//     }
+//     if (board[right + boardWidth] > 0 || board[right + boardWidth] === null) {
+//       legalMoves.push(right + boardWidth);
+//     }
+//   }
+//   if (pieceIdx > 47 && modal >= 0) {
+//   } else {
+//     if (board[down + 1] > 0 || board[down + 1] === null) {
+//       if (pieceIdx === 7) {
+//       } else {
+//         legalMoves.push(down + 1);
+//       }
+//     }
+//     if (board[down - 1] > 0 || board[down - 1] === null) {
+//       if (pieceIdx === 0) {
+//       } else {
+//         legalMoves.push(down - 1);
+//       }
+//     }
+//   }
+//   if (modal < 2) {
+//   } else {
+//     if (board[left + boardWidth] > 0 || board[left + boardWidth] === null) {
+//       legalMoves.push(left + boardWidth);
+//     }
+//     console.log(modal)
+//     if (board[left - boardWidth] > 0 || board[left - boardWidth] === null) {
+//       legalMoves.push(left - boardWidth);
+//     }
+//   }
+//   // console.log(legalMoves)  
   
-}
+// }
 
-function blackRookMove() {
-  // if (Math.abs(pieceIdx) === 4) return;
+function blackRookMove(pieceIdx) {
+  let squareAbove = pieceIdx - boardWidth;
+  let squareBelow = pieceIdx + boardWidth;
+  let modal = pieceIdx % boardWidth;
+  let right = 1;
+  let left = 1;
+  while (board[squareAbove] === null || board[squareAbove] > 0) {
+    legalMoves.push(squareAbove);
+    if (board[squareAbove] > 0) break;
+    squareAbove -= boardWidth;
+  }
+  while (board[pieceIdx + right] === null || board[pieceIdx + right] > 0) {
+    if (modal === 7) break;
+    legalMoves.push(pieceIdx + right);
+    if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right] > 0) break;
+    right++;
+  }
+  while (board[squareBelow] === null || board[squareBelow] > 0) {
+    legalMoves.push(squareBelow);
+    if (board[squareBelow] > 0) break;
+    squareBelow += boardWidth;
+  }
+  while (board[pieceIdx - left] === null || board[pieceIdx - left] > 0) {
+    if (modal === 0) break;
+    legalMoves.push(pieceIdx - left);
+    if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left] > 0) break;
+    left++;
+  }
+  console.log(left, right, squareAbove, squareBelow)
+  // console.log(legalMoves);
   
 }
 
