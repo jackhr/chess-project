@@ -105,7 +105,7 @@ const boardMoveLookup = {
 };
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, firstSelectedIdx, secondSelectedIdx;
+let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, selectedIdx, placementIdx;
 
 /*
 icebox
@@ -172,35 +172,32 @@ function render() {
 function handleMove(evt) {
   if (clickCounter < 1) {
     selectedDiv = evt.target;
-    firstSelectedIdx = squareEls.indexOf(selectedDiv);
-    pieceValue = board[firstSelectedIdx];
+    selectedIdx = squareEls.indexOf(selectedDiv);
+    pieceValue = board[selectedIdx];
     if ((pieceValue > 0 && turn < 0) || (pieceValue < 0 && turn > 0) || pieceValue === null || winner) return;
     clickCounter++;
     
     selectedDiv.style.transform = 'scale(1.35)';
     selectedDiv.style.transition = 'all 0.05s ease-in';
     
-    if (pieceValue === 1) whitePawnMove(firstSelectedIdx);
-    if (pieceValue === 2) whiteBishopMove(firstSelectedIdx);
-    if (pieceValue === 3) whiteKnightMove(firstSelectedIdx);
-    if (pieceValue === 4) whiteRookMove(firstSelectedIdx);
-    if (pieceValue === 5) whiteQueenMove(firstSelectedIdx);
-    if (pieceValue === 6) whiteKingMove(firstSelectedIdx);
-    if (pieceValue === -1) blackPawnMove(firstSelectedIdx);
-    if (pieceValue === -2) blackBishopMove(firstSelectedIdx);
-    if (pieceValue === -3) blackKnightMove(firstSelectedIdx);
-    if (pieceValue === -4) blackRookMove(firstSelectedIdx);
-    if (pieceValue === -5) blackQueenMove(firstSelectedIdx);
-    if (pieceValue === -6) blackKingMove(firstSelectedIdx);
-
+    if (pieceValue === 1) whitePawnMove(selectedIdx);
+    if (pieceValue === 2) whiteBishopMove(selectedIdx);
+    if (pieceValue === 3) whiteKnightMove(selectedIdx);
+    if (pieceValue === 4) whiteRookMove(selectedIdx);
+    if (pieceValue === 5) whiteQueenMove(selectedIdx);
+    if (pieceValue === 6) whiteKingMove(selectedIdx);
+    if (pieceValue === -1) blackPawnMove(selectedIdx);
+    if (pieceValue === -2) blackBishopMove(selectedIdx);
+    if (pieceValue === -3) blackKnightMove(selectedIdx);
+    if (pieceValue === -4) blackRookMove(selectedIdx);
+    if (pieceValue === -5) blackQueenMove(selectedIdx);
+    if (pieceValue === -6) blackKingMove(selectedIdx);
     legalMoves.forEach(function(move) {
       squareEls[move].style.backgroundColor = 'green';
     });
   } else if (clickCounter >= 1) {
     placementDiv = evt.target;
-    secondSelectedIdx = squareEls.indexOf(placementDiv);
-    // let pieceValue = board[secondSelectedIdx];
-    
+    placementIdx = squareEls.indexOf(placementDiv);
     if (selectedDiv === placementDiv) {
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
@@ -208,15 +205,14 @@ function handleMove(evt) {
         squareEls[move].style.backgroundColor = '';
       });
       render();
-    } else if (legalMoves.indexOf(secondSelectedIdx) !== -1) {
-      // console.log('hello')
-      board[secondSelectedIdx] = pieceValue;
+    } else if (legalMoves.indexOf(placementIdx) !== -1) {
+      board[placementIdx] = pieceValue;
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
       });
-      board[firstSelectedIdx] = null;
+      board[selectedIdx] = null;
       winner = getWinner();
       turn *= -1;
       render();
