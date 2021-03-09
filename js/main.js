@@ -141,10 +141,10 @@ function init() {
   board = [
     -4, -3, -2, -5, -6, -2, -3, -4,
     -1, -1, -1, -1, -1, -1, -1, -1,
-    -6, null, null, null, null, null, null, null,
     null, null, null, null, null, null, null, null,
     null, null, null, null, null, null, null, null,
-    null, 5, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
+    null, null, null, null, null, null, null, null,
     1, 1, 1, 1, 1, 1, 1, 1,
     4, 3, 2, 5, 6, 2, 3, 4
   ];
