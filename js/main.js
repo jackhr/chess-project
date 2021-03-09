@@ -103,6 +103,10 @@ const boardMoveLookup = {
   },
   
 };
+const changePlayer = {
+  '1': 'rotate(0deg)',
+  '-1': 'rotate(180deg)'
+}
 
 /*----- app's state (variables) -----*/
 let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, selectedIdx, placementIdx;
@@ -116,6 +120,8 @@ let takenPiecesBlack, takenPiecesWhite, boardOrientation, boardChoice;
 const boardEl = document.getElementById('board');
 const squareEls = [...document.querySelectorAll('#board div')];
 const msgEl = document.getElementById('message-section');
+const blackWins = document.getElementById('black-wins');
+const whiteWins = document.getElementById('white-wins');
 const replayBtn = document.querySelector('button');
 
 /*
@@ -154,16 +160,24 @@ function render() {
     const square = document.getElementById(`sq${boardIdx}`);
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
     square.style.backgroundSize = 'cover';
+    square.style.transform = changePlayer[turn];
   });
   if (winner === 'T') {
-    msgEl.textContent = "it's a tie!";
+    msgEl.textContent = "Stalemate!";
   } else if (winner < 0) {
+    blackWins.style.backgroundImage = playerLookup[winner]['imgURL'];
+    blackWins.style.backgroundSize = 'cover';
     msgEl.textContent = "Black wins!";
   } else if (winner > 0) {
+    whiteWins.style.backgroundImage = playerLookup[winner]['imgURL'];
+    whiteWins.style.backgroundSize = 'cover';
     msgEl.textContent = "White wins!";
   }
-  // msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
+  msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
+  blackWins.style.visibility = winner ? 'visible' : 'hidden';
+  whiteWins.style.visibility = winner ? 'visible' : 'hidden';
+  boardEl.style.transform = changePlayer[turn];
   clickCounter = 0;
   legalMoves = [];
   boardWidth = 8;
@@ -176,9 +190,12 @@ function handleMove(evt) {
     pieceValue = board[selectedIdx];
     if ((pieceValue > 0 && turn < 0) || (pieceValue < 0 && turn > 0) || pieceValue === null || winner) return;
     clickCounter++;
-    
-    selectedDiv.style.transform = 'scale(1.35)';
-    selectedDiv.style.transition = 'all 0.05s ease-in';
+    if (pieceValue < 0) {
+      selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
+    } else {
+      selectedDiv.style.transform = 'scale(1.35)';
+      selectedDiv.style.transition = 'all 0.05s ease-in';
+    }
     
     if (pieceValue === 1) whitePawnMove(selectedIdx);
     if (pieceValue === 2) whiteBishopMove(selectedIdx);
@@ -637,7 +654,13 @@ function blackKingMove(pieceIdx) {
 }
 
 function getWinner() {
-
+  if (board.indexOf(6) === -1) {
+    return -6;
+  } else if (board.indexOf(-6) === -1) {
+    return 6;
+  } else {
+    return null;
+  }
 }
 // /*----- constants -----*/
 // const playerLookup = {
