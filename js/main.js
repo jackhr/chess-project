@@ -109,7 +109,7 @@ const changePlayer = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, selectedIdx, placementIdx;
+let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, selectedIdx, placementIdx, check, kingIdx;
 
 /*
 icebox
@@ -141,16 +141,17 @@ function init() {
   board = [
     -4, -3, -2, -5, -6, -2, -3, -4,
     -1, -1, -1, -1, -1, -1, -1, -1,
+    -6, null, null, null, null, null, null, null,
     null, null, null, null, null, null, null, null,
     null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
+    null, 5, null, null, null, null, null, null,
     1, 1, 1, 1, 1, 1, 1, 1,
     4, 3, 2, 5, 6, 2, 3, 4
   ];
   pieceIdx = null;
   turn = 1;
   winner = null;
+  kingIdx = undefined;
   render();
 }
 
@@ -173,7 +174,15 @@ function render() {
     whiteWins.style.backgroundSize = 'cover';
     msgEl.textContent = "White wins!";
   }
-  msgEl.style.visibility = winner ? 'visible' : 'hidden'; //change this logic
+  if (check === 1) {
+    msgEl.style.visibility = 'visible';
+    msgEl.textContent = "White is in check!"
+  } else if (check === -1) {
+    msgEl.style.visibility = 'visible';
+    msgEl.textContent = "Black is in check!"
+  } else {
+    msgEl.style.visibility = 'hidden';
+  }
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   blackWins.style.visibility = winner ? 'visible' : 'hidden';
   whiteWins.style.visibility = winner ? 'visible' : 'hidden';
@@ -181,6 +190,7 @@ function render() {
   clickCounter = 0;
   legalMoves = [];
   boardWidth = 8;
+  check = null;
 }
 // console.log(legalMoves);
 function handleMove(evt) {
@@ -210,7 +220,7 @@ function handleMove(evt) {
     if (pieceValue === -5) blackQueenMove(selectedIdx);
     if (pieceValue === -6) blackKingMove(selectedIdx);
     legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = 'green';
+      squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 1)';
     });
   } else if (clickCounter >= 1) {
     placementDiv = evt.target;
@@ -225,11 +235,11 @@ function handleMove(evt) {
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
       board[placementIdx] = pieceValue;
       selectedDiv.style.transform = 'scale(1)';
-      selectedDiv.style.transition = 'all 0.05s ease-in';
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
       });
       board[selectedIdx] = null;
+      inCheck(pieceValue, placementIdx)
       winner = getWinner();
       turn *= -1;
       render();
@@ -653,7 +663,88 @@ function blackKingMove(pieceIdx) {
   // console.log(legalMoves)
 }
 
+function inCheck(pieceValue, pieceIdx) {
+  let div = document.getElementById(`sq${pieceIdx}`);
+  legalMoves = [];
+  if (Math.abs(pieceValue) === 1) {
+    whitePawnMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (Math.abs(board[idx]) === 6) {
+        div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+          check = turn;
+      } else {
+        check = null;
+      }
+    });
+  } else if (Math.abs(pieceValue) === 2) {
+    whiteBishopMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (Math.abs(board[idx]) === 6) {
+        div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+        check = turn;
+      } else {
+        check = null;
+      }
+    });
+  } else if (Math.abs(pieceValue) === 3) {
+    whiteKnightMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (Math.abs(board[idx]) === 6) {
+        div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+        check = turn;
+      } else {
+        check = null;
+      }
+    });
+  } else if (Math.abs(pieceValue) === 4) {
+    whiteRookMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (Math.abs(board[idx]) === 6) {
+        div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+        check = turn;
+      } else {
+        check = null;
+      }
+    });
+  } else if (Math.abs(pieceValue) === 5) {
+    whiteQueenMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (Math.abs(board[idx]) === 6) {
+        kingIdx = idx;
+        div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+        check = -1;
+      } else if (legalMoves.indexOf(kingIdx) === -1) {
+        div.style.backgroundColor = ''
+        kingIdx = undefined;
+      }
+    });
+    console.log(legalMoves, legalMoves.indexOf(kingIdx));
+  }
+}
+    // legalMoves.forEach(function(idx) {
+      // if (legalMoves.indexOf(kingIdx) === -1) {
+      //   div.style.backgroundColor = ''
+      //   kingIdx = undefined;
+      // }
+    // });
+
 function getWinner() {
+  // legalMoves = []
+  // if (turn === 1) {
+  //   whitePawnMove(placementIdx);
+  //   let pawnIsThere = legalMoves.some(function(idx) {
+  //     return Math.abs(board[idx]) === 1;
+  //   });
+  //   if (pawnIsThere) {
+  //     console.log('hello');
+  //   }
+  //   legalMoves = [];
+  //   // whiteRookMove(placementIdx);
+  //   // whiteBishopMove(placementIdx);
+  //   whiteQueenMove(placementIdx);
+  //   whiteKnightMove(placementIdx);
+  //   // console.log(legalMoves);
+  // }
   if (board.indexOf(6) === -1) {
     return -6;
   } else if (board.indexOf(-6) === -1) {
