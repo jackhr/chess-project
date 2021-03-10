@@ -1,108 +1,109 @@
 /*----- constants -----*/
 const playerLookup = {
-  '-1': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-    // move: pawnMove()
-    // value: 1,
-  },
-  '-2': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
-    // move: bishopMove()
-    // value: 3,
-  },
-  '-3': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-knight.svg')",
-    // move: knightMove()
-    // value: 3,
-  },
-  '-4': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
-    // move: rookMove()
-    // value: 5,
-  },
-  '-5': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-queen.svg')",
-    // move: queenMove()
-    // value: 9,
-  },
-  '-6': {
-    imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
-    // move: kingMove()
-    // value: 50,
-  },
-  '1': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-    // move: pawnMove()
-    // value: 1,
-  },
-  '2': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
-    // move: bishopMove()
-    // value: 3,
-  },
-  '3': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-knight.svg')",
-    // move: knightMove()
-    // value: 3,
-  },
-  '4': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
-    // move: rookMove()
-    // value: 5,
-  },
-  '5': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-queen.svg')",
-    // move: queenMove()
-    // value: 9,
-  },
-  '6': {
-    imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
-    // move: kingMove()
-    // value: 50,
-  },
-  'null': {
-    imgURL: "url('')"
+    bp: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 1
+    },
+    bb: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
+      color: "black",
+      value: 2
+    },
+    bn: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-knight.svg')",
+      color: "black",
+      value: 3
+    },
+    br: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
+      color: "black",
+      value: 4
+    },
+    bq: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-queen.svg')",
+      color: "black",
+      value: 5
+    },
+    bk: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
+      color: "black",
+      value: 6
+    },
+    wp: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 1
+    },
+    wb: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
+      color: "white",
+      value: 2
+    },
+    wn: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-knight.svg')",
+      color: "white",
+      value: 3
+    },
+    wr: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
+      color: "white",
+      value: 4
+    },
+    wq: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-queen.svg')",
+      color: "white",
+      value: 5
+    },
+    wk: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
+      color: "white",
+      value: 6
+    },
+  empty: {
+    imgURL: "url('')",
+    value: null
   }
 };
-const boardMoveLookup = {
-  '-1': {
+// const boardMoveLookup = {
+//   '-1': {
 
-  },
-  '-2': {
+//   },
+//   '-2': {
 
-  },
-  '-3': {
+//   },
+//   '-3': {
 
-  },
-  '-4': {
+//   },
+//   '-4': {
 
-  },
-  '-5': {
+//   },
+//   '-5': {
 
-  },
-  '-6': {
+//   },
+//   '-6': {
 
-  },
-  '1': {
+//   },
+//   '1': {
 
-  },
-  '2': {
+//   },
+//   '2': {
 
-  },
-  '3': {
+//   },
+//   '3': {
 
-  },
-  '4': {
+//   },
+//   '4': {
 
-  },
-  '5': {
+//   },
+//   '5': {
 
-  },
-  '6': {
+//   },
+//   '6': {
 
-  },
+//   },
   
-};
+// };
 const changePlayer = {
   '1': 'rotate(0deg)',
   '-1': 'rotate(180deg)'
@@ -126,18 +127,18 @@ replayBtn.addEventListener('click', init);
 /*----- functions -----*/
 function init() {
   board = [
-    -4, -3, -2, -5, -6, -2, -3, -4,
-    -1, -1, -1, -1, -1, -1, -1, -1,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    null, null, null, null, null, null, null, null,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    4, 3, 2, 5, 6, 2, 3, 4
+    'br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
+    'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp',
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp',
+    'wr', 'wk', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr',
   ];
   pieceIdx = null;
-  turn = 1;
   winner = null;
+  turn = 1;
   render();
 }
 
