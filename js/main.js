@@ -1,9 +1,52 @@
 /*----- constants -----*/
 const playerLookup = {
-    bp: {
+    bp1: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
       color: "black",
-      value: 1
+      value: 1,
+      moves: 0
+    },
+    bp2: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 2,
+      moves: 0
+    },
+    bp3: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 3,
+      moves: 0
+    },
+    bp4: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 4,
+      moves: 0
+    },
+    bp5: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 5,
+      moves: 0
+    },
+    bp6: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 6,
+      moves: 0
+    },
+    bp7: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 7,
+      moves: 0
+    },
+    bp8: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
+      color: "black",
+      value: 8,
+      moves: 0
     },
     bb: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
@@ -30,10 +73,53 @@ const playerLookup = {
       color: "black",
       value: 6
     },
-    wp: {
+    wp1: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
       color: "white",
-      value: 1
+      value: 1,
+      moves: 0
+    },
+    wp2: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 2,
+      moves: 0
+    },
+    wp3: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 3,
+      moves: 0
+    },
+    wp4: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 4,
+      moves: 0
+    },
+    wp5: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 5,
+      moves: 0
+    },
+    wp6: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 6,
+      moves: 0
+    },
+    wp7: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 7,
+      moves: 0
+    },
+    wp8: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
+      color: "white",
+      value: 8,
+      moves: 0
     },
     wb: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
@@ -110,7 +196,7 @@ const changePlayer = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, pieceValue, selectedIdx, placementIdx;
+let board, winner, turn, piece, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx;
 
 /*----- cached element references -----*/
 const boardEl = document.getElementById('board');
@@ -128,13 +214,13 @@ replayBtn.addEventListener('click', init);
 function init() {
   board = [
     'br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
-    'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp', 'bp',
+    'bp8', 'bp7', 'bp6', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp', 'wp',
-    'wr', 'wk', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr',
+    'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
+    'wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr',
   ];
   pieceIdx = null;
   winner = null;
@@ -148,7 +234,7 @@ function render() {
     const square = document.getElementById(`sq${boardIdx}`);
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
     square.style.backgroundSize = 'cover';
-    square.style.transform = changePlayer[turn];
+    // square.style.transform = changePlayer[turn];
     /* icebox in-check messages
     if (check === null) {
       square.style.backgroundColor = "";
@@ -183,7 +269,7 @@ function render() {
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   blackWins.style.visibility = winner ? 'visible' : 'hidden';
   whiteWins.style.visibility = winner ? 'visible' : 'hidden';
-  boardEl.style.transform = changePlayer[turn];
+  // boardEl.style.transform = changePlayer[turn];
   clickCounter = 0;
   legalMoves = [];
   boardWidth = 8;
@@ -194,29 +280,29 @@ function handleMove(evt) {
     // Handles piece selection.
     selectedDiv = evt.target;
     selectedIdx = squareEls.indexOf(selectedDiv);
-    pieceValue = board[selectedIdx];
-    if ((pieceValue > 0 && turn < 0) || (pieceValue < 0 && turn > 0) || pieceValue === null || winner) return;
+    piece = board[selectedIdx];
+    if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'black' && turn > 0) || piece === 'empty' || winner) return;
     // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
     clickCounter++;
-    if (pieceValue < 0) {
+    if (playerLookup[piece].color === 'black') {
       selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
     } else {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
     // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
-    if (pieceValue === 1) whitePawnMove(selectedIdx);
-    if (pieceValue === 2) whiteBishopMove(selectedIdx);
-    if (pieceValue === 3) whiteKnightMove(selectedIdx);
-    if (pieceValue === 4) whiteRookMove(selectedIdx);
-    if (pieceValue === 5) whiteQueenMove(selectedIdx);
-    if (pieceValue === 6) whiteKingMove(selectedIdx);
-    if (pieceValue === -1) blackPawnMove(selectedIdx);
-    if (pieceValue === -2) blackBishopMove(selectedIdx);
-    if (pieceValue === -3) blackKnightMove(selectedIdx);
-    if (pieceValue === -4) blackRookMove(selectedIdx);
-    if (pieceValue === -5) blackQueenMove(selectedIdx);
-    if (pieceValue === -6) blackKingMove(selectedIdx);
+    if (piece[1] === 'p') pawnMove(selectedIdx);
+    // if (playerLookup[piece].value === 2) bishopMove(selectedIdx);
+    // if (playerLookup[piece].value === 3) knightMove(selectedIdx);
+    // if (playerLookup[piece].value === 4) rookMove(selectedIdx);
+    // if (playerLookup[piece].value === 5) queenMove(selectedIdx);
+    // if (playerLookup[piece].value === 6) kingMove(selectedIdx);
+    // if (piece === -1) blackPawnMove(selectedIdx);
+    // if (piece === -2) blackBishopMove(selectedIdx);
+    // if (piece === -3) blackKnightMove(selectedIdx);
+    // if (piece === -4) blackRookMove(selectedIdx);
+    // if (piece === -5) blackQueenMove(selectedIdx);
+    // if (piece === -6) blackKingMove(selectedIdx);
     legalMoves.forEach(function(move) {
       squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 1)';
     });
@@ -224,6 +310,7 @@ function handleMove(evt) {
     // Handles piece placement.
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
+    console.log(selectedIdx, selectedDiv, placementIdx, placementDiv);
     if (selectedDiv === placementDiv) {
       // if player clicks on the same piece twice, everything 'reverts back to normal' from before the piece was first selected.
       selectedDiv.style.transform = 'scale(1)';
@@ -231,41 +318,69 @@ function handleMove(evt) {
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
       });
+      
       render();
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
       // if the player clicks on any square that corresponds to the legalMoves array, that square is updated to represent the piece has been placed, and the orignial square is 'returned to normal'.
-      board[placementIdx] = pieceValue;
+      board[placementIdx] = piece;
       selectedDiv.style.transform = 'scale(1)';
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
       });
-      board[selectedIdx] = null;
+      board[selectedIdx] = 'empty';
+      playerLookup[piece].moves++;
       /* icebox
-      check = inCheck(pieceValue, placementIdx)
+      check = inCheck(piece, placementIdx)
       */
       winner = getWinner();
-      turn *= -1;
+      // turn *= -1;
       render();
     }
   }
 }
 
 // Each individual function assigns all possible moves based on the current position when first selected to an array named legalMoves. There is one function for every kind of piece on the board as well as for both black and white.
-function whitePawnMove(pieceIdx) {
+function pawnMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
+  let twoSquares = squareAbove - boardWidth;
   let modal = pieceIdx % boardWidth;
-  if (pieceIdx < 8) return;
-  if (board[squareAbove] === null) {
-    legalMoves.push(squareAbove);
-  };
-  if (modal === 7 || board[squareAbove + 1] > 0) {
-  } else if (board[squareAbove + 1] !== null) {
-    legalMoves.push(squareAbove + 1);
-  };
-  if (modal === 0 || board[squareAbove - 1] > 0) {
-  } else if (board[squareAbove - 1] !== null) {
-    legalMoves.push(squareAbove - 1);
-  };
+  if (piece[0] === 'w') {
+    if (pieceIdx < 8) return;
+    if (board[squareAbove] === 'empty') {
+      legalMoves.push(squareAbove);
+    };
+    if (playerLookup[piece].moves === 0) {
+      legalMoves.push(twoSquares);
+    };
+    console.log(board[squareAbove], squareAbove, board[squareAbove + 1], squareAbove+1)
+    if (modal === 7 || playerLookup[board[squareAbove + 1]].color === 'white') {
+      console.log('yolo')
+    } else if (board[squareAbove + 1] !== 'empty') {
+      legalMoves.push(squareAbove + 1);
+    };
+    if (modal === 0 || playerLookup[board[squareAbove - 1]] === 'white') {
+    } else if (board[squareAbove - 1] !== 'empty') {
+      legalMoves.push(squareAbove - 1);
+    };
+  } else if (piece[0] === 'b') {
+    squareAbove = pieceIdx + boardWidth;
+    twoSquares = squareAbove + boardWidth;
+    if (pieceIdx > 55) return;
+    if (board[squareAbove] === 'empty') {
+      legalMoves.push(squareAbove);
+    };
+    if (playerLookup[piece].moves === 0) {
+      legalMoves.push(twoSquares);
+    };
+    if (modal === 7 || playerLookup[board[squareAbove + 1]].color === 'black') {
+    } else if (board[squareAbove + 1] !== 'empty') {
+      legalMoves.push(squareAbove + 1);
+    };
+    if (modal === 0 || playerLookup[board[squareAbove - 1]] === 'black') {
+    } else if (board[squareAbove - 1] !== 'empty') {
+      legalMoves.push(squareAbove - 1);
+    };
+  }
 }
 
 function whiteBishopMove(pieceIdx) {
@@ -657,21 +772,21 @@ function blackKingMove(pieceIdx) {
 }
 function getWinner() {
   // If either king is taken, winner is given a value corresponding to who is now the victor.
-  if (board.indexOf(6) === -1) {
-    return -6;
-  } else if (board.indexOf(-6) === -1) {
-    return 6;
+  if (board.indexOf('wk') === -1) {
+    return 'bk';
+  } else if (board.indexOf('bk') === -1) {
+    return 'wk';
   } else {
     return null;
   }
 }
 /*
-function inCheck(pieceValue, pieceIdx) {
+function inCheck(piece, pieceIdx) {
   // let div = document.getElementById(`sq${pieceIdx}`);
   console.log(placementIdx);
   legalMoves = [];
-  if (pieceValue > 0) {
-    if (pieceValue === 1) {
+  if (piece > 0) {
+    if (piece === 1) {
       whitePawnMove(placementIdx);
       console.log(legalMoves)
       legalMoves.forEach(function(idx) {
@@ -681,7 +796,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === 2) {
+    } else if (piece === 2) {
       whiteBishopMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === -6) {
@@ -690,7 +805,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === 3) {
+    } else if (piece === 3) {
       whiteKnightMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === -6) {
@@ -699,7 +814,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === 4) {
+    } else if (piece === 4) {
       whiteRookMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === -6) {
@@ -708,7 +823,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === 5) {
+    } else if (piece === 5) {
       whiteQueenMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === -6) {
@@ -721,8 +836,8 @@ function inCheck(pieceValue, pieceIdx) {
         }
       });
     }
-  } else if (pieceValue < 0) {
-    if (pieceValue === -1) {
+  } else if (piece < 0) {
+    if (piece === -1) {
       blackPawnMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === 6) {
@@ -731,7 +846,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === -2) {
+    } else if (piece === -2) {
       blackBishopMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === 6) {
@@ -740,7 +855,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === -3) {
+    } else if (piece === -3) {
       blackKnightMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === 6) {
@@ -749,7 +864,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === -4) {
+    } else if (piece === -4) {
       blackRookMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === 6) {
@@ -758,7 +873,7 @@ function inCheck(pieceValue, pieceIdx) {
           return null;
         }
       });
-    } else if (pieceValue === -5) {
+    } else if (piece === -5) {
       blackQueenMove(placementIdx);
       legalMoves.forEach(function(idx) {
         if (board[idx] === 6) {
