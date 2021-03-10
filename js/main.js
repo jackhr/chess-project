@@ -216,7 +216,7 @@ function init() {
     'br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
     'bp8', 'bp7', 'bp6', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'empty', 'empty', 'wb', 'bb', 'empty', 'empty', 'empty', 'empty',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
@@ -281,18 +281,18 @@ function handleMove(evt) {
     selectedDiv = evt.target;
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
-    if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'black' && turn > 0) || piece === 'empty' || winner) return;
+    if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'empty' || winner) return;
     // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
     clickCounter++;
-    if (playerLookup[piece].color === 'black') {
-      selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
-    } else {
+    // if (playerLookup[piece].color === 'black') {
+    //   // selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
+    // } else {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
-    }
+    // }
     // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
     if (piece[1] === 'p') pawnMove(selectedIdx);
-    // if (playerLookup[piece].value === 2) bishopMove(selectedIdx);
+    if (piece[1] === 'b') bishopMove(selectedIdx);
     // if (playerLookup[piece].value === 3) knightMove(selectedIdx);
     // if (playerLookup[piece].value === 4) rookMove(selectedIdx);
     // if (playerLookup[piece].value === 5) queenMove(selectedIdx);
@@ -333,7 +333,7 @@ function handleMove(evt) {
       check = inCheck(piece, placementIdx)
       */
       winner = getWinner();
-      // turn *= -1;
+      turn *= -1;
       render();
     }
   }
@@ -345,6 +345,7 @@ function pawnMove(pieceIdx) {
   let twoSquares = squareAbove - boardWidth;
   let modal = pieceIdx % boardWidth;
   if (piece[0] === 'w') {
+    // code for white pawns
     if (pieceIdx < 8) return;
     if (board[squareAbove] === 'empty') {
       legalMoves.push(squareAbove);
@@ -352,17 +353,16 @@ function pawnMove(pieceIdx) {
     if (playerLookup[piece].moves === 0) {
       legalMoves.push(twoSquares);
     };
-    console.log(board[squareAbove], squareAbove, board[squareAbove + 1], squareAbove+1)
-    if (modal === 7 || playerLookup[board[squareAbove + 1]].color === 'white') {
-      console.log('yolo')
+    if (modal === 7 || board[squareAbove + 1][0] === 'w') {
     } else if (board[squareAbove + 1] !== 'empty') {
       legalMoves.push(squareAbove + 1);
     };
-    if (modal === 0 || playerLookup[board[squareAbove - 1]] === 'white') {
+    if (modal === 0 || board[squareAbove - 1][0] === 'w') {
     } else if (board[squareAbove - 1] !== 'empty') {
       legalMoves.push(squareAbove - 1);
     };
   } else if (piece[0] === 'b') {
+    // code for black pawns
     squareAbove = pieceIdx + boardWidth;
     twoSquares = squareAbove + boardWidth;
     if (pieceIdx > 55) return;
@@ -372,18 +372,18 @@ function pawnMove(pieceIdx) {
     if (playerLookup[piece].moves === 0) {
       legalMoves.push(twoSquares);
     };
-    if (modal === 7 || playerLookup[board[squareAbove + 1]].color === 'black') {
+    if (modal === 7 || board[squareAbove + 1][0] === 'b') {
     } else if (board[squareAbove + 1] !== 'empty') {
       legalMoves.push(squareAbove + 1);
     };
-    if (modal === 0 || playerLookup[board[squareAbove - 1]] === 'black') {
+    if (modal === 0 || board[squareAbove - 1][0] === 'b') {
     } else if (board[squareAbove - 1] !== 'empty') {
       legalMoves.push(squareAbove - 1);
     };
   }
 }
 
-function whiteBishopMove(pieceIdx) {
+function bishopMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
@@ -394,43 +394,86 @@ function whiteBishopMove(pieceIdx) {
   let rUDiag = squareAbove + right;
   let lUDiag = squareAbove - left;
   let rDDiag = squareBelow + right;
-  let lDDiag = squareBelow - left; //Maybe I don't need the "board[rUDiag] < 0" at all
-  while (board[rUDiag] === null || board[rUDiag] < 0) {
-    if (modal === 7) break;
-    legalMoves.push(rUDiag);
-    if (board[rUDiag] < 0 || (rUDiag % boardWidth) === 7) break;
-    right++;
-    up += boardWidth;
-    rUDiag = pieceIdx - up + right;
-  }
-  up = boardWidth;
-  right = 1;
-  while (board[rDDiag] === null || board[rDDiag] < 0) {
-    if (modal === 7) break;
-    legalMoves.push(rDDiag);
-    if (board[rDDiag] < 0 || (rDDiag % boardWidth) === 7) break;
-    right++;
-    down += boardWidth;
-    rDDiag = pieceIdx + down + right;
-  }
-  down = boardWidth;
-  right = 1;
-  while (board[lUDiag] === null || board[lUDiag] < 0) {
-    if (modal === 0) break;
-    legalMoves.push(lUDiag);
-    if (board[lUDiag] < 0 || (lUDiag % boardWidth) === 0) break;
-    left++;
-    up += boardWidth;
-    lUDiag = pieceIdx - up - left;
-  }
-  left = 1;
-  while (board[lDDiag] === null || board[lDDiag] < 0) {
-    if (modal === 0) break;
-    legalMoves.push(lDDiag);
-    if (board[lDDiag] < 0 || (lDDiag % boardWidth) === 0) break;
-    left++;
-    down += boardWidth;
-    lDDiag = pieceIdx + down - left;
+  let lDDiag = squareBelow - left;
+  if (piece[0] === 'w') {
+    /*-------------------- WHITE BISHOP CODE --------------------*/
+    while (board[rUDiag] === 'empty' || board[rUDiag][0] === 'b') {
+      if (modal === 7) break;
+      legalMoves.push(rUDiag);
+      if (board[rUDiag][0] === 'b' || (rUDiag % boardWidth) === 7) break;
+      right++;
+      up += boardWidth;
+      rUDiag = pieceIdx - up + right;
+    }
+    up = boardWidth;
+    right = 1;
+    while (board[rDDiag] === 'empty' || board[rDDiag][0] === 'b') {
+      if (modal === 7) break;
+      legalMoves.push(rDDiag);
+      if (board[rDDiag][0] === 'b' || (rDDiag % boardWidth) === 7) break;
+      right++;
+      down += boardWidth;
+      rDDiag = pieceIdx + down + right;
+    }
+    down = boardWidth;
+    right = 1;
+    while (board[lUDiag] === 'empty' || board[lUDiag][0] === 'b') {
+      if (modal === 0) break;
+      legalMoves.push(lUDiag);
+      if (board[lUDiag][0] === 'b' || (lUDiag % boardWidth) === 0) break;
+      left++;
+      up += boardWidth;
+      lUDiag = pieceIdx - up - left;
+    }
+    left = 1;
+    while (board[lDDiag] === 'empty' || board[lDDiag][0] === 'b') {
+      if (modal === 0) break;
+      legalMoves.push(lDDiag);
+      if (board[lDDiag][0] === 'b' || (lDDiag % boardWidth) === 0) break;
+      left++;
+      down += boardWidth;
+      lDDiag = pieceIdx + down - left;
+    }
+  } else if (piece[0] === 'b') {
+    /*-------------------- BLACK BISHOP CODE --------------------*/
+    while (board[rUDiag] === 'empty' || board[rUDiag][0] === 'w') {
+      // up = 
+      if (modal === 7) break;
+      legalMoves.push(rUDiag);
+      if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
+      right++;
+      up += boardWidth;
+      rUDiag = pieceIdx - up + right;
+    }
+    up = boardWidth;
+    right = 1;
+    while (board[rDDiag] === 'empty' || board[rDDiag][0] === 'w') {
+      if (modal === 7) break;
+      legalMoves.push(rDDiag);
+      if (board[rDDiag][0] === 'w' || (rDDiag % boardWidth) === 7) break;
+      right++;
+      down += boardWidth;
+      rDDiag = pieceIdx + down + right;
+    }
+    down = boardWidth;
+    right = 1;
+    while (board[lUDiag] === 'empty' || board[lUDiag][0] === 'w') {
+      if (modal === 0) break;
+      legalMoves.push(lUDiag);
+      if (board[lUDiag][0] === 'w' || (lUDiag % boardWidth) === 0) break;
+      left++;
+      up += boardWidth;
+      lUDiag = pieceIdx - up - left;
+    }
+    left = 1;
+    while (board[lDDiag] === 'empty' || board[lDDiag][0] === 'w') {
+      if (modal === 0) break;
+      legalMoves.push(lDDiag);
+      if (board[lDDiag][0] === 'w' || (lDDiag % boardWidth) === 0) break;
+      left++;
+      down += boardWidth;
+      lDDiag = pieceIdx + down - left;
+    }
   }
 }
 
@@ -566,75 +609,6 @@ function whiteKingMove(pieceIdx) {
       legalMoves.push(squareAbove - 1);
     }
   }
-}
-
-function blackPawnMove(pieceIdx) {
-  let squareAbove = pieceIdx + boardWidth;
-  let modal = pieceIdx % boardWidth;
-  if (pieceIdx > 55) return;
-  if (board[squareAbove] === null) {
-    legalMoves.push(squareAbove);
-  };
-  if (modal === 7 || board[squareAbove + 1] < 0) {
-  } else if (board[squareAbove + 1] !== null) {
-    legalMoves.push(squareAbove + 1);
-  };
-  if (modal === 0 || board[squareAbove - 1] < 0) {
-  } else if (board[squareAbove - 1] !== null) {
-    legalMoves.push(squareAbove - 1);
-  };
-}
-
-function blackBishopMove(pieceIdx) {
-  let squareAbove = pieceIdx - boardWidth;
-  let squareBelow = pieceIdx + boardWidth;
-  let modal = pieceIdx % boardWidth;
-  let right = 1;
-  let left = 1;
-  let up = boardWidth;
-  let down = boardWidth;
-  let rUDiag = squareAbove + right;
-  let lUDiag = squareAbove - left;
-  let rDDiag = squareBelow + right;
-  let lDDiag = squareBelow - left; //Maybe I don't need the "board[rUDiag] < 0" at all
-    while (board[rUDiag] === null || board[rUDiag] > 0) {
-      if (modal === 7) break;
-      legalMoves.push(rUDiag);
-      if (board[rUDiag] > 0 || (rUDiag % boardWidth) === 7) break;
-      right++;
-      up += boardWidth;
-      rUDiag = pieceIdx - up + right;
-    }
-    up = boardWidth;
-    right = 1;
-    while (board[rDDiag] === null || board[rDDiag] > 0) {
-      if (modal === 7) break;
-      legalMoves.push(rDDiag);
-      if (board[rDDiag] > 0 || (rDDiag % boardWidth) === 7) break;
-      right++;
-      down += boardWidth;
-      rDDiag = pieceIdx + down + right;
-    }
-    down = boardWidth;
-    right = 1;
-    while (board[lUDiag] === null || board[lUDiag] > 0) {
-      if (modal === 0) break;
-      legalMoves.push(lUDiag);
-      if (board[lUDiag] > 0 || (lUDiag % boardWidth) === 0) break;
-      left++;
-      up += boardWidth;
-      lUDiag = pieceIdx - up - left;
-    }
-    up = boardWidth;
-    left = 1;
-    while (board[lDDiag] === null || board[lDDiag] > 0) {
-      if (modal === 0) break;
-      legalMoves.push(lDDiag);
-      if (board[lDDiag] > 0 || (lDDiag % boardWidth) === 0) break;
-      left++;
-      down += boardWidth;
-      lDDiag = pieceIdx + down - left;
-    }
 }
 
 function blackKnightMove(pieceIdx) {
