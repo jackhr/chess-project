@@ -149,7 +149,6 @@ function init() {
 }
 init();
 function render() {
-  // 
   board.forEach(function(squareValue, boardIdx) {
     const square = document.getElementById(`sq${boardIdx}`);
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
