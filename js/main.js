@@ -106,11 +106,10 @@ const playerLookup = {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
       moved: false
     },
-  empty: {
+  em: {
     imgURL: "url('')",
   }
 };
-
 const changePlayer = {
   '1': 'rotate(0deg)',
   '-1': 'rotate(180deg)'
@@ -134,21 +133,20 @@ replayBtn.addEventListener('click', init);
 /*----- functions -----*/
 function init() {
   board = [
-    'br2', 'bn', 'empty', 'empty', 'bk', 'empty', 'bn', 'br1',
+    'br2', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br1',
     'bp8', 'bp7', 'bp6', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
+    'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
+    'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
+    'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
     'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
-    'wr1', 'empty', 'empty', 'empty', 'wk', 'empty', 'empty', 'wr2'
+    'wr1', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr2'
   ];
   pieceIdx = null;
   winner = null;
   turn = 1;
   render();
 }
-
 init();
 function render() {
   board.forEach(function(squareValue, boardIdx) {
@@ -156,26 +154,8 @@ function render() {
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
     square.style.backgroundSize = 'cover';
     square.style.transform = changePlayer[turn];
-
-  /*  icebox in-check messages
-    if (check === null) {
-      square.style.backgroundColor = "";
-      msgEl.style.visibility = "hidden"
-    } else if (check === -1) {
-      document.getElementById(`sq${placementIdx}`).style.backgroundColor = "rgba(255, 0, 0, 1)";
-      msgEl.textContent = "Black is in check!"
-      msgEl.style.visibility = "visible"
-    } else if (check === 1) {
-      document.getElementById(`sq${placementIdx}`).style.backgroundColor = "rgba(255, 0, 0, 1)";
-      msgEl.textContent = "White is in check!"
-      msgEl.style.visibility = "visible"
-    }
-  */
-
   });
-  if (winner === 'T') {
-    msgEl.textContent = "Stalemate!";
-  } else if (winner === "bk") {
+  if (winner === "bk") {
     blackWins.style.backgroundImage = playerLookup[winner]['imgURL'];
     blackWins.style.backgroundSize = 'cover';
     msgEl.textContent = "Black wins!";
@@ -187,7 +167,6 @@ function render() {
     whiteWins.style.backgroundImage = "";
     blackWins.style.backgroundImage = "";
   }
-
   msgEl.style.visibility = winner ? 'visible' : 'hidden';
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   blackWins.style.visibility = winner ? 'visible' : 'hidden';
@@ -197,16 +176,16 @@ function render() {
   legalMoves = [];
   boardWidth = 8;
 }
-
 function handleMove(evt) {
   if (clickCounter < 1) {
     // Handles piece selection.
     selectedDiv = evt.target;
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
-    if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'empty' || winner) return;
+    if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
     // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
     clickCounter++;
+    selectedDiv.style.zIndex = 1;
     if (piece[0] === 'b') {
       selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
     } else {
@@ -222,9 +201,9 @@ function handleMove(evt) {
     if (piece[1] === 'k') kingMove(selectedIdx);
     canCastle();
     legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 1)';
+      squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 0.8)';
+      squareEls[move].style.border = 'solid darkgreen 1px';
     });
-    
   } else if (clickCounter >= 1) {
     // Handles piece placement.
     placementDiv = evt.target;
@@ -233,37 +212,28 @@ function handleMove(evt) {
       // if player clicks on the same piece twice, everything 'reverts back to normal' from before the piece was first selected.
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
+      selectedDiv.style.zIndex = 0;
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
+        squareEls[move].style.border = '';
       });
-      
       render();
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
-
-      // if (canCastle() && piece === 'wk' && selectedIdx === 60 && placementIdx == 62) {
-      //   board[placementIdx] = piece;
-      //   legalMoves.forEach(function(move) {
-      //     squareEls[move].style.backgroundColor = '';
-      //   });
-      //   board[selectedIdx] = 'empty';
-      //   board[selectedIdx + 1] = 'wr2';
-      //   board[63] = 'empty';
-      //   playerLookup[piece].moved = true;
-      //   playerLookup.wr2.moved = true;
-      //   winner = getWinner();
-      //   turn *= -1;
-      //   render()
-      // } 
-      console.log(piece, selectedIdx, placementIdx)
-
-
+      if (canCastle()) {
+        goCastle();
+      } else {
+        if (piece === 'wk') playerLookup[piece].moved = true;
+        if (piece === 'bk') playerLookup[piece].moved = true;
+      }
       // if the player clicks on any square that corresponds to the legalMoves array, that square is updated to represent the piece has been placed, and the orignial square is 'returned to normal'.
       board[placementIdx] = piece;
       selectedDiv.style.transform = 'scale(1)';
+      selectedDiv.style.zIndex = 0;
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
+        squareEls[move].style.border = '';
       });
-      board[selectedIdx] = 'empty';
+      board[selectedIdx] = 'em';
       playerLookup[piece].moves++;
       /* icebox
       check = inCheck(piece, placementIdx)
@@ -274,25 +244,68 @@ function handleMove(evt) {
     }
   }
 }
-
 function canCastle() {
   if (piece[0] === 'w') {
-    if (playerLookup.wr1.moved === false && playerLookup[piece].moved === false && board[57] === 'empty' && board[58] === 'empty' && board[59] === 'empty') {
+    if (playerLookup.wr1.moved === false && playerLookup[piece].moved === false && board[57] === 'em' && board[58] === 'em' && board[59] === 'em') {
       legalMoves.push(58);
     }
-    if (playerLookup.wr2.moved === false && playerLookup[piece].moved === false && board[61] === 'empty' && board[62] === 'empty') {
+    if (playerLookup.wr2.moved === false && playerLookup[piece].moved === false && board[61] === 'em' && board[62] === 'em') {
       legalMoves.push(62);
     }
+    return legalMoves.indexOf(58) !== -1 || legalMoves.indexOf(62) !== -1 ? true : null;
   } else if (piece[0] === 'b') {
-    if (playerLookup.br1.moved === false && playerLookup[piece].moved === false && board[5] === 'empty' && board[6] === 'empty') {
+    if (playerLookup.br1.moved === false && playerLookup[piece].moved === false && board[5] === 'em' && board[6] === 'em') {
       legalMoves.push(6);
     }
-    if (playerLookup.br2.moved === false && playerLookup[piece].moved === false && board[1] === 'empty' && board[2] === 'empty' && board[3] === 'empty') {
+    if (playerLookup.br2.moved === false && playerLookup[piece].moved === false && board[1] === 'em' && board[2] === 'em' && board[3] === 'em') {
       legalMoves.push(2);
     }
+    return legalMoves.indexOf(6) !== -1 || legalMoves.indexOf(2) !== -1 ? true : null;
   }
 }
-
+function goCastle() {
+  if (piece === 'wk' && selectedIdx === 60 && placementIdx == 62) {
+    board[placementIdx] = piece;
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = '';
+    });
+    board[selectedIdx] = 'em';
+    board[selectedIdx + 1] = 'wr2';
+    board[63] = 'em';
+    playerLookup[piece].moved = true;
+    playerLookup.wr2.moved = true;
+  } else if(piece === 'wk' && selectedIdx === 60 && placementIdx == 58) {
+    board[placementIdx] = piece;
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = '';
+    });
+    board[selectedIdx] = 'em';
+    board[selectedIdx - 1] = 'wr1';
+    board[56] = 'em';
+    playerLookup[piece].moved = true;
+    playerLookup.wr1.moved = true;
+  } else if (piece === 'bk' && selectedIdx === 4 && placementIdx == 6) {
+    board[placementIdx] = piece;
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = '';
+    });
+    board[selectedIdx] = 'em';
+    board[selectedIdx + 1] = 'br1';
+    board[7] = 'em';
+    playerLookup[piece].moved = true;
+    playerLookup.br1.moved = true;
+  } else if (piece === 'bk' && selectedIdx === 4 && placementIdx == 2) {
+    board[placementIdx] = piece;
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = '';
+    });
+    board[selectedIdx] = 'em';
+    board[selectedIdx - 1] = 'br2';
+    board[0] = 'em';
+    playerLookup[piece].moved = true;
+    playerLookup.br2.moved = true;
+  }
+}
 // Each individual function assigns all possible moves based on the current position when first selected to an array named legalMoves.
 function pawnMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
@@ -301,18 +314,18 @@ function pawnMove(pieceIdx) {
   if (piece[0] === 'w') {
     // code for white pawns
     if (pieceIdx < 8) return;
-    if (board[squareAbove] === 'empty') {
+    if (board[squareAbove] === 'em') {
       legalMoves.push(squareAbove);
     };
-    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'empty') {
+    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
       legalMoves.push(twoSquares);
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'w') {
-    } else if (board[squareAbove + 1] !== 'empty') {
+    } else if (board[squareAbove + 1] !== 'em') {
       legalMoves.push(squareAbove + 1);
     };
     if (modal === 0 || board[squareAbove - 1][0] === 'w') {
-    } else if (board[squareAbove - 1] !== 'empty') {
+    } else if (board[squareAbove - 1] !== 'em') {
       legalMoves.push(squareAbove - 1);
     };
   } else if (piece[0] === 'b') {
@@ -320,23 +333,22 @@ function pawnMove(pieceIdx) {
     squareAbove = pieceIdx + boardWidth;
     twoSquares = squareAbove + boardWidth;
     if (pieceIdx > 55) return;
-    if (board[squareAbove] === 'empty') {
+    if (board[squareAbove] === 'em') {
       legalMoves.push(squareAbove);
     };
-    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'empty') {
+    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
       legalMoves.push(twoSquares);
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'b') {
-    } else if (board[squareAbove + 1] !== 'empty') {
+    } else if (board[squareAbove + 1] !== 'em') {
       legalMoves.push(squareAbove + 1);
     };
     if (modal === 0 || board[squareAbove - 1][0] === 'b') {
-    } else if (board[squareAbove - 1] !== 'empty') {
+    } else if (board[squareAbove - 1] !== 'em') {
       legalMoves.push(squareAbove - 1);
     };
   }
 }
-
 function bishopMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
@@ -352,7 +364,7 @@ function bishopMove(pieceIdx) {
   if (piece[0] === 'w') {
     /*-------------------- WHITE BISHOP CODE --------------------*/
     if (board[rUDiag] !== undefined) {
-      while (board[rUDiag] === undefined || board[rUDiag] === 'empty' || board[rUDiag][0] === 'b') {
+      while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'b') {
         if (modal === 7 || board[rUDiag] === undefined) break;
         legalMoves.push(rUDiag);
         if (board[rUDiag][0] === 'b' || (rUDiag % boardWidth) === 7) break;
@@ -364,7 +376,7 @@ function bishopMove(pieceIdx) {
       right = 1;
     }
     if (board[rDDiag] !== undefined) {
-      while (board[rDDiag] === undefined || board[rDDiag] === 'empty' || board[rDDiag][0] === 'b') {
+      while (board[rDDiag] === undefined || board[rDDiag] === 'em' || board[rDDiag][0] === 'b') {
         if (modal === 7 || board[rDDiag] === undefined) break;
         legalMoves.push(rDDiag);
         if (board[rDDiag][0] === 'b' || (rDDiag % boardWidth) === 7) break;
@@ -376,7 +388,7 @@ function bishopMove(pieceIdx) {
     if (board[lUDiag] !== undefined) {
       down = boardWidth;
       right = 1;
-      while (board[lUDiag] === undefined || board[lUDiag] === 'empty' || board[lUDiag][0] === 'b') {
+      while (board[lUDiag] === undefined || board[lUDiag] === 'em' || board[lUDiag][0] === 'b') {
         if (modal === 0 || board[lUDiag] === undefined) break;
         legalMoves.push(lUDiag);
         if (board[lUDiag][0] === 'b' || (lUDiag % boardWidth) === 0) break;
@@ -387,7 +399,7 @@ function bishopMove(pieceIdx) {
       left = 1;
     }
     if (board[lDDiag] !== undefined) {
-      while (board[lDDiag] === undefined || board[lDDiag] === 'empty' || board[lDDiag][0] === 'b') {
+      while (board[lDDiag] === undefined || board[lDDiag] === 'em' || board[lDDiag][0] === 'b') {
         if (modal === 0 || board[lDDiag] === undefined) break;
         legalMoves.push(lDDiag);
         if (board[lDDiag][0] === 'b' || (lDDiag % boardWidth) === 0) break;
@@ -400,7 +412,7 @@ function bishopMove(pieceIdx) {
     /*-------------------- BLACK BISHOP CODE --------------------*/
     if (board[rUDiag] !== undefined) {
       // console.log(legalMoves);
-      while (board[rUDiag] === undefined || board[rUDiag] === 'empty' || board[rUDiag][0] === 'w') {
+      while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'w') {
         console.log(legalMoves);
         if (modal === 7 || board[rUDiag] === undefined) break;
         legalMoves.push(rUDiag);
@@ -413,7 +425,7 @@ function bishopMove(pieceIdx) {
       right = 1;
     }
     if (board[rDDiag] !== undefined) {
-      while (board[rDDiag] === undefined || board[rDDiag] === 'empty' || board[rDDiag][0] === 'w') {
+      while (board[rDDiag] === undefined || board[rDDiag] === 'em' || board[rDDiag][0] === 'w') {
         if (modal === 7 || board[rDDiag] === undefined) break;
         legalMoves.push(rDDiag);
         if (board[rDDiag][0] === 'w' || (rDDiag % boardWidth) === 7) break;
@@ -425,7 +437,7 @@ function bishopMove(pieceIdx) {
       right = 1;
     }
     if (board[lUDiag] !== undefined) {
-      while (board[lUDiag] === undefined || board[lUDiag] === 'empty' || board[lUDiag][0] === 'w') {
+      while (board[lUDiag] === undefined || board[lUDiag] === 'em' || board[lUDiag][0] === 'w') {
         if (modal === 0 || board[lUDiag] === undefined) break;
         legalMoves.push(lUDiag);
         if (board[lUDiag][0] === 'w' || (lUDiag % boardWidth) === 0) break;
@@ -436,7 +448,7 @@ function bishopMove(pieceIdx) {
       left = 1;
     }
     if (board[lDDiag] !== undefined) {
-      while (board[lDDiag] === undefined || board[lDDiag] === 'empty' || board[lDDiag][0] === 'w') {
+      while (board[lDDiag] === undefined || board[lDDiag] === 'em' || board[lDDiag][0] === 'w') {
         if (modal === 0 || board[lDDiag] === undefined) break;
         legalMoves.push(lDDiag);
         if (board[lDDiag][0] === 'w' || (lDDiag % boardWidth) === 0) break;
@@ -448,7 +460,6 @@ function bishopMove(pieceIdx) {
   }
   // console.log(legalMoves);
 }
-
 function knightMove(pieceIdx) {
 
   let up = pieceIdx - (boardWidth * 2);
@@ -463,14 +474,14 @@ function knightMove(pieceIdx) {
     } else {
       if (modal === 0) {
         // If the piece is on the other ranks but on the a file, then do not run sequential code
-      } else if (board[up - 1][0] === 'b' || board[up - 1] === 'empty') {
-        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the left.
+      } else if (board[up - 1][0] === 'b' || board[up - 1] === 'em') {
+        // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the left.
         legalMoves.push(up - 1);
         }
       if (modal === 7) {
         // If the piece is on the other ranks but on the h file, then do not run sequential code
-      } else if (board[up + 1][0] === 'b' || board[up + 1] === 'empty') {
-        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the right.
+      } else if (board[up + 1][0] === 'b' || board[up + 1] === 'em') {
+        // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the right.
           legalMoves.push(up + 1);
       }
     }
@@ -482,12 +493,12 @@ function knightMove(pieceIdx) {
         legalMoves.push(right + boardWidth);
       }
     } else {
-      if (board[right - boardWidth][0] === 'b' || board[right - boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[right - boardWidth][0] === 'b' || board[right - boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(right - boardWidth);
       }
-      if (board[right + boardWidth][0] === 'b' || board[right + boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[right + boardWidth][0] === 'b' || board[right + boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(right + boardWidth);
       }
     }
@@ -496,14 +507,14 @@ function knightMove(pieceIdx) {
     } else {
       if (modal === 7) {
         // if the selected piece is on the h file, then do not run sequential code
-      } else if (board[down + 1][0] === 'b' || board[down + 1] === 'empty') {
-        // if the placement is an opponent or empty, then push the index
+      } else if (board[down + 1][0] === 'b' || board[down + 1] === 'em') {
+        // if the placement is an opponent or em, then push the index
           legalMoves.push(down + 1);
       }
       if (modal === 0) {
         // if the selected piece is on the a file, then do not run sequential code
-      } else if (board[down - 1][0] === 'b' || board[down - 1] === 'empty') {
-        // if the placement is an opponent or empty, then push the index
+      } else if (board[down - 1][0] === 'b' || board[down - 1] === 'em') {
+        // if the placement is an opponent or em, then push the index
           legalMoves.push(down - 1);
       }
     }
@@ -515,12 +526,12 @@ function knightMove(pieceIdx) {
         legalMoves.push(left + boardWidth);
       }
     } else {
-      if (board[left + boardWidth][0] === 'b' || board[left + boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[left + boardWidth][0] === 'b' || board[left + boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(left + boardWidth);
       }
-      if (board[left - boardWidth][0] === 'b' || board[left - boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[left - boardWidth][0] === 'b' || board[left - boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(left - boardWidth);
       }
     }
@@ -531,14 +542,14 @@ function knightMove(pieceIdx) {
     } else {
       if (modal === 0) {
         // If the piece is on the other ranks but on the a file, then do not run sequential code
-      } else if (board[up - 1][0] === 'w' || board[up - 1] === 'empty') {
-        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the left.
+      } else if (board[up - 1][0] === 'w' || board[up - 1] === 'em') {
+        // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the left.
         legalMoves.push(up - 1);
         }
       if (modal === 7) {
         // If the piece is on the other ranks but on the h file, then do not run sequential code
-      } else if (board[up + 1][0] === 'w' || board[up + 1] === 'empty') {
-        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the right.
+      } else if (board[up + 1][0] === 'w' || board[up + 1] === 'em') {
+        // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the right.
           legalMoves.push(up + 1);
       }
     }
@@ -550,12 +561,12 @@ function knightMove(pieceIdx) {
         legalMoves.push(right + boardWidth);
       }
     } else {
-      if (board[right - boardWidth][0] === 'w' || board[right - boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[right - boardWidth][0] === 'w' || board[right - boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(right - boardWidth);
       }
-      if (board[right + boardWidth][0] === 'w' || board[right + boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[right + boardWidth][0] === 'w' || board[right + boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(right + boardWidth);
       }
     }
@@ -564,14 +575,14 @@ function knightMove(pieceIdx) {
     } else {
       if (modal === 7) {
         // if the selected piece is on the h file, then do not run sequential code
-      } else if (board[down + 1][0] === 'w' || board[down + 1] === 'empty') {
-        // if the placement is an opponent or empty, then push the index
+      } else if (board[down + 1][0] === 'w' || board[down + 1] === 'em') {
+        // if the placement is an opponent or em, then push the index
           legalMoves.push(down + 1);
       }
       if (modal === 0) {
         // if the selected piece is on the a file, then do not run sequential code
-      } else if (board[down - 1][0] === 'w' || board[down - 1] === 'empty') {
-        // if the placement is an opponent or empty, then push the index
+      } else if (board[down - 1][0] === 'w' || board[down - 1] === 'em') {
+        // if the placement is an opponent or em, then push the index
           legalMoves.push(down - 1);
       }
     }
@@ -583,19 +594,18 @@ function knightMove(pieceIdx) {
         legalMoves.push(left + boardWidth);
       }
     } else {
-      if (board[left + boardWidth][0] === 'w' || board[left + boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[left + boardWidth][0] === 'w' || board[left + boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(left + boardWidth);
       }
-      if (board[left - boardWidth][0] === 'w' || board[left - boardWidth] === 'empty') {
-        // if placement is an opponent or empty, then push the index
+      if (board[left - boardWidth][0] === 'w' || board[left - boardWidth] === 'em') {
+        // if placement is an opponent or em, then push the index
         legalMoves.push(left - boardWidth);
       }
     }
 
   }
 }
-
 function rookMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
@@ -603,50 +613,50 @@ function rookMove(pieceIdx) {
   let right = 1;
   let left = 1;
   if (piece[0] === 'w') {
-    while (board[squareAbove] === undefined || board[squareAbove] === 'empty' || board[squareAbove][0] === 'b') {
+    while (board[squareAbove] === undefined || board[squareAbove] === 'em' || board[squareAbove][0] === 'b') {
       if (board[squareAbove] === undefined) break;
       legalMoves.push(squareAbove);
       if (board[squareAbove][0] === 'b') break;
       squareAbove -= boardWidth;
     }
-    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'b') {
+    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'em' || board[pieceIdx + right][0] === 'b') {
       if (modal === 7 || board[pieceIdx + right] === undefined) break;
       legalMoves.push(pieceIdx + right);
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'b') break;
       right++;
     }
-    while (board[squareBelow] === undefined || board[squareBelow] === 'empty' || board[squareBelow][0] === 'b') {
+    while (board[squareBelow] === undefined || board[squareBelow] === 'em' || board[squareBelow][0] === 'b') {
       if (modal === 7 || board[squareBelow] === undefined) break;
       legalMoves.push(squareBelow);
       if (board[squareBelow][0] === 'b') break;
       squareBelow += boardWidth;
     }
-    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'b') {
+    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'em' || board[pieceIdx - left][0] === 'b') {
       if (modal === 0 || board[pieceIdx - left] === undefined) break;
       legalMoves.push(pieceIdx - left);
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'b') break;
       left++;
     }
   } else if (piece[0] === 'b') {
-    while (board[squareAbove] === undefined || board[squareAbove] === 'empty' || board[squareAbove][0] === 'w') {
+    while (board[squareAbove] === undefined || board[squareAbove] === 'em' || board[squareAbove][0] === 'w') {
       if (board[squareAbove] === undefined) break;
       legalMoves.push(squareAbove);
       if (board[squareAbove][0] === 'w') break;
       squareAbove -= boardWidth;
     }
-    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'w') {
+    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'em' || board[pieceIdx + right][0] === 'w') {
       if (modal === 7 || board[pieceIdx + right] === undefined) break;
       legalMoves.push(pieceIdx + right);
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'w') break;
       right++;
     }
-    while (board[squareBelow] === undefined || board[squareBelow] === 'empty' || board[squareBelow][0] === 'w') {
+    while (board[squareBelow] === undefined || board[squareBelow] === 'em' || board[squareBelow][0] === 'w') {
       if (board[squareBelow] === undefined) break;
       legalMoves.push(squareBelow);
       if (board[squareBelow][0] === 'w') break;
       squareBelow += boardWidth;
     }
-    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'w') {
+    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'em' || board[pieceIdx - left][0] === 'w') {
       if (modal === 0 || board[pieceIdx - right] === undefined) break;
       legalMoves.push(pieceIdx - left);
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'w') break;
@@ -654,61 +664,59 @@ function rookMove(pieceIdx) {
     }
   }
 }
-
 function queenMove(pieceIdx) {
   // Queeny behaves like both of thes pieces combined.
   bishopMove(pieceIdx);
   rookMove(pieceIdx);
 }
-
 function kingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
   if (piece[0] === 'w') {
     if (pieceIdx < 8 || board[squareAbove] === undefined) {
-    } else if (board[squareAbove] === 'empty' || board[squareAbove][0] === 'b') {
+    } else if (board[squareAbove] === 'em' || board[squareAbove][0] === 'b') {
         legalMoves.push(squareAbove);
       }
     if (modal === 7) { 
     } else {
       if (board[squareAbove + 1] === undefined) {
-      } else if (board[squareAbove + 1] === 'empty' || board[squareAbove + 1][0] === 'b') {
+      } else if (board[squareAbove + 1] === 'em' || board[squareAbove + 1][0] === 'b') {
         legalMoves.push(squareAbove + 1);
       }
       if(board[pieceIdx + 1] === undefined) {
         // Do nothing
-      } else if (board[pieceIdx + 1] === 'empty' || board[pieceIdx + 1][0] === 'b') {
+      } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'b') {
         legalMoves.push(pieceIdx + 1);
       }
       if (board[squareBelow + 1] === undefined) {
         // Do nothing
-      } else if (board[squareBelow + 1] === 'empty' || board[squareBelow + 1][0] === 'b') {
+      } else if (board[squareBelow + 1] === 'em' || board[squareBelow + 1][0] === 'b') {
         legalMoves.push(squareBelow + 1);
       }
     }
     if (pieceIdx > 55 || board[squareBelow] === undefined) {
-    } else if (board[squareBelow] === 'empty' || board[squareBelow][0] === 'b') {
+    } else if (board[squareBelow] === 'em' || board[squareBelow][0] === 'b') {
       legalMoves.push(squareBelow);
     }
     if (modal === 0) {
     } else {
       if (board[squareBelow - 1] === undefined) {
-      } else if (board[squareBelow - 1] === 'empty' || board[squareBelow - 1][0] === 'b') {
+      } else if (board[squareBelow - 1] === 'em' || board[squareBelow - 1][0] === 'b') {
         legalMoves.push(squareBelow - 1);
       }
       if (board[pieceIdx - 1] === undefined) {
-      } else if (board[pieceIdx - 1] === 'empty' || board[pieceIdx - 1][0] === 'b') {
+      } else if (board[pieceIdx - 1] === 'em' || board[pieceIdx - 1][0] === 'b') {
         legalMoves.push(pieceIdx - 1);
       }
       if (board[squareAbove - 1] === undefined) {
-      } else if (board[squareAbove - 1] === 'empty' || board[squareAbove - 1][0] === 'b') {
+      } else if (board[squareAbove - 1] === 'em' || board[squareAbove - 1][0] === 'b') {
         legalMoves.push(squareAbove - 1);
       }
     }
   } else if (piece[0] === 'b') {
     if (pieceIdx < 8 || board[squareAbove] === undefined) {
-    } else if (board[squareAbove] === 'empty' || board[squareAbove][0] === 'w') {
+    } else if (board[squareAbove] === 'em' || board[squareAbove][0] === 'w') {
         legalMoves.push(squareAbove);
       }
     if (modal === 7) {
@@ -716,42 +724,41 @@ function kingMove(pieceIdx) {
     } else {
       if (board[squareAbove + 1] === undefined) {
         // Do nothing
-      } else if (board[squareAbove + 1] === 'empty' || board[squareAbove + 1][0] === 'w') {
+      } else if (board[squareAbove + 1] === 'em' || board[squareAbove + 1][0] === 'w') {
         legalMoves.push(squareAbove + 1);
       }
       if(board[pieceIdx + 1] === undefined) {
         // Do nothing
-      } else if (board[pieceIdx + 1] === 'empty' || board[pieceIdx + 1][0] === 'w') {
+      } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'w') {
         legalMoves.push(pieceIdx + 1);
       }
       if (board[squareBelow + 1] === undefined) {
         // Do nothing
-      } else if (board[squareBelow + 1] === 'empty' || board[squareBelow + 1][0] === 'w') {
+      } else if (board[squareBelow + 1] === 'em' || board[squareBelow + 1][0] === 'w') {
         legalMoves.push(squareBelow + 1);
       }
     }
     if (pieceIdx > 55 || board[squareBelow] === undefined) {
-    } else if (board[squareBelow] === 'empty' || board[squareBelow][0] === 'w') {
+    } else if (board[squareBelow] === 'em' || board[squareBelow][0] === 'w') {
       legalMoves.push(squareBelow);
     }
     if (modal === 0) {
     } else {
       if (board[squareBelow - 1] === undefined) {
-      } else if (board[squareBelow - 1] === 'empty' || board[squareBelow - 1][0] === 'w') {
+      } else if (board[squareBelow - 1] === 'em' || board[squareBelow - 1][0] === 'w') {
         legalMoves.push(squareBelow - 1);
       }
       if (board[pieceIdx - 1] === undefined) {
-      } else if (board[pieceIdx - 1] === 'empty' || board[pieceIdx - 1][0] === 'w') {
+      } else if (board[pieceIdx - 1] === 'em' || board[pieceIdx - 1][0] === 'w') {
         legalMoves.push(pieceIdx - 1);
       }
       if (board[squareAbove - 1] === undefined) {
-      } else if (board[squareAbove - 1] === 'empty' || board[squareAbove - 1][0] === 'w') {
+      } else if (board[squareAbove - 1] === 'em' || board[squareAbove - 1][0] === 'w') {
         legalMoves.push(squareAbove - 1);
       }
     }
   }
 }
-
 function getWinner() {
   // If either king is taken, winner is given a value corresponding to who is now the victor.
   if (board.indexOf('wk') === -1) {
@@ -762,60 +769,3 @@ function getWinner() {
     return null;
   }
 }
-/*
-function inCheck(piece, pieceIdx) {
-  // let div = document.getElementById(`sq${pieceIdx}`);
-  console.log(placementIdx);
-  legalMoves = [];
-  if (piece[1] === 'p') {
-    pawnMove(placementIdx);
-    console.log(legalMoves)
-    legalMoves.forEach(function(idx) {
-      if (board[idx][1] === 'k') {
-        return -1;
-      } else {
-        return null;
-      }
-    });
-  } else if (piece[1] === 'b') {
-    bishopMove(placementIdx);
-    legalMoves.forEach(function(idx) {
-      if (board[idx][1] === 'k') {
-        return -1;
-      } else {
-        return null;
-      }
-    });
-  } else if (piece[1] === 'n') {
-    knightMove(placementIdx);
-    legalMoves.forEach(function(idx) {
-      if (board[idx][1] === 'k') {
-        return -1;
-      } else {
-        return null;
-      }
-    });
-  } else if (piece[1] === 'r') {
-    rookMove(placementIdx);
-    legalMoves.forEach(function(idx) {
-      if (board[idx][1] === 'k') {
-        return -1;
-      } else {
-        return null;
-      }
-    });
-  } else if (piece[1] === 'q') {
-    queenMove(placementIdx);
-    legalMoves.forEach(function(idx) {
-      if (board[idx][1] === 'k') {
-        return -1;
-        // kingIdx = idx;
-      } else {
-        // legalMoves.indexOf(kingIdx) === -1
-        // kingIdx = undefined;
-        return null;
-      }
-    });
-  }
-}
-*/
