@@ -2,194 +2,115 @@
 const playerLookup = {
     bp1: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 1,
       moves: 0
     },
     bp2: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 2,
       moves: 0
     },
     bp3: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 3,
       moves: 0
     },
     bp4: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 4,
       moves: 0
     },
     bp5: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 5,
       moves: 0
     },
     bp6: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 6,
       moves: 0
     },
     bp7: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 7,
       moves: 0
     },
     bp8: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      color: "black",
-      value: 8,
       moves: 0
     },
     bb: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
-      color: "black",
-      value: 2
     },
     bn: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-knight.svg')",
-      color: "black",
-      value: 3
     },
-    br: {
+    br1: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
-      color: "black",
-      value: 4
+      moved: false
+    },
+    br2: {
+      imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
+      moved: false
     },
     bq: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-queen.svg')",
-      color: "black",
-      value: 5
     },
     bk: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
-      color: "black",
-      value: 6
+      moved: false
     },
     wp1: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 1,
       moves: 0
     },
     wp2: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 2,
       moves: 0
     },
     wp3: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 3,
       moves: 0
     },
     wp4: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 4,
       moves: 0
     },
     wp5: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 5,
       moves: 0
     },
     wp6: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 6,
       moves: 0
     },
     wp7: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 7,
       moves: 0
     },
     wp8: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      color: "white",
-      value: 8,
       moves: 0
     },
     wb: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
-      color: "white",
-      value: 2
     },
     wn: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-knight.svg')",
-      color: "white",
-      value: 3
     },
-    wr: {
+    wr1: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
-      color: "white",
-      value: 4
+      moved: false
+    },
+    wr2: {
+      imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
+      moved: false
     },
     wq: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-queen.svg')",
-      color: "white",
-      value: 5
     },
     wk: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
-      color: "white",
-      value: 6
+      moved: false
     },
   empty: {
     imgURL: "url('')",
-    value: null
   }
 };
-// const boardMoveLookup = {
-//   '-1': {
 
-//   },
-//   '-2': {
-
-//   },
-//   '-3': {
-
-//   },
-//   '-4': {
-
-//   },
-//   '-5': {
-
-//   },
-//   '-6': {
-
-//   },
-//   '1': {
-
-//   },
-//   '2': {
-
-//   },
-//   '3': {
-
-//   },
-//   '4': {
-
-//   },
-//   '5': {
-
-//   },
-//   '6': {
-
-//   },
-  
-// };
 const changePlayer = {
   '1': 'rotate(0deg)',
   '-1': 'rotate(180deg)'
@@ -213,18 +134,18 @@ replayBtn.addEventListener('click', init);
 /*----- functions -----*/
 function init() {
   board = [
-    'br', 'wn', 'bb', 'wn', 'bk', 'bb', 'bn', 'br',
-    'bp8', 'bp7', 'br', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
+    'br2', 'bn', 'empty', 'empty', 'bk', 'empty', 'bn', 'br1',
+    'bp8', 'bp7', 'bp6', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'wn', 'empty', 'empty', 'wn', 'empty', 'empty', 'empty', 'br',
-    'bn', 'empty', 'empty', 'br', 'empty', 'empty', 'empty', 'bn',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'wp1', 'wp2', 'wp3', 'wp4', 'br', 'wp6', 'wp7', 'wp8',
-    'bk', 'bk', 'bk', 'wk', 'bk', 'bk', 'bk', 'bk'
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
+    'wr1', 'empty', 'empty', 'empty', 'wk', 'empty', 'empty', 'wr2'
   ];
   pieceIdx = null;
   winner = null;
-  turn = -1;
+  turn = 1;
   render();
 }
 
@@ -234,8 +155,9 @@ function render() {
     const square = document.getElementById(`sq${boardIdx}`);
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
     square.style.backgroundSize = 'cover';
-    // square.style.transform = changePlayer[turn];
-    /* icebox in-check messages
+    square.style.transform = changePlayer[turn];
+
+  /*  icebox in-check messages
     if (check === null) {
       square.style.backgroundColor = "";
       msgEl.style.visibility = "hidden"
@@ -248,15 +170,16 @@ function render() {
       msgEl.textContent = "White is in check!"
       msgEl.style.visibility = "visible"
     }
-    */
+  */
+
   });
   if (winner === 'T') {
     msgEl.textContent = "Stalemate!";
-  } else if (winner < 0) {
+  } else if (winner === "bk") {
     blackWins.style.backgroundImage = playerLookup[winner]['imgURL'];
     blackWins.style.backgroundSize = 'cover';
     msgEl.textContent = "Black wins!";
-  } else if (winner > 0) {
+  } else if (winner === "wk") {
     whiteWins.style.backgroundImage = playerLookup[winner]['imgURL'];
     whiteWins.style.backgroundSize = 'cover';
     msgEl.textContent = "White wins!";
@@ -269,7 +192,7 @@ function render() {
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   blackWins.style.visibility = winner ? 'visible' : 'hidden';
   whiteWins.style.visibility = winner ? 'visible' : 'hidden';
-  // boardEl.style.transform = changePlayer[turn];
+  boardEl.style.transform = changePlayer[turn];
   clickCounter = 0;
   legalMoves = [];
   boardWidth = 8;
@@ -284,12 +207,12 @@ function handleMove(evt) {
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'empty' || winner) return;
     // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
     clickCounter++;
-    // if (playerLookup[piece].color === 'black') {
-    //   // selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
-    // } else {
+    if (piece[0] === 'b') {
+      selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
+    } else {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
-    // }
+    }
     // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
     if (piece[1] === 'p') pawnMove(selectedIdx);
     if (piece[1] === 'b') bishopMove(selectedIdx);
@@ -297,15 +220,11 @@ function handleMove(evt) {
     if (piece[1] === 'r') rookMove(selectedIdx);
     if (piece[1] === 'q') queenMove(selectedIdx);
     if (piece[1] === 'k') kingMove(selectedIdx);
-    // if (piece === -1) blackPawnMove(selectedIdx);
-    // if (piece === -2) blackBishopMove(selectedIdx);
-    // if (piece === -3) blackKnightMove(selectedIdx);
-    // if (piece === -4) blackRookMove(selectedIdx);
-    // if (piece === -5) blackQueenMove(selectedIdx);
-    // if (piece === -6) blackKingMove(selectedIdx);
+    canCastle();
     legalMoves.forEach(function(move) {
       squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 1)';
     });
+    
   } else if (clickCounter >= 1) {
     // Handles piece placement.
     placementDiv = evt.target;
@@ -320,6 +239,24 @@ function handleMove(evt) {
       
       render();
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
+
+      // if (canCastle() && piece === 'wk' && selectedIdx === 60 && placementIdx == 62) {
+      //   board[placementIdx] = piece;
+      //   legalMoves.forEach(function(move) {
+      //     squareEls[move].style.backgroundColor = '';
+      //   });
+      //   board[selectedIdx] = 'empty';
+      //   board[selectedIdx + 1] = 'wr2';
+      //   board[63] = 'empty';
+      //   playerLookup[piece].moved = true;
+      //   playerLookup.wr2.moved = true;
+      //   winner = getWinner();
+      //   turn *= -1;
+      //   render()
+      // } 
+      console.log(piece, selectedIdx, placementIdx)
+
+
       // if the player clicks on any square that corresponds to the legalMoves array, that square is updated to represent the piece has been placed, and the orignial square is 'returned to normal'.
       board[placementIdx] = piece;
       selectedDiv.style.transform = 'scale(1)';
@@ -332,13 +269,31 @@ function handleMove(evt) {
       check = inCheck(piece, placementIdx)
       */
       winner = getWinner();
-      // turn *= -1;
+      turn *= -1;
       render();
     }
   }
 }
 
-// Each individual function assigns all possible moves based on the current position when first selected to an array named legalMoves. There is one function for every kind of piece on the board as well as for both black and white.
+function canCastle() {
+  if (piece[0] === 'w') {
+    if (playerLookup.wr1.moved === false && playerLookup[piece].moved === false && board[57] === 'empty' && board[58] === 'empty' && board[59] === 'empty') {
+      legalMoves.push(58);
+    }
+    if (playerLookup.wr2.moved === false && playerLookup[piece].moved === false && board[61] === 'empty' && board[62] === 'empty') {
+      legalMoves.push(62);
+    }
+  } else if (piece[0] === 'b') {
+    if (playerLookup.br1.moved === false && playerLookup[piece].moved === false && board[5] === 'empty' && board[6] === 'empty') {
+      legalMoves.push(6);
+    }
+    if (playerLookup.br2.moved === false && playerLookup[piece].moved === false && board[1] === 'empty' && board[2] === 'empty' && board[3] === 'empty') {
+      legalMoves.push(2);
+    }
+  }
+}
+
+// Each individual function assigns all possible moves based on the current position when first selected to an array named legalMoves.
 function pawnMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let twoSquares = squareAbove - boardWidth;
@@ -812,107 +767,55 @@ function inCheck(piece, pieceIdx) {
   // let div = document.getElementById(`sq${pieceIdx}`);
   console.log(placementIdx);
   legalMoves = [];
-  if (piece > 0) {
-    if (piece === 1) {
-      whitePawnMove(placementIdx);
-      console.log(legalMoves)
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === -6) {
-          return -1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === 2) {
-      whiteBishopMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === -6) {
-          return -1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === 3) {
-      whiteKnightMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === -6) {
-          return -1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === 4) {
-      whiteRookMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === -6) {
-          return -1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === 5) {
-      whiteQueenMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === -6) {
-          return -1;
-          // kingIdx = idx;
-        } else {
-          // legalMoves.indexOf(kingIdx) === -1
-          // kingIdx = undefined;
-          return null;
-        }
-      });
-    }
-  } else if (piece < 0) {
-    if (piece === -1) {
-      blackPawnMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === 6) {
-          return 1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === -2) {
-      blackBishopMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === 6) {
-          return 1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === -3) {
-      blackKnightMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === 6) {
-          return 1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === -4) {
-      blackRookMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === 6) {
-          return 1;
-        } else {
-          return null;
-        }
-      });
-    } else if (piece === -5) {
-      blackQueenMove(placementIdx);
-      legalMoves.forEach(function(idx) {
-        if (board[idx] === 6) {
-          return 1;
-          // kingIdx = idx;
-        } else {
-          return null;
-          // legalMoves.indexOf(kingIdx) === -1
-          // kingIdx = undefined;
-        }
-      });
-    }
+  if (piece[1] === 'p') {
+    pawnMove(placementIdx);
+    console.log(legalMoves)
+    legalMoves.forEach(function(idx) {
+      if (board[idx][1] === 'k') {
+        return -1;
+      } else {
+        return null;
+      }
+    });
+  } else if (piece[1] === 'b') {
+    bishopMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (board[idx][1] === 'k') {
+        return -1;
+      } else {
+        return null;
+      }
+    });
+  } else if (piece[1] === 'n') {
+    knightMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (board[idx][1] === 'k') {
+        return -1;
+      } else {
+        return null;
+      }
+    });
+  } else if (piece[1] === 'r') {
+    rookMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (board[idx][1] === 'k') {
+        return -1;
+      } else {
+        return null;
+      }
+    });
+  } else if (piece[1] === 'q') {
+    queenMove(placementIdx);
+    legalMoves.forEach(function(idx) {
+      if (board[idx][1] === 'k') {
+        return -1;
+        // kingIdx = idx;
+      } else {
+        // legalMoves.indexOf(kingIdx) === -1
+        // kingIdx = undefined;
+        return null;
+      }
+    });
   }
 }
 */
