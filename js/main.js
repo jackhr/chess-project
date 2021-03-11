@@ -396,84 +396,102 @@ function bishopMove(pieceIdx) {
   let lDDiag = squareBelow - left;
   if (piece[0] === 'w') {
     /*-------------------- WHITE BISHOP CODE --------------------*/
-    while (board[rUDiag] === 'empty' || board[rUDiag][0] === 'b') {
-      if (modal === 7) break;
-      legalMoves.push(rUDiag);
-      if (board[rUDiag][0] === 'b' || (rUDiag % boardWidth) === 7) break;
-      right++;
-      up += boardWidth;
-      rUDiag = pieceIdx - up + right;
+    if (board[rUDiag] !== undefined) {
+      while (board[rUDiag] === undefined || board[rUDiag] === 'empty' || board[rUDiag][0] === 'b') {
+        if (modal === 7 || board[rUDiag] === undefined) break;
+        legalMoves.push(rUDiag);
+        if (board[rUDiag][0] === 'b' || (rUDiag % boardWidth) === 7) break;
+        right++;
+        up += boardWidth;
+        rUDiag = pieceIdx - up + right;
+      }
+      up = boardWidth;
+      right = 1;
     }
-    up = boardWidth;
-    right = 1;
-    while (board[rDDiag] === 'empty' || board[rDDiag][0] === 'b') {
-      if (modal === 7) break;
-      legalMoves.push(rDDiag);
-      if (board[rDDiag][0] === 'b' || (rDDiag % boardWidth) === 7) break;
-      right++;
-      down += boardWidth;
-      rDDiag = pieceIdx + down + right;
+    if (board[rDDiag] !== undefined) {
+      while (board[rDDiag] === undefined || board[rDDiag] === 'empty' || board[rDDiag][0] === 'b') {
+        if (modal === 7 || board[rDDiag] === undefined) break;
+        legalMoves.push(rDDiag);
+        if (board[rDDiag][0] === 'b' || (rDDiag % boardWidth) === 7) break;
+        right++;
+        down += boardWidth;
+        rDDiag = pieceIdx + down + right;
+      }
     }
-    down = boardWidth;
-    right = 1;
-    while (board[lUDiag] === 'empty' || board[lUDiag][0] === 'b') {
-      if (modal === 0) break;
-      legalMoves.push(lUDiag);
-      if (board[lUDiag][0] === 'b' || (lUDiag % boardWidth) === 0) break;
-      left++;
-      up += boardWidth;
-      lUDiag = pieceIdx - up - left;
+    if (board[lUDiag] !== undefined) {
+      down = boardWidth;
+      right = 1;
+      while (board[lUDiag] === undefined || board[lUDiag] === 'empty' || board[lUDiag][0] === 'b') {
+        if (modal === 0 || board[lUDiag] === undefined) break;
+        legalMoves.push(lUDiag);
+        if (board[lUDiag][0] === 'b' || (lUDiag % boardWidth) === 0) break;
+        left++;
+        up += boardWidth;
+        lUDiag = pieceIdx - up - left;
+      }
+      left = 1;
     }
-    left = 1;
-    while (board[lDDiag] === 'empty' || board[lDDiag][0] === 'b') {
-      if (modal === 0) break;
-      legalMoves.push(lDDiag);
-      if (board[lDDiag][0] === 'b' || (lDDiag % boardWidth) === 0) break;
-      left++;
-      down += boardWidth;
-      lDDiag = pieceIdx + down - left;
+    if (board[lDDiag] !== undefined) {
+      while (board[lDDiag] === undefined || board[lDDiag] === 'empty' || board[lDDiag][0] === 'b') {
+        if (modal === 0 || board[lDDiag] === undefined) break;
+        legalMoves.push(lDDiag);
+        if (board[lDDiag][0] === 'b' || (lDDiag % boardWidth) === 0) break;
+        left++;
+        down += boardWidth;
+        lDDiag = pieceIdx + down - left;
+      }
     }
   } else if (piece[0] === 'b') {
     /*-------------------- BLACK BISHOP CODE --------------------*/
-    while (board[rUDiag] === 'empty' || board[rUDiag][0] === 'w') {
-      // up = 
-      if (modal === 7) break;
-      legalMoves.push(rUDiag);
-      if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
-      right++;
-      up += boardWidth;
-      rUDiag = pieceIdx - up + right;
+    if (board[rUDiag] !== undefined) {
+      // console.log(legalMoves);
+      while (board[rUDiag] === undefined || board[rUDiag] === 'empty' || board[rUDiag][0] === 'w') {
+        console.log(legalMoves);
+        if (modal === 7 || board[rUDiag] === undefined) break;
+        legalMoves.push(rUDiag);
+        if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
+        right++;
+        up += boardWidth;
+        rUDiag = pieceIdx - up + right;
+      }
+      up = boardWidth;
+      right = 1;
     }
-    up = boardWidth;
-    right = 1;
-    while (board[rDDiag] === 'empty' || board[rDDiag][0] === 'w') {
-      if (modal === 7) break;
-      legalMoves.push(rDDiag);
-      if (board[rDDiag][0] === 'w' || (rDDiag % boardWidth) === 7) break;
-      right++;
-      down += boardWidth;
-      rDDiag = pieceIdx + down + right;
+    if (board[rDDiag] !== undefined) {
+      while (board[rDDiag] === undefined || board[rDDiag] === 'empty' || board[rDDiag][0] === 'w') {
+        if (modal === 7 || board[rDDiag] === undefined) break;
+        legalMoves.push(rDDiag);
+        if (board[rDDiag][0] === 'w' || (rDDiag % boardWidth) === 7) break;
+        right++;
+        down += boardWidth;
+        rDDiag = pieceIdx + down + right;
+      }
+      down = boardWidth;
+      right = 1;
     }
-    down = boardWidth;
-    right = 1;
-    while (board[lUDiag] === 'empty' || board[lUDiag][0] === 'w') {
-      if (modal === 0) break;
-      legalMoves.push(lUDiag);
-      if (board[lUDiag][0] === 'w' || (lUDiag % boardWidth) === 0) break;
-      left++;
-      up += boardWidth;
-      lUDiag = pieceIdx - up - left;
+    if (board[lUDiag] !== undefined) {
+      while (board[lUDiag] === undefined || board[lUDiag] === 'empty' || board[lUDiag][0] === 'w') {
+        if (modal === 0 || board[lUDiag] === undefined) break;
+        legalMoves.push(lUDiag);
+        if (board[lUDiag][0] === 'w' || (lUDiag % boardWidth) === 0) break;
+        left++;
+        up += boardWidth;
+        lUDiag = pieceIdx - up - left;
+      }
+      left = 1;
     }
-    left = 1;
-    while (board[lDDiag] === 'empty' || board[lDDiag][0] === 'w') {
-      if (modal === 0) break;
-      legalMoves.push(lDDiag);
-      if (board[lDDiag][0] === 'w' || (lDDiag % boardWidth) === 0) break;
-      left++;
-      down += boardWidth;
-      lDDiag = pieceIdx + down - left;
+    if (board[lDDiag] !== undefined) {
+      while (board[lDDiag] === undefined || board[lDDiag] === 'empty' || board[lDDiag][0] === 'w') {
+        if (modal === 0 || board[lDDiag] === undefined) break;
+        legalMoves.push(lDDiag);
+        if (board[lDDiag][0] === 'w' || (lDDiag % boardWidth) === 0) break;
+        left++;
+        down += boardWidth;
+        lDDiag = pieceIdx + down - left;
+      }
     }
   }
+  // console.log(legalMoves);
 }
 
 function knightMove(pieceIdx) {
