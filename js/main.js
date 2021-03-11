@@ -213,14 +213,14 @@ replayBtn.addEventListener('click', init);
 /*----- functions -----*/
 function init() {
   board = [
-    'br', 'bn', 'bb', 'bq', 'bk', 'bb', 'bn', 'br',
+    'br', 'wn', 'bb', 'wn', 'bk', 'bb', 'bn', 'br',
     'bp8', 'bp7', 'bp6', 'bp5', 'bp4', 'bp3', 'bp2', 'bp1',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'wb', 'bb', 'empty', 'empty', 'empty', 'empty',
-    'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
+    'wn', 'empty', 'empty', 'wn', 'empty', 'empty', 'empty', 'wn',
+    'bn', 'empty', 'empty', 'bn', 'empty', 'empty', 'empty', 'bn',
     'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty', 'empty',
     'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
-    'wr', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr',
+    'wn', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr',
   ];
   pieceIdx = null;
   winner = null;
@@ -293,7 +293,7 @@ function handleMove(evt) {
     // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
     if (piece[1] === 'p') pawnMove(selectedIdx);
     if (piece[1] === 'b') bishopMove(selectedIdx);
-    // if (playerLookup[piece].value === 3) knightMove(selectedIdx);
+    if (piece[1] === 'n') knightMove(selectedIdx);
     // if (playerLookup[piece].value === 4) rookMove(selectedIdx);
     // if (playerLookup[piece].value === 5) queenMove(selectedIdx);
     // if (playerLookup[piece].value === 6) kingMove(selectedIdx);
@@ -310,7 +310,6 @@ function handleMove(evt) {
     // Handles piece placement.
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
-    console.log(selectedIdx, selectedDiv, placementIdx, placementDiv);
     if (selectedDiv === placementDiv) {
       // if player clicks on the same piece twice, everything 'reverts back to normal' from before the piece was first selected.
       selectedDiv.style.transform = 'scale(1)';
@@ -350,7 +349,7 @@ function pawnMove(pieceIdx) {
     if (board[squareAbove] === 'empty') {
       legalMoves.push(squareAbove);
     };
-    if (playerLookup[piece].moves === 0) {
+    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'empty') {
       legalMoves.push(twoSquares);
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'w') {
@@ -369,7 +368,7 @@ function pawnMove(pieceIdx) {
     if (board[squareAbove] === 'empty') {
       legalMoves.push(squareAbove);
     };
-    if (playerLookup[piece].moves === 0) {
+    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'empty') {
       legalMoves.push(twoSquares);
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'b') {
@@ -477,63 +476,150 @@ function bishopMove(pieceIdx) {
   }
 }
 
-function whiteKnightMove(pieceIdx) {
+function knightMove(pieceIdx) {
+
   let up = pieceIdx - (boardWidth * 2);
   let down = pieceIdx + (boardWidth * 2);
   let left = pieceIdx - 2;
   let right = pieceIdx + 2;
   let modal = pieceIdx % boardWidth;
-  if (pieceIdx < 16 && modal >= 0) {
-  } else {
-    if (modal === 0) {  
-    } else if (board[up - 1] < 0 || board[up - 1] === null) {
-      if (pieceIdx === 56) {  
-      } else {
-      legalMoves.push(up - 1);
+  if (piece[0] === 'w') {
+    // If the piece is white, then run conditional code
+    if (pieceIdx < 16) {
+      // if the selected piece is on the the 7th or 8th rank, then do not push any index above the board (negative numbers)
+    } else {
+      if (modal === 0) {
+        // If the piece is on the other ranks but on the a file, then do not run sequential code
+      } else if (board[up - 1][0] === 'b' || board[up - 1] === 'empty') {
+        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the left.
+        legalMoves.push(up - 1);
+        }
+      if (modal === 7) {
+        // If the piece is on the other ranks but on the h file, then do not run sequential code
+      } else if (board[up + 1][0] === 'b' || board[up + 1] === 'empty') {
+        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the right.
+          legalMoves.push(up + 1);
       }
     }
-    if (modal === 7) {
-    } else if (board[up + 1] < 0 || board[up + 1] === null) {
-      if (pieceIdx === 63) {
-      } else {
-        legalMoves.push(up + 1);
+    if (modal > 5 || board[right - boardWidth] === undefined || board[right + boardWidth] === undefined) {
+      // if the piece is the g or h file, or the placement is undefined, then only run sequential code
+      if (pieceIdx > 55 && modal < 6 && board[right - boardWidth][0] !== 'w') {
+        legalMoves.push(right - boardWidth);
+      } else if (pieceIdx < 8 && modal < 6 && board[right + boardWidth][0] !== 'w') {
+        legalMoves.push(right + boardWidth);
+      }
+    } else {
+      if (board[right - boardWidth][0] === 'b' || board[right - boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(right - boardWidth);
+      }
+      if (board[right + boardWidth][0] === 'b' || board[right + boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(right + boardWidth);
       }
     }
-  }
-  if (modal > 5) {
-  } else {
-    if (board[right - boardWidth] < 0 || board[right - boardWidth] === null) {
-      legalMoves.push(right - boardWidth);
-    }
-    if (board[right + boardWidth] < 0 || board[right + boardWidth] === null) {
-      legalMoves.push(right + boardWidth);
-    }
-  }
-  if (pieceIdx > 47 && modal >= 0) {
-  } else {
-    if (modal === 7) {
-    } else if (board[down + 1] < 0 || board[down + 1] === null) {
-      if (pieceIdx === 7) {
-      } else {
-        legalMoves.push(down + 1);
+    if (pieceIdx > 47) {
+      // if the selected piece is on the the 1st or 2nd rank, then do not push any index below the board (indexes beyond 63) 
+    } else {
+      if (modal === 7) {
+        // if the selected piece is on the h file, then do not run sequential code
+      } else if (board[down + 1][0] === 'b' || board[down + 1] === 'empty') {
+        // if the placement is an opponent or empty, then push the index
+          legalMoves.push(down + 1);
+      }
+      if (modal === 0) {
+        // if the selected piece is on the a file, then do not run sequential code
+      } else if (board[down - 1][0] === 'b' || board[down - 1] === 'empty') {
+        // if the placement is an opponent or empty, then push the index
+          legalMoves.push(down - 1);
       }
     }
-    if (modal === 0) {
-    } else if (board[down - 1] < 0 || board[down - 1] === null) {
-      if (pieceIdx === 0) {
-      } else {
-        legalMoves.push(down - 1);
+    if (modal < 2 || board[left + boardWidth] === undefined || board[left - boardWidth] === undefined) {
+      // if the piece is the a or b file, or the placement is undefined, then only run sequential code
+      if (pieceIdx > 55 && modal > 1 && board[left - boardWidth][0] !== 'w') {
+        legalMoves.push(left - boardWidth);
+      } else if (pieceIdx < 8 && modal > 1 && board[left + boardWidth][0] !== 'w') {
+        legalMoves.push(left + boardWidth);
+      }
+    } else {
+      if (board[left + boardWidth][0] === 'b' || board[left + boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(left + boardWidth);
+      }
+      if (board[left - boardWidth][0] === 'b' || board[left - boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(left - boardWidth);
       }
     }
-  }
-  if (modal < 2) {
-  } else {
-    if (board[left + boardWidth] < 0 || board[left + boardWidth] === null) {
-      legalMoves.push(left + boardWidth);
+  } else if (piece[0] === 'b') {
+    // If the piece is black, then run conditional code
+    if (pieceIdx < 16) {
+      // if the selected piece is on the the 7th or 8th rank, then do not push any index above the board (negative numbers)
+    } else {
+      if (modal === 0) {
+        // If the piece is on the other ranks but on the a file, then do not run sequential code
+      } else if (board[up - 1][0] === 'w' || board[up - 1] === 'empty') {
+        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the left.
+        legalMoves.push(up - 1);
+        }
+      if (modal === 7) {
+        // If the piece is on the other ranks but on the h file, then do not run sequential code
+      } else if (board[up + 1][0] === 'w' || board[up + 1] === 'empty') {
+        // otherwise if the placement is empty and is an opponent, then push the index which is two squares up and one to the right.
+          legalMoves.push(up + 1);
+      }
     }
-    if (board[left - boardWidth] < 0 || board[left - boardWidth] === null) {
-      legalMoves.push(left - boardWidth);
+    if (modal > 5 || board[right - boardWidth] === undefined || board[right + boardWidth] === undefined) {
+      // if the piece is the g or h file, or the placement is undefined, then only run sequential code
+      if (pieceIdx > 55 && modal < 6 && board[right - boardWidth][0] !== 'b') {
+        legalMoves.push(right - boardWidth);
+      } else if (pieceIdx < 8 && modal < 6 && board[right + boardWidth][0] !== 'b') {
+        legalMoves.push(right + boardWidth);
+      }
+    } else {
+      if (board[right - boardWidth][0] === 'w' || board[right - boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(right - boardWidth);
+      }
+      if (board[right + boardWidth][0] === 'w' || board[right + boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(right + boardWidth);
+      }
     }
+    if (pieceIdx > 47) {
+      // if the selected piece is on the the 1st or 2nd rank, then do not push any index below the board (indexes beyond 63) 
+    } else {
+      if (modal === 7) {
+        // if the selected piece is on the h file, then do not run sequential code
+      } else if (board[down + 1][0] === 'w' || board[down + 1] === 'empty') {
+        // if the placement is an opponent or empty, then push the index
+          legalMoves.push(down + 1);
+      }
+      if (modal === 0) {
+        // if the selected piece is on the a file, then do not run sequential code
+      } else if (board[down - 1][0] === 'w' || board[down - 1] === 'empty') {
+        // if the placement is an opponent or empty, then push the index
+          legalMoves.push(down - 1);
+      }
+    }
+    if (modal < 2 || board[left + boardWidth] === undefined || board[left - boardWidth] === undefined) {
+      // if the piece is the a or b file, or the placement is undefined, then only run sequential code
+      if (pieceIdx > 55 && modal > 1 && board[left - boardWidth][0] !== 'b') {
+        legalMoves.push(left - boardWidth);
+      } else if (pieceIdx < 8 && modal > 1 && board[left + boardWidth][0] !== 'b') {
+        legalMoves.push(left + boardWidth);
+      }
+    } else {
+      if (board[left + boardWidth][0] === 'w' || board[left + boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(left + boardWidth);
+      }
+      if (board[left - boardWidth][0] === 'w' || board[left - boardWidth] === 'empty') {
+        // if placement is an opponent or empty, then push the index
+        legalMoves.push(left - boardWidth);
+      }
+    }
+
   }
 }
 
