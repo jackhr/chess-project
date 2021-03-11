@@ -296,7 +296,7 @@ function handleMove(evt) {
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
     if (piece[1] === 'q') queenMove(selectedIdx);
-    // if (playerLookup[piece].value === 6) kingMove(selectedIdx);
+    if (piece[1] === 'k') kingMove(selectedIdx);
     // if (piece === -1) blackPawnMove(selectedIdx);
     // if (piece === -2) blackBishopMove(selectedIdx);
     // if (piece === -3) blackKnightMove(selectedIdx);
@@ -684,40 +684,75 @@ function queenMove(pieceIdx) {
   rookMove(pieceIdx);
 }
 
-function whiteKingMove(pieceIdx) {
+function kingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
-  if (pieceIdx < 8) {
-  } else if (board[squareAbove] === null || board[squareAbove] < 0) {
-      legalMoves.push(squareAbove);
+  if (piece[0] === 'w') {
+    if (pieceIdx < 8) {
+    } else if (board[squareAbove] === 'empty' || board[squareAbove][0] === 'b') {
+        legalMoves.push(squareAbove);
+      }
+    if (modal === 7) { 
+    } else {
+      if (board[squareAbove + 1] === 'empty' || board[squareAbove + 1][0] === 'b') {
+        legalMoves.push(squareAbove + 1);
+      }
+      if (board[pieceIdx + 1] === 'empty' || board[pieceIdx + 1][0] === 'b') {
+        legalMoves.push(pieceIdx + 1);
+      }
+      if (board[squareBelow + 1] === 'empty' || board[squareBelow + 1][0] === 'b') {
+        legalMoves.push(squareBelow + 1);
+      }
     }
-  if (modal === 7) { 
-  } else {
-    if (board[squareAbove + 1] === null || board[squareAbove + 1] < 0) {
-      legalMoves.push(squareAbove + 1);
+    if (pieceIdx > 55) {
+    } else if (board[squareBelow] === 'empty' || board[squareBelow][0] === 'b') {
+      legalMoves.push(squareBelow);
     }
-    if (board[pieceIdx + 1] === null || board[pieceIdx + 1] < 0) {
-      legalMoves.push(pieceIdx + 1);
+    if (modal === 0) {
+    } else {
+      if (board[squareBelow - 1] === 'empty' || board[squareBelow - 1][0] === 'b') {
+        legalMoves.push(squareBelow - 1);
+      }
+      if (board[pieceIdx - 1] === 'empty' || board[pieceIdx - 1][0] === 'b') {
+        legalMoves.push(pieceIdx - 1);
+      }
+      if (board[squareAbove - 1] === 'empty' || board[squareAbove - 1][0] === 'b') {
+        legalMoves.push(squareAbove - 1);
+      }
     }
-    if (board[squareBelow + 1] === null || board[squareBelow + 1] < 0) {
-      legalMoves.push(squareBelow + 1);
+  } else if (piece[0] === 'b') {
+    if (pieceIdx < 8) {
+    } else if (board[squareAbove] === 'empty' || board[squareAbove][0] === 'w') {
+        legalMoves.push(squareAbove);
+      }
+    if (modal === 7) { 
+    } else {
+      if (board[squareAbove + 1] === 'empty' || board[squareAbove + 1][0] === 'w') {
+        legalMoves.push(squareAbove + 1);
+      }
+      if (board[pieceIdx + 1] === 'empty' || board[pieceIdx + 1][0] === 'w') {
+        legalMoves.push(pieceIdx + 1);
+      }
+      if (board[squareBelow + 1] === 'empty' || board[squareBelow + 1][0] === 'w') {
+        legalMoves.push(squareBelow + 1);
+      }
     }
-  }
-  if (pieceIdx > 55) {
-  } else if (board[squareBelow] === null || board[squareBelow] < 0) {
-    legalMoves.push(squareBelow);
-  }
-  if (modal === 0) {
-  } else {
-    if (board[squareBelow - 1] === null || board[squareBelow - 1] < 0) {
-      legalMoves.push(squareBelow - 1);
+    if (pieceIdx > 55) {
+    } else if (board[squareBelow] === 'empty' || board[squareBelow][0] === 'w') {
+      legalMoves.push(squareBelow);
     }
-    if (board[pieceIdx - 1] === null || board[pieceIdx - 1] < 0) {
-      legalMoves.push(pieceIdx - 1);
-    }
-    if (board[squareAbove - 1] === null || board[squareAbove - 1] < 0) {
-      legalMoves.push(squareAbove - 1);
+    if (modal === 0) {
+    } else {
+      if (board[squareBelow - 1] === 'empty' || board[squareBelow - 1][0] === 'w') {
+        legalMoves.push(squareBelow - 1);
+      }
+      if (board[pieceIdx - 1] === 'empty' || board[pieceIdx - 1][0] === 'w') {
+        legalMoves.push(pieceIdx - 1);
+      }
+      if (board[squareAbove - 1] === 'empty' || board[squareAbove - 1][0] === 'w') {
+        legalMoves.push(squareAbove - 1);
+      }
     }
   }
 }
