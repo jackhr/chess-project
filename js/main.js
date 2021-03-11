@@ -156,21 +156,14 @@ function render() {
     square.style.transform = changePlayer[turn];
   });
   if (winner === "bk") {
-    blackWins.style.backgroundImage = playerLookup[winner]['imgURL'];
-    blackWins.style.backgroundSize = 'cover';
-    msgEl.textContent = "Black wins!";
+    msgEl.textContent = "Black is the victor!";
   } else if (winner === "wk") {
-    whiteWins.style.backgroundImage = playerLookup[winner]['imgURL'];
-    whiteWins.style.backgroundSize = 'cover';
-    msgEl.textContent = "White wins!";
+    msgEl.textContent = "White is the victor!";
   } else {
-    whiteWins.style.backgroundImage = "";
-    blackWins.style.backgroundImage = "";
+    msgEl.textContent = "Who will win???";
   }
   msgEl.style.visibility = winner ? 'visible' : 'hidden';
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
-  blackWins.style.visibility = winner ? 'visible' : 'hidden';
-  whiteWins.style.visibility = winner ? 'visible' : 'hidden';
   boardEl.style.transform = changePlayer[turn];
   clickCounter = 0;
   legalMoves = [];
@@ -184,6 +177,20 @@ function handleMove(evt) {
     piece = board[selectedIdx];
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
     // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
+    if (piece[1] === 'p') pawnMove(selectedIdx);
+    if (piece[1] === 'b') bishopMove(selectedIdx);
+    if (piece[1] === 'n') knightMove(selectedIdx);
+    if (piece[1] === 'r') rookMove(selectedIdx);
+    if (piece[1] === 'q') queenMove(selectedIdx);
+    if (piece[1] === 'k') kingMove(selectedIdx);
+    canCastle();
+    legalMoves.forEach(function(move) {
+      squareEls[move].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
+    });
+    if (legalMoves.length < 1) {
+      console.log('here it is');
+      return;
+    }
     clickCounter++;
     selectedDiv.style.zIndex = 1;
     if (piece[0] === 'b') {
@@ -193,17 +200,6 @@ function handleMove(evt) {
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
     // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
-    if (piece[1] === 'p') pawnMove(selectedIdx);
-    if (piece[1] === 'b') bishopMove(selectedIdx);
-    if (piece[1] === 'n') knightMove(selectedIdx);
-    if (piece[1] === 'r') rookMove(selectedIdx);
-    if (piece[1] === 'q') queenMove(selectedIdx);
-    if (piece[1] === 'k') kingMove(selectedIdx);
-    canCastle();
-    legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = 'rgba(0, 155, 0, 0.8)';
-      squareEls[move].style.border = 'solid darkgreen 1px';
-    });
   } else if (clickCounter >= 1) {
     // Handles piece placement.
     placementDiv = evt.target;
@@ -215,7 +211,6 @@ function handleMove(evt) {
       selectedDiv.style.zIndex = 0;
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
-        squareEls[move].style.border = '';
       });
       render();
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
@@ -231,7 +226,6 @@ function handleMove(evt) {
       selectedDiv.style.zIndex = 0;
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
-        squareEls[move].style.border = '';
       });
       board[selectedIdx] = 'em';
       playerLookup[piece].moves++;
@@ -239,6 +233,10 @@ function handleMove(evt) {
       check = inCheck(piece, placementIdx)
       */
       winner = getWinner();
+      if (winner) {
+        render();
+        return;
+      }
       turn *= -1;
       render();
     }

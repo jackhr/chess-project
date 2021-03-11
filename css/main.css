@@ -13,46 +13,40 @@ body {
   justify-content: center;
   align-items: center;
   font-family: 'Press Start 2P', cursive;
+  background-color: rgb(255, 249, 209);
 }
 
 header {
-  margin-top: 60px;
-  font-size: 30px;
-  line-height: 0;
+  margin-top: auto;
+  font-size: 50px;
+  /* line-height: 0; */
 }
 
 #message-section {
-  margin-top: 40px;
-  margin-bottom: 20px;
+ margin: 4vmin 0;
+ font-size: 20px;
 }
 
 main {
   display: flex;
-  align-items: center;
+  margin-bottom: auto;
 }
-
-.win-img {
-  width: 100px;
-  height: 100px;
-  margin: 5vmin;
-}
-
-/* .board-sprite {
-  max-width: 50px;
-  background-image: url('../media/chess-board-option-sprites/Creampuff-board-option.svg');
-} */
 
 #board {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  height: 400px;
-  width: 400px;
+  height: 500px;
+  width: 500px;
   background-image: url('../media/chess-board-sprites/Creampuff-board.svg');
   background-size: cover;
 }
 
 button {
-  margin: auto 0;
+  margin-bottom: auto;
   font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  background-color: rgb(255, 249, 209);
+  padding: 5px;
+  border-radius: 3%;
 }
