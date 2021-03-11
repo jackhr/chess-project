@@ -648,47 +648,51 @@ function rookMove(pieceIdx) {
   let right = 1;
   let left = 1;
   if (piece[0] === 'w') {
-    while (board[squareAbove] === 'empty' || board[squareAbove][0] === 'b') {
+    while (board[squareAbove] === undefined || board[squareAbove] === 'empty' || board[squareAbove][0] === 'b') {
+      if (board[squareAbove] === undefined) break;
       legalMoves.push(squareAbove);
       if (board[squareAbove][0] === 'b') break;
       squareAbove -= boardWidth;
     }
-    while (board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'b') {
-      if (modal === 7) break;
+    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'b') {
+      if (modal === 7 || board[pieceIdx + right] === undefined) break;
       legalMoves.push(pieceIdx + right);
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'b') break;
       right++;
     }
-    while (board[squareBelow] === 'empty' || board[squareBelow][0] === 'b') {
+    while (board[squareBelow] === undefined || board[squareBelow] === 'empty' || board[squareBelow][0] === 'b') {
+      if (modal === 7 || board[squareBelow] === undefined) break;
       legalMoves.push(squareBelow);
       if (board[squareBelow][0] === 'b') break;
       squareBelow += boardWidth;
     }
-    while (board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'b') {
-      if (modal === 0) break;
+    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'b') {
+      if (modal === 0 || board[pieceIdx - left] === undefined) break;
       legalMoves.push(pieceIdx - left);
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'b') break;
       left++;
     }
   } else if (piece[0] === 'b') {
-    while (board[squareAbove] === 'empty' || board[squareAbove][0] === 'w') {
+    while (board[squareAbove] === undefined || board[squareAbove] === 'empty' || board[squareAbove][0] === 'w') {
+      if (board[squareAbove] === undefined) break;
       legalMoves.push(squareAbove);
       if (board[squareAbove][0] === 'w') break;
       squareAbove -= boardWidth;
     }
-    while (board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'w') {
-      if (modal === 7) break;
+    while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'empty' || board[pieceIdx + right][0] === 'w') {
+      if (modal === 7 || board[pieceIdx + right] === undefined) break;
       legalMoves.push(pieceIdx + right);
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'w') break;
       right++;
     }
-    while (board[squareBelow] === 'empty' || board[squareBelow][0] === 'w') {
+    while (board[squareBelow] === undefined || board[squareBelow] === 'empty' || board[squareBelow][0] === 'w') {
+      if (board[squareBelow] === undefined) break;
       legalMoves.push(squareBelow);
       if (board[squareBelow][0] === 'w') break;
       squareBelow += boardWidth;
     }
-    while (board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'w') {
-      if (modal === 0) break;
+    while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'empty' || board[pieceIdx - left][0] === 'w') {
+      if (modal === 0 || board[pieceIdx - right] === undefined) break;
       legalMoves.push(pieceIdx - left);
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'w') break;
       left++;
