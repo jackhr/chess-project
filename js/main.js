@@ -295,7 +295,7 @@ function handleMove(evt) {
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
-    // if (playerLookup[piece].value === 5) queenMove(selectedIdx);
+    if (piece[1] === 'q') queenMove(selectedIdx);
     // if (playerLookup[piece].value === 6) kingMove(selectedIdx);
     // if (piece === -1) blackPawnMove(selectedIdx);
     // if (piece === -2) blackBishopMove(selectedIdx);
@@ -678,10 +678,10 @@ function rookMove(pieceIdx) {
   }
 }
 
-function whiteQueenMove(pieceIdx) {
+function queenMove(pieceIdx) {
   // Queeny behaves like both of thes pieces combined.
-  whiteBishopMove(pieceIdx);
-  whiteRookMove(pieceIdx);
+  bishopMove(pieceIdx);
+  rookMove(pieceIdx);
 }
 
 function whiteKingMove(pieceIdx) {
@@ -722,12 +722,6 @@ function whiteKingMove(pieceIdx) {
   }
 }
 
-function blackQueenMove(pieceIdx) {
-    // Queeny behaves like both of thes pieces combined.
-  blackBishopMove(pieceIdx);
-  blackRookMove(pieceIdx);
-}
-
 function blackKingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
@@ -765,6 +759,7 @@ function blackKingMove(pieceIdx) {
     }
   }
 }
+
 function getWinner() {
   // If either king is taken, winner is given a value corresponding to who is now the victor.
   if (board.indexOf('wk') === -1) {
