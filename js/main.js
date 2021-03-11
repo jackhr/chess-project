@@ -229,6 +229,7 @@ function handleMove(evt) {
       });
       board[selectedIdx] = 'em';
       playerLookup[piece].moves++;
+      if (piece[1] === 'p' && canPromote(placementIdx)) board[placementIdx] = `${piece[0]}q`;
       /* icebox
       check = inCheck(piece, placementIdx)
       */
@@ -241,6 +242,14 @@ function handleMove(evt) {
       render();
     }
   }
+}
+function canPromote(square) {
+  if (piece[0] === 'w' && square < 8) {
+    return true;
+  } else if (piece[0] === 'b' && square > 55) {
+    return true;
+  } else {
+    return null;}
 }
 function canCastle() {
   if (piece[0] === 'w') {
@@ -263,41 +272,21 @@ function canCastle() {
 }
 function goCastle() {
   if (piece === 'wk' && selectedIdx === 60 && placementIdx == 62) {
-    board[placementIdx] = piece;
-    legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = '';
-    });
-    board[selectedIdx] = 'em';
     board[selectedIdx + 1] = 'wr2';
     board[63] = 'em';
     playerLookup[piece].moved = true;
     playerLookup.wr2.moved = true;
   } else if(piece === 'wk' && selectedIdx === 60 && placementIdx == 58) {
-    board[placementIdx] = piece;
-    legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = '';
-    });
-    board[selectedIdx] = 'em';
     board[selectedIdx - 1] = 'wr1';
     board[56] = 'em';
     playerLookup[piece].moved = true;
     playerLookup.wr1.moved = true;
   } else if (piece === 'bk' && selectedIdx === 4 && placementIdx == 6) {
-    board[placementIdx] = piece;
-    legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = '';
-    });
-    board[selectedIdx] = 'em';
     board[selectedIdx + 1] = 'br1';
     board[7] = 'em';
     playerLookup[piece].moved = true;
     playerLookup.br1.moved = true;
   } else if (piece === 'bk' && selectedIdx === 4 && placementIdx == 2) {
-    board[placementIdx] = piece;
-    legalMoves.forEach(function(move) {
-      squareEls[move].style.backgroundColor = '';
-    });
-    board[selectedIdx] = 'em';
     board[selectedIdx - 1] = 'br2';
     board[0] = 'em';
     playerLookup[piece].moved = true;
