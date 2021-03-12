@@ -116,7 +116,7 @@ const changePlayer = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, piece, pieceIdx, boardWidth, clickCounter, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx;
+let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx;
 
 /*----- cached element references -----*/
 const boardEl = document.getElementById('board');
@@ -165,18 +165,16 @@ function render() {
   msgEl.style.visibility = winner ? 'visible' : 'hidden';
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   boardEl.style.transform = changePlayer[turn];
-  clickCounter = 0;
+  clickCount = 0;
   legalMoves = [];
   boardWidth = 8;
 }
 function handleMove(evt) {
-  if (clickCounter < 1) {
-    // Handles piece selection.
+  if (clickCount < 1) {
     selectedDiv = evt.target;
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
-    // if the player clicks on anything but their own pieces, they are returned from the function and the click counter never increments allowing for another attempt at a better first click.
     if (piece[1] === 'p') pawnMove(selectedIdx);
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
@@ -188,10 +186,9 @@ function handleMove(evt) {
       squareEls[move].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
     });
     if (legalMoves.length < 1) {
-      console.log('here it is');
       return;
     }
-    clickCounter++;
+    clickCount++;
     selectedDiv.style.zIndex = 1;
     if (piece[0] === 'b') {
       selectedDiv.style.transform = 'scale(1.35) rotate(180deg)';
@@ -199,13 +196,10 @@ function handleMove(evt) {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
-    // Depending on which piece has been selected, the functions return an array of indexes which represent legal moves to be highlighted green in the view.
-  } else if (clickCounter >= 1) {
-    // Handles piece placement.
+  } else if (clickCount >= 1) {
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
     if (selectedDiv === placementDiv) {
-      // if player clicks on the same piece twice, everything 'reverts back to normal' from before the piece was first selected.
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
       selectedDiv.style.zIndex = 0;
@@ -220,7 +214,6 @@ function handleMove(evt) {
         if (piece === 'wk') playerLookup[piece].moved = true;
         if (piece === 'bk') playerLookup[piece].moved = true;
       }
-      // if the player clicks on any square that corresponds to the legalMoves array, that square is updated to represent the piece has been placed, and the orignial square is 'returned to normal'.
       board[placementIdx] = piece;
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.zIndex = 0;
@@ -230,9 +223,6 @@ function handleMove(evt) {
       board[selectedIdx] = 'em';
       playerLookup[piece].moves++;
       if (piece[1] === 'p' && canPromote(placementIdx)) board[placementIdx] = `${piece[0]}q`;
-      /* icebox
-      check = inCheck(piece, placementIdx)
-      */
       winner = getWinner();
       if (winner) {
         render();
@@ -293,13 +283,11 @@ function goCastle() {
     playerLookup.br2.moved = true;
   }
 }
-// Each individual function assigns all possible moves based on the current position when first selected to an array named legalMoves.
 function pawnMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
   let twoSquares = squareAbove - boardWidth;
   let modal = pieceIdx % boardWidth;
   if (piece[0] === 'w') {
-    // code for white pawns
     if (pieceIdx < 8) return;
     if (board[squareAbove] === 'em') {
       legalMoves.push(squareAbove);
@@ -316,7 +304,6 @@ function pawnMove(pieceIdx) {
       legalMoves.push(squareAbove - 1);
     };
   } else if (piece[0] === 'b') {
-    // code for black pawns
     squareAbove = pieceIdx + boardWidth;
     twoSquares = squareAbove + boardWidth;
     if (pieceIdx > 55) return;
@@ -349,7 +336,6 @@ function bishopMove(pieceIdx) {
   let rDDiag = squareBelow + right;
   let lDDiag = squareBelow - left;
   if (piece[0] === 'w') {
-    /*-------------------- WHITE BISHOP CODE --------------------*/
     if (board[rUDiag] !== undefined) {
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'b') {
         if (modal === 7 || board[rUDiag] === undefined) break;
@@ -396,9 +382,7 @@ function bishopMove(pieceIdx) {
       }
     }
   } else if (piece[0] === 'b') {
-    /*-------------------- BLACK BISHOP CODE --------------------*/
     if (board[rUDiag] !== undefined) {
-      // console.log(legalMoves);
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'w') {
         console.log(legalMoves);
         if (modal === 7 || board[rUDiag] === undefined) break;
@@ -445,10 +429,8 @@ function bishopMove(pieceIdx) {
       }
     }
   }
-  // console.log(legalMoves);
 }
 function knightMove(pieceIdx) {
-
   let up = pieceIdx - (boardWidth * 2);
   let down = pieceIdx + (boardWidth * 2);
   let left = pieceIdx - 2;
@@ -590,7 +572,6 @@ function knightMove(pieceIdx) {
         legalMoves.push(left - boardWidth);
       }
     }
-
   }
 }
 function rookMove(pieceIdx) {
@@ -672,12 +653,10 @@ function kingMove(pieceIdx) {
         legalMoves.push(squareAbove + 1);
       }
       if(board[pieceIdx + 1] === undefined) {
-        // Do nothing
       } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'b') {
         legalMoves.push(pieceIdx + 1);
       }
       if (board[squareBelow + 1] === undefined) {
-        // Do nothing
       } else if (board[squareBelow + 1] === 'em' || board[squareBelow + 1][0] === 'b') {
         legalMoves.push(squareBelow + 1);
       }
@@ -707,20 +686,16 @@ function kingMove(pieceIdx) {
         legalMoves.push(squareAbove);
       }
     if (modal === 7) {
-      // Do nothing
     } else {
       if (board[squareAbove + 1] === undefined) {
-        // Do nothing
       } else if (board[squareAbove + 1] === 'em' || board[squareAbove + 1][0] === 'w') {
         legalMoves.push(squareAbove + 1);
       }
       if(board[pieceIdx + 1] === undefined) {
-        // Do nothing
       } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'w') {
         legalMoves.push(pieceIdx + 1);
       }
       if (board[squareBelow + 1] === undefined) {
-        // Do nothing
       } else if (board[squareBelow + 1] === 'em' || board[squareBelow + 1][0] === 'w') {
         legalMoves.push(squareBelow + 1);
       }
@@ -747,7 +722,6 @@ function kingMove(pieceIdx) {
   }
 }
 function getWinner() {
-  // If either king is taken, winner is given a value corresponding to who is now the victor.
   if (board.indexOf('wk') === -1) {
     return 'bk';
   } else if (board.indexOf('bk') === -1) {
