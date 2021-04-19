@@ -139,7 +139,7 @@ function init() {
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
-    'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
+    'wp8', 'wp7', 'wp6', 'wp5', 'wp4', 'wp3', 'wp2', 'wp1',
     'wr1', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr2'
   ];
   pieceIdx = null;
@@ -244,18 +244,18 @@ function canPromote(square) {
 function canCastle() {
   if (piece[0] === 'w') {
     if (playerLookup.wr1.moved === false && playerLookup[piece].moved === false && board[57] === 'em' && board[58] === 'em' && board[59] === 'em') {
-      legalMoves.push(58);
+      if (piece[1] === 'k') legalMoves.push(58);
     }
     if (playerLookup.wr2.moved === false && playerLookup[piece].moved === false && board[61] === 'em' && board[62] === 'em') {
-      legalMoves.push(62);
+      if (piece[1] === 'k') legalMoves.push(62);
     }
     return legalMoves.indexOf(58) !== -1 || legalMoves.indexOf(62) !== -1 ? true : null;
   } else if (piece[0] === 'b') {
     if (playerLookup.br1.moved === false && playerLookup[piece].moved === false && board[5] === 'em' && board[6] === 'em') {
-      legalMoves.push(6);
+      if (piece[1] === 'k') legalMoves.push(6);
     }
     if (playerLookup.br2.moved === false && playerLookup[piece].moved === false && board[1] === 'em' && board[2] === 'em' && board[3] === 'em') {
-      legalMoves.push(2);
+      if (piece[1] === 'k') legalMoves.push(2);
     }
     return legalMoves.indexOf(6) !== -1 || legalMoves.indexOf(2) !== -1 ? true : null;
   }
@@ -631,6 +631,7 @@ function rookMove(pieceIdx) {
       left++;
     }
   }
+  console.log(legalMoves)
 }
 function queenMove(pieceIdx) {
   // Queeny behaves like both of thes pieces combined.
