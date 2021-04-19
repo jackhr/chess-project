@@ -291,9 +291,9 @@ function pawnMove(pieceIdx) {
     if (pieceIdx < 8) return;
     if (board[squareAbove] === 'em') {
       legalMoves.push(squareAbove);
-    };
-    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
-      legalMoves.push(twoSquares);
+      if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
+        legalMoves.push(twoSquares);
+      };
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'w') {
     } else if (board[squareAbove + 1] !== 'em') {
@@ -309,9 +309,9 @@ function pawnMove(pieceIdx) {
     if (pieceIdx > 55) return;
     if (board[squareAbove] === 'em') {
       legalMoves.push(squareAbove);
-    };
-    if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
-      legalMoves.push(twoSquares);
+      if (playerLookup[piece].moves === 0 && board[twoSquares] === 'em') {
+        legalMoves.push(twoSquares);
+      };
     };
     if (modal === 7 || board[squareAbove + 1][0] === 'b') {
     } else if (board[squareAbove + 1] !== 'em') {
