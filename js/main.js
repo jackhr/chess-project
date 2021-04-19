@@ -180,8 +180,10 @@ function handleMove(evt) {
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
     if (piece[1] === 'q') queenMove(selectedIdx);
-    if (piece[1] === 'k') kingMove(selectedIdx);
-    canCastle();
+    if (piece[1] === 'k') {
+      kingMove(selectedIdx);
+      canCastle();
+    }
     legalMoves.forEach(function(move) {
       squareEls[move].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
     });
@@ -244,18 +246,18 @@ function canPromote(square) {
 function canCastle() {
   if (piece[0] === 'w') {
     if (playerLookup.wr1.moved === false && playerLookup[piece].moved === false && board[57] === 'em' && board[58] === 'em' && board[59] === 'em') {
-      if (piece[1] === 'k') legalMoves.push(58);
+      legalMoves.push(58);
     }
     if (playerLookup.wr2.moved === false && playerLookup[piece].moved === false && board[61] === 'em' && board[62] === 'em') {
-      if (piece[1] === 'k') legalMoves.push(62);
+      legalMoves.push(62);
     }
     return legalMoves.indexOf(58) !== -1 || legalMoves.indexOf(62) !== -1 ? true : null;
   } else if (piece[0] === 'b') {
     if (playerLookup.br1.moved === false && playerLookup[piece].moved === false && board[5] === 'em' && board[6] === 'em') {
-      if (piece[1] === 'k') legalMoves.push(6);
+      legalMoves.push(6);
     }
     if (playerLookup.br2.moved === false && playerLookup[piece].moved === false && board[1] === 'em' && board[2] === 'em' && board[3] === 'em') {
-      if (piece[1] === 'k') legalMoves.push(2);
+      legalMoves.push(2);
     }
     return legalMoves.indexOf(6) !== -1 || legalMoves.indexOf(2) !== -1 ? true : null;
   }
