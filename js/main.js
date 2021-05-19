@@ -55,7 +55,8 @@ const playerLookup = {
     },
     wp1: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      double: 0
     },
     wp2: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
@@ -116,7 +117,7 @@ const changePlayer = {
 }
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx;
+let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx, lastPiece, double;
 
 /*----- cached element references -----*/
 const boardEl = document.getElementById('board');
@@ -139,7 +140,7 @@ function init() {
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
     'em', 'em', 'em', 'em', 'em', 'em', 'em', 'em',
-    'wp8', 'wp7', 'wp6', 'wp5', 'wp4', 'wp3', 'wp2', 'wp1',
+    'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
     'wr1', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr2'
   ];
   pieceIdx = null;
@@ -175,7 +176,6 @@ function handleMove(evt) {
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
-    if (piece[1] === 'p') pawnMove(selectedIdx);
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
@@ -184,6 +184,12 @@ function handleMove(evt) {
       kingMove(selectedIdx);
       canCastle();
     }
+    if (piece[1] === 'p') {
+      // pawnMove(selectedIdx);
+      // if (lastPiece && playerLookup[lastPiece].double === 1)
+      // if (playerLookup[board[selectedIdx-1]].moves === 1) console.log('yes!')
+    }
+
     legalMoves.forEach(function(move) {
       squareEls[move].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
     });
@@ -198,9 +204,24 @@ function handleMove(evt) {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
+    double = 0;
+    // console.log(placementIdx, selectedIdx)
   } else if (clickCount >= 1) {
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
+    if (piece[1] === 'p') {
+      if (piece[0] === 'w') {
+        if (selectedIdx - placementIdx === 16) {
+          double = 1;
+        }
+      } else {
+        if (placementIdx - selectedIdx === 16) {
+          double = 1;
+        }
+      }
+    }
+    lastPiece = piece;
+    console.log(selectedIdx, placementIdx)
     if (selectedDiv === placementDiv) {
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
