@@ -176,11 +176,7 @@ function handleMove(evt) {
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
-    if (piece[1] === 'p') {
-      pawnMove(selectedIdx);
-      // if (lastPiece && playerLookup[lastPiece].double === 1)
-      // if (playerLookup[board[selectedIdx-1]].moves === 1) console.log('yes!')
-    }
+    if (piece[1] === 'p') pawnMove(selectedIdx);
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
@@ -205,7 +201,6 @@ function handleMove(evt) {
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
     double = 0;
-    // console.log(placementIdx, selectedIdx)
   } else if (clickCount >= 1) {
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
@@ -221,7 +216,6 @@ function handleMove(evt) {
       }
     }
     lastPiece = piece;
-    console.log(selectedIdx, placementIdx)
     if (selectedDiv === placementDiv) {
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
@@ -407,7 +401,6 @@ function bishopMove(pieceIdx) {
   } else if (piece[0] === 'b') {
     if (board[rUDiag] !== undefined) {
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'w') {
-        console.log(legalMoves);
         if (modal === 7 || board[rUDiag] === undefined) break;
         legalMoves.push(rUDiag);
         if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
@@ -654,7 +647,6 @@ function rookMove(pieceIdx) {
       left++;
     }
   }
-  console.log(legalMoves)
 }
 function queenMove(pieceIdx) {
   // Queeny behaves like both of thes pieces combined.
