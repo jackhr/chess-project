@@ -4,10 +4,10 @@ Chess is one of the oldest games around and is thought to have been brought to t
 
 # Here are some screenshots of my game:
 
-![screenshot 1](/media/screenshots/screenshot-1.png)
-![screenshot 2](/media/screenshots/screenshot-2.png)
-![screenshot 3](/media/screenshots/screenshot-3.png)
-![screenshot 4](/media/screenshots/screenshot-4.png)
+![screenshot 1](./media/screenshots/screenshot-1.png)
+![screenshot 2](./media/screenshots/screenshot-2.png)
+![screenshot 3](./media/screenshots/screenshot-3.png)
+![screenshot 4](./media/screenshots/screenshot-4.png)
 
 ## Technologies used:
 
@@ -60,6 +60,10 @@ Castling is when both the king and either rook can move in the same turn to 'swa
 3. The King cannot be in Check
 4. The squares the King will pass over may not be under attack, nor can the square on which the King will land
 
+## Getting Started:
+As convention states, white plays first. Click any piece to [start the game](https://jackhr.github.io/chess-project). The first person to take their opponent's king will be crowned victor! Good luck...
+
+If you'd like some more context, please visit my [Trello Board](https://trello.com/b/Zl4Fhhcf/chess).
 
 ## Icebox Items...
 
@@ -67,11 +71,9 @@ Castling is when both the king and either rook can move in the same turn to 'swa
 * Stalemate logic
 * If a player is in check, inform them!
 
-## As convention states, white plays first. Click any piece to [start the game](https://jackhr.github.io/chess-project). The first person to take their opponent's king will be crowned victor! Good luck...
-
 # wireframe & Pseudocode:
 
-![Wireframe](/media/screenshots/wireframe.jpg)
+![Wireframe](./media/screenshots/wireframe.jpg)
 
 # Pseudocode!
 
