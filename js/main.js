@@ -176,6 +176,11 @@ function handleMove(evt) {
     selectedIdx = squareEls.indexOf(selectedDiv);
     piece = board[selectedIdx];
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
+    if (piece[1] === 'p') {
+      pawnMove(selectedIdx);
+      // if (lastPiece && playerLookup[lastPiece].double === 1)
+      // if (playerLookup[board[selectedIdx-1]].moves === 1) console.log('yes!')
+    }
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
     if (piece[1] === 'r') rookMove(selectedIdx);
@@ -183,11 +188,6 @@ function handleMove(evt) {
     if (piece[1] === 'k') {
       kingMove(selectedIdx);
       canCastle();
-    }
-    if (piece[1] === 'p') {
-      // pawnMove(selectedIdx);
-      // if (lastPiece && playerLookup[lastPiece].double === 1)
-      // if (playerLookup[board[selectedIdx-1]].moves === 1) console.log('yes!')
     }
 
     legalMoves.forEach(function(move) {
