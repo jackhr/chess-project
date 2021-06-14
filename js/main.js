@@ -2,35 +2,115 @@
 const playerLookup = {
     bp1: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp2: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp3: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp4: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp5: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp6: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp7: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bp8: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastPosition: null,
+      currentPosition: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.currentIdx - this.lastIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     bb: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
@@ -56,35 +136,114 @@ const playerLookup = {
     wp1: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
       moves: 0,
-      double: 0
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp2: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp3: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp4: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp5: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp6: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp7: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wp8: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0
+      moves: 0,
+      lastIdx: null,
+      currentIdx: null,
+      get canEnPassant() {
+        if (this.moves === 1) {
+          if (this.lastIdx - this.currentIdx === 16) {
+            return true;
+          }
+        }
+        return false;
+      },
     },
     wb: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
@@ -177,8 +336,17 @@ function handleMove(evt) {
     if ((piece[0] === 'w' && turn < 0) || (piece[0] === 'b' && turn > 0) || piece === 'em' || winner) return;
     if (piece[1] === 'p') {
       pawnMove(selectedIdx);
-      // if (lastPiece && playerLookup[lastPiece].double === 1)
-      // if (playerLookup[board[selectedIdx-1]].moves === 1) console.log('yes!')
+      if (lastPiece) {
+        if (playerLookup[lastPiece].canEnPassant) {
+          if (board[selectedIdx + 1] === lastPiece) {
+            if (piece[0] === 'w') legalMoves.push(selectedIdx - 7);
+            if (piece[0] === 'b') legalMoves.push(selectedIdx + 9);
+          } else if (board[selectedIdx - 1] === lastPiece) {
+            if (piece[0] === 'w') legalMoves.push(selectedIdx - 9);
+            if (piece[0] === 'b') legalMoves.push(selectedIdx + 7);
+          }
+        }
+      }
     }
     if (piece[1] === 'b') bishopMove(selectedIdx);
     if (piece[1] === 'n') knightMove(selectedIdx);
@@ -204,23 +372,9 @@ function handleMove(evt) {
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
     double = 0;
-    // console.log(placementIdx, selectedIdx)
   } else if (clickCount >= 1) {
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
-    if (piece[1] === 'p') {
-      if (piece[0] === 'w') {
-        if (selectedIdx - placementIdx === 16) {
-          double = 1;
-        }
-      } else {
-        if (placementIdx - selectedIdx === 16) {
-          double = 1;
-        }
-      }
-    }
-    lastPiece = piece;
-    console.log(selectedIdx, placementIdx)
     if (selectedDiv === placementDiv) {
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
@@ -239,12 +393,26 @@ function handleMove(evt) {
       board[placementIdx] = piece;
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.zIndex = 0;
+      if (piece[1] === 'p') {
+        playerLookup[piece].moves++;
+        playerLookup[piece].lastIdx = selectedIdx;
+        playerLookup[piece].currentIdx = placementIdx;
+        if (lastPiece) {
+          if (playerLookup[lastPiece].canEnPassant) {
+            if (board[placementIdx + 8] === lastPiece) {
+              board[placementIdx + 8] = 'em';
+            } else if (board[placementIdx - 8] === lastPiece) {
+              board[placementIdx - 8] = 'em';
+            }
+          }
+        }
+      }
+      lastPiece = piece;
       legalMoves.forEach(function(move) {
         squareEls[move].style.backgroundColor = '';
       });
       board[selectedIdx] = 'em';
-      playerLookup[piece].moves++;
-      if (piece[1] === 'p' && canPromote(placementIdx)) board[placementIdx] = `${piece[0]}q`;
+      if (canPromote(placementIdx)) board[placementIdx] = `${piece[0]}q`;
       winner = getWinner();
       if (winner) {
         render();
@@ -256,12 +424,15 @@ function handleMove(evt) {
   }
 }
 function canPromote(square) {
-  if (piece[0] === 'w' && square < 8) {
-    return true;
-  } else if (piece[0] === 'b' && square > 55) {
-    return true;
+  if (piece[1] === 'p') {
+    if (piece[0] === 'w' && square < 8) {
+      return true;
+    } else if (piece[0] === 'b' && square > 55) {
+      return true;
+    } 
   } else {
-    return null;}
+    return null;
+  }
 }
 function canCastle() {
   if (piece[0] === 'w') {
@@ -406,7 +577,6 @@ function bishopMove(pieceIdx) {
   } else if (piece[0] === 'b') {
     if (board[rUDiag] !== undefined) {
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'w') {
-        console.log(legalMoves);
         if (modal === 7 || board[rUDiag] === undefined) break;
         legalMoves.push(rUDiag);
         if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
@@ -653,7 +823,6 @@ function rookMove(pieceIdx) {
       left++;
     }
   }
-  console.log(legalMoves)
 }
 function queenMove(pieceIdx) {
   // Queeny behaves like both of thes pieces combined.
