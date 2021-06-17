@@ -1,117 +1,31 @@
 /*----- constants -----*/
+class Pawn {
+  constructor(imgURL, moves, lastIdx, currentIdx) {
+    this.imgURL = imgURL;
+    this.moves = moves;
+    this.lastIdx = lastIdx;
+    this.currentIdx = currentIdx;
+  }
+  get canEnPassant() {
+    if (this.moves === 1) {
+      if (this.currentIdx - this.lastIdx === 16) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+const bPImgURL = "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')";
+const wPImgURL = "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')";
 const playerLookup = {
-    bp1: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp2: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp3: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp4: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp5: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp6: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp7: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    bp8: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')",
-      moves: 0,
-      lastPosition: null,
-      currentPosition: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.currentIdx - this.lastIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
+    bp1: new Pawn(bPImgURL, 0, null, null),
+    bp2: new Pawn(bPImgURL, 0, null, null),
+    bp3: new Pawn(bPImgURL, 0, null, null),
+    bp4: new Pawn(bPImgURL, 0, null, null),
+    bp5: new Pawn(bPImgURL, 0, null, null),
+    bp6: new Pawn(bPImgURL, 0, null, null),
+    bp7: new Pawn(bPImgURL, 0, null, null),
+    bp8: new Pawn(bPImgURL, 0, null, null),
     bb: {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
     },
@@ -133,118 +47,14 @@ const playerLookup = {
       imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
       moved: false
     },
-    wp1: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp2: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp3: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp4: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp5: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp6: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp7: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
-    wp8: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')",
-      moves: 0,
-      lastIdx: null,
-      currentIdx: null,
-      get canEnPassant() {
-        if (this.moves === 1) {
-          if (this.lastIdx - this.currentIdx === 16) {
-            return true;
-          }
-        }
-        return false;
-      },
-    },
+    wp1: new Pawn(wPImgURL, 0, null, null),
+    wp2: new Pawn(wPImgURL, 0, null, null),
+    wp3: new Pawn(wPImgURL, 0, null, null),
+    wp4: new Pawn(wPImgURL, 0, null, null),
+    wp5: new Pawn(wPImgURL, 0, null, null),
+    wp6: new Pawn(wPImgURL, 0, null, null),
+    wp7: new Pawn(wPImgURL, 0, null, null),
+    wp8: new Pawn(wPImgURL, 0, null, null),
     wb: {
       imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
     },
@@ -273,10 +83,10 @@ const playerLookup = {
 const changePlayer = {
   '1': 'rotate(0deg)',
   '-1': 'rotate(180deg)'
-}
+};
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx, lastPiece, double;
+let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx, lastPiece;
 
 /*----- cached element references -----*/
 const boardEl = document.getElementById('board');
@@ -371,7 +181,6 @@ function handleMove(evt) {
       selectedDiv.style.transform = 'scale(1.35)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
     }
-    double = 0;
   } else if (clickCount >= 1) {
     placementDiv = evt.target;
     placementIdx = squareEls.indexOf(placementDiv);
