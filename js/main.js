@@ -18,64 +18,64 @@ class Pawn {
 const bPImgURL = "url('media/chess-piece-sprites/b-pieces/b-pawn.svg')";
 const wPImgURL = "url('media/chess-piece-sprites/w-pieces/w-pawn.svg')";
 const playerLookup = {
-    bp1: new Pawn(bPImgURL, 0, null, null),
-    bp2: new Pawn(bPImgURL, 0, null, null),
-    bp3: new Pawn(bPImgURL, 0, null, null),
-    bp4: new Pawn(bPImgURL, 0, null, null),
-    bp5: new Pawn(bPImgURL, 0, null, null),
-    bp6: new Pawn(bPImgURL, 0, null, null),
-    bp7: new Pawn(bPImgURL, 0, null, null),
-    bp8: new Pawn(bPImgURL, 0, null, null),
-    bb: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
-    },
-    bn: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-knight.svg')",
-    },
-    br1: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
-      moved: false
-    },
-    br2: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
-      moved: false
-    },
-    bq: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-queen.svg')",
-    },
-    bk: {
-      imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
-      moved: false
-    },
-    wp1: new Pawn(wPImgURL, 0, null, null),
-    wp2: new Pawn(wPImgURL, 0, null, null),
-    wp3: new Pawn(wPImgURL, 0, null, null),
-    wp4: new Pawn(wPImgURL, 0, null, null),
-    wp5: new Pawn(wPImgURL, 0, null, null),
-    wp6: new Pawn(wPImgURL, 0, null, null),
-    wp7: new Pawn(wPImgURL, 0, null, null),
-    wp8: new Pawn(wPImgURL, 0, null, null),
-    wb: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
-    },
-    wn: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-knight.svg')",
-    },
-    wr1: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
-      moved: false
-    },
-    wr2: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
-      moved: false
-    },
-    wq: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-queen.svg')",
-    },
-    wk: {
-      imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
-      moved: false
-    },
+  bp1: new Pawn(bPImgURL, 0, null, null),
+  bp2: new Pawn(bPImgURL, 0, null, null),
+  bp3: new Pawn(bPImgURL, 0, null, null),
+  bp4: new Pawn(bPImgURL, 0, null, null),
+  bp5: new Pawn(bPImgURL, 0, null, null),
+  bp6: new Pawn(bPImgURL, 0, null, null),
+  bp7: new Pawn(bPImgURL, 0, null, null),
+  bp8: new Pawn(bPImgURL, 0, null, null),
+  bb: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-bishop.svg')",
+  },
+  bn: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-knight.svg')",
+  },
+  br1: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
+    moved: false
+  },
+  br2: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-rook.svg')",
+    moved: false
+  },
+  bq: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-queen.svg')",
+  },
+  bk: {
+    imgURL: "url('media/chess-piece-sprites/b-pieces/b-king.svg')",
+    moved: false
+  },
+  wp1: new Pawn(wPImgURL, 0, null, null),
+  wp2: new Pawn(wPImgURL, 0, null, null),
+  wp3: new Pawn(wPImgURL, 0, null, null),
+  wp4: new Pawn(wPImgURL, 0, null, null),
+  wp5: new Pawn(wPImgURL, 0, null, null),
+  wp6: new Pawn(wPImgURL, 0, null, null),
+  wp7: new Pawn(wPImgURL, 0, null, null),
+  wp8: new Pawn(wPImgURL, 0, null, null),
+  wb: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-bishop.svg')",
+  },
+  wn: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-knight.svg')",
+  },
+  wr1: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
+    moved: false
+  },
+  wr2: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-rook.svg')",
+    moved: false
+  },
+  wq: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-queen.svg')",
+  },
+  wk: {
+    imgURL: "url('media/chess-piece-sprites/w-pieces/w-king.svg')",
+    moved: false
+  },
   em: {
     imgURL: "url('')",
   }
@@ -86,7 +86,7 @@ const changePlayer = {
 };
 
 /*----- app's state (variables) -----*/
-let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx, lastPiece;
+let board, winner, turn, piece, pieceIdx, boardWidth, clickCount, selectedDiv, placementDiv, legalMoves, selectedIdx, placementIdx, lastPiece, check, isInCheck, checkedIdx, newMoves, updatedMoves, kingIdx;
 
 /*----- cached element references -----*/
 const boardEl = document.getElementById('board');
@@ -112,6 +112,7 @@ function init() {
     'wp1', 'wp2', 'wp3', 'wp4', 'wp5', 'wp6', 'wp7', 'wp8',
     'wr1', 'wn', 'wb', 'wq', 'wk', 'wb', 'wn', 'wr2'
   ];
+  kingIdx = undefined;
   pieceIdx = null;
   winner = null;
   turn = 1;
@@ -119,7 +120,7 @@ function init() {
 }
 init();
 function render() {
-  board.forEach(function(squareValue, boardIdx) {
+  board.forEach(function (squareValue, boardIdx) {
     const square = document.getElementById(`sq${boardIdx}`);
     square.style.backgroundImage = playerLookup[squareValue]['imgURL'];
     square.style.backgroundSize = 'cover';
@@ -129,13 +130,18 @@ function render() {
     msgEl.textContent = "Black is the victor!";
   } else if (winner === "wk") {
     msgEl.textContent = "White is the victor!";
+  } else if (check === 1) {
+    msgEl.textContent = "Black is in check!"
+  } else if (check === -1) {
+    msgEl.textContent = "White is in check!"
   } else {
     msgEl.textContent = `${turn > 0 ? "White" : "Black"} to play...`;
   }
   replayBtn.style.visibility = winner ? 'visible' : 'hidden';
   boardEl.style.transform = changePlayer[turn];
-  clickCount = 0;
+  checkedMoves = [];
   legalMoves = [];
+  clickCount = 0;
   boardWidth = 8;
 }
 function handleMove(evt) {
@@ -166,8 +172,10 @@ function handleMove(evt) {
       kingMove(selectedIdx);
       canCastle();
     }
-
-    legalMoves.forEach(function(move) {
+    // console.log(newMoves);
+    updateLegalMoves(selectedIdx);
+    // console.log(newMoves);
+    legalMoves.forEach(function (move) {
       squareEls[move].style.backgroundColor = 'rgba(255, 255, 0, 0.4)';
     });
     if (legalMoves.length < 1) {
@@ -188,8 +196,12 @@ function handleMove(evt) {
       selectedDiv.style.transform = 'scale(1)';
       selectedDiv.style.transition = 'all 0.05s ease-in';
       selectedDiv.style.zIndex = 0;
-      legalMoves.forEach(function(move) {
-        squareEls[move].style.backgroundColor = '';
+      legalMoves.forEach(function (move) {
+        move === checkedIdx ? (
+          squareEls[move].style.backgroundColor = 'red'
+        ) : (
+          squareEls[move].style.backgroundColor = ''
+        );
       });
       render();
     } else if (legalMoves.indexOf(placementIdx) !== -1) {
@@ -217,11 +229,15 @@ function handleMove(evt) {
         }
       }
       lastPiece = piece;
-      legalMoves.forEach(function(move) {
+      legalMoves.forEach(function (move) {
         squareEls[move].style.backgroundColor = '';
       });
       board[selectedIdx] = 'em';
       if (canPromote(placementIdx)) board[placementIdx] = `${piece[0]}q`;
+      checking(piece);
+      if (!isInCheck && checkedIdx) {
+        document.getElementById(`sq${checkedIdx}`).style.backgroundColor = '';
+      }
       winner = getWinner();
       if (winner) {
         render();
@@ -232,13 +248,57 @@ function handleMove(evt) {
     }
   }
 }
+function updateLegalMoves(pieceIdx) {
+  updatedMoves = [];
+  legalMoves.forEach(move => {
+    newMoves = [];
+    // console.log(move);
+    knightMove(move, false, true);
+    queenMove(move, false, true);
+    // console.log(newMoves);
+    if (newMoves.includes(pieceIdx)) updatedMoves.push(move);
+  })
+  console.log(updatedMoves);
+}
+function checking(piece) {
+  let div = document.getElementById(`sq${placementIdx}`);
+  isInCheck = false;
+  check = null;
+  if (piece[1] === 'p') {
+    pawnMove(placementIdx, true);
+    isInCheck && (div.style.backgroundColor = 'rgba(255, 0, 0, 1)');
+  } else if (piece[1] === 'b') {
+    bishopMove(placementIdx, true);
+    isInCheck && (div.style.backgroundColor = 'rgba(255, 0, 0, 1)');
+  } else if (piece[1] === 'n') {
+    knightMove(placementIdx, true);
+    isInCheck && (div.style.backgroundColor = 'rgba(255, 0, 0, 1)');
+  } else if (piece[1] === 'r') {
+    rookMove(placementIdx, true);
+    isInCheck && (div.style.backgroundColor = 'rgba(255, 0, 0, 1)');
+  } else if (piece[1] === 'q') {
+    queenMove(placementIdx, true);
+    isInCheck && (div.style.backgroundColor = 'rgba(255, 0, 0, 1)');
+    // legalMoves.forEach(function(idx) {
+    //   if (Math.abs(board[idx]) === 6) {
+    //     kingIdx = idx;
+    //     div.style.backgroundColor = 'rgba(255, 0, 0, 1)';
+    //     check = -1;
+    //   } else if (legalMoves.indexOf(kingIdx) === -1) {
+    //     div.style.backgroundColor = ''
+    //     kingIdx = undefined;
+    //   }
+    // });
+    // console.log(legalMoves, legalMoves.indexOf(kingIdx));
+  }
+}
 function canPromote(square) {
   if (piece[1] === 'p') {
     if (piece[0] === 'w' && square < 8) {
       return true;
     } else if (piece[0] === 'b' && square > 55) {
       return true;
-    } 
+    }
   } else {
     return null;
   }
@@ -268,7 +328,7 @@ function goCastle() {
     board[63] = 'em';
     playerLookup[piece].moved = true;
     playerLookup.wr2.moved = true;
-  } else if(piece === 'wk' && selectedIdx === 60 && placementIdx == 58) {
+  } else if (piece === 'wk' && selectedIdx === 60 && placementIdx == 58) {
     board[selectedIdx - 1] = 'wr1';
     board[56] = 'em';
     playerLookup[piece].moved = true;
@@ -285,7 +345,7 @@ function goCastle() {
     playerLookup.br2.moved = true;
   }
 }
-function pawnMove(pieceIdx) {
+function pawnMove(pieceIdx, checking = false) {
   let squareAbove = pieceIdx - boardWidth;
   let twoSquares = squareAbove - boardWidth;
   let modal = pieceIdx % boardWidth;
@@ -300,10 +360,16 @@ function pawnMove(pieceIdx) {
     if (modal === 7 || board[squareAbove + 1][0] === 'w') {
     } else if (board[squareAbove + 1] !== 'em') {
       legalMoves.push(squareAbove + 1);
+      if (board[squareAbove + 1][1] === 'k' && checking) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
     };
     if (modal === 0 || board[squareAbove - 1][0] === 'w') {
     } else if (board[squareAbove - 1] !== 'em') {
       legalMoves.push(squareAbove - 1);
+      if (board[squareAbove - 1][1] === 'k' && checking) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
     };
   } else if (piece[0] === 'b') {
     squareAbove = pieceIdx + boardWidth;
@@ -318,14 +384,20 @@ function pawnMove(pieceIdx) {
     if (modal === 7 || board[squareAbove + 1][0] === 'b') {
     } else if (board[squareAbove + 1] !== 'em') {
       legalMoves.push(squareAbove + 1);
+      if (board[squareAbove + 1][1] === 'k' && checking) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
     };
     if (modal === 0 || board[squareAbove - 1][0] === 'b') {
     } else if (board[squareAbove - 1] !== 'em') {
       legalMoves.push(squareAbove - 1);
+      if (board[squareAbove - 1][1] === 'k' && checking) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
     };
   }
 }
-function bishopMove(pieceIdx) {
+function bishopMove(pieceIdx, checking = false, updating = false) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
@@ -341,7 +413,8 @@ function bishopMove(pieceIdx) {
     if (board[rUDiag] !== undefined) {
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'b') {
         if (modal === 7 || board[rUDiag] === undefined) break;
-        legalMoves.push(rUDiag);
+        (updating ? newMoves : legalMoves).push(rUDiag);
+        if (board[rUDiag][1] === 'k' && checking) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[rUDiag][0] === 'b' || (rUDiag % boardWidth) === 7) break;
         right++;
         up += boardWidth;
@@ -353,7 +426,8 @@ function bishopMove(pieceIdx) {
     if (board[rDDiag] !== undefined) {
       while (board[rDDiag] === undefined || board[rDDiag] === 'em' || board[rDDiag][0] === 'b') {
         if (modal === 7 || board[rDDiag] === undefined) break;
-        legalMoves.push(rDDiag);
+        (updating ? newMoves : legalMoves).push(rDDiag);
+        if (board[rDDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[rDDiag][0] === 'b' || (rDDiag % boardWidth) === 7) break;
         right++;
         down += boardWidth;
@@ -365,7 +439,8 @@ function bishopMove(pieceIdx) {
       right = 1;
       while (board[lUDiag] === undefined || board[lUDiag] === 'em' || board[lUDiag][0] === 'b') {
         if (modal === 0 || board[lUDiag] === undefined) break;
-        legalMoves.push(lUDiag);
+        (updating ? newMoves : legalMoves).push(lUDiag);
+        if (board[lUDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[lUDiag][0] === 'b' || (lUDiag % boardWidth) === 0) break;
         left++;
         up += boardWidth;
@@ -376,7 +451,8 @@ function bishopMove(pieceIdx) {
     if (board[lDDiag] !== undefined) {
       while (board[lDDiag] === undefined || board[lDDiag] === 'em' || board[lDDiag][0] === 'b') {
         if (modal === 0 || board[lDDiag] === undefined) break;
-        legalMoves.push(lDDiag);
+        (updating ? newMoves : legalMoves).push(lDDiag);
+        if (board[lDDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[lDDiag][0] === 'b' || (lDDiag % boardWidth) === 0) break;
         left++;
         down += boardWidth;
@@ -387,7 +463,8 @@ function bishopMove(pieceIdx) {
     if (board[rUDiag] !== undefined) {
       while (board[rUDiag] === undefined || board[rUDiag] === 'em' || board[rUDiag][0] === 'w') {
         if (modal === 7 || board[rUDiag] === undefined) break;
-        legalMoves.push(rUDiag);
+        (updating ? newMoves : legalMoves).push(rUDiag);
+        if (board[rUDiag][1] === 'k' && checking) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[rUDiag][0] === 'w' || (rUDiag % boardWidth) === 7) break;
         right++;
         up += boardWidth;
@@ -399,7 +476,8 @@ function bishopMove(pieceIdx) {
     if (board[rDDiag] !== undefined) {
       while (board[rDDiag] === undefined || board[rDDiag] === 'em' || board[rDDiag][0] === 'w') {
         if (modal === 7 || board[rDDiag] === undefined) break;
-        legalMoves.push(rDDiag);
+        (updating ? newMoves : legalMoves).push(rDDiag);
+        if (board[rDDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[rDDiag][0] === 'w' || (rDDiag % boardWidth) === 7) break;
         right++;
         down += boardWidth;
@@ -411,7 +489,8 @@ function bishopMove(pieceIdx) {
     if (board[lUDiag] !== undefined) {
       while (board[lUDiag] === undefined || board[lUDiag] === 'em' || board[lUDiag][0] === 'w') {
         if (modal === 0 || board[lUDiag] === undefined) break;
-        legalMoves.push(lUDiag);
+        (updating ? newMoves : legalMoves).push(lUDiag);
+        if (board[lUDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[lUDiag][0] === 'w' || (lUDiag % boardWidth) === 0) break;
         left++;
         up += boardWidth;
@@ -422,7 +501,8 @@ function bishopMove(pieceIdx) {
     if (board[lDDiag] !== undefined) {
       while (board[lDDiag] === undefined || board[lDDiag] === 'em' || board[lDDiag][0] === 'w') {
         if (modal === 0 || board[lDDiag] === undefined) break;
-        legalMoves.push(lDDiag);
+        (updating ? newMoves : legalMoves).push(lDDiag);
+        if (board[lDDiag][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
         if (board[lDDiag][0] === 'w' || (lDDiag % boardWidth) === 0) break;
         left++;
         down += boardWidth;
@@ -431,7 +511,7 @@ function bishopMove(pieceIdx) {
     }
   }
 }
-function knightMove(pieceIdx) {
+function knightMove(pieceIdx, checking = false, updating = false) {
   let up = pieceIdx - (boardWidth * 2);
   let down = pieceIdx + (boardWidth * 2);
   let left = pieceIdx - 2;
@@ -446,30 +526,36 @@ function knightMove(pieceIdx) {
         // If the piece is on the other ranks but on the a file, then do not run sequential code
       } else if (board[up - 1][0] === 'b' || board[up - 1] === 'em') {
         // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the left.
-        legalMoves.push(up - 1);
-        }
+        (updating ? newMoves : legalMoves).push(up - 1);
+        if (board[up - 1][1] === 'k' && checking) isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
       if (modal === 7) {
         // If the piece is on the other ranks but on the h file, then do not run sequential code
       } else if (board[up + 1][0] === 'b' || board[up + 1] === 'em') {
         // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the right.
-          legalMoves.push(up + 1);
+        (updating ? newMoves : legalMoves).push(up + 1);
+        if (board[up + 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (modal > 5 || board[right - boardWidth] === undefined || board[right + boardWidth] === undefined) {
       // if the piece is the g or h file, or the placement is undefined, then only run sequential code
       if (pieceIdx > 55 && modal < 6 && board[right - boardWidth][0] !== 'w') {
-        legalMoves.push(right - boardWidth);
+        (updating ? newMoves : legalMoves).push(right - boardWidth);
+        if (board[right - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       } else if (pieceIdx < 8 && modal < 6 && board[right + boardWidth][0] !== 'w') {
-        legalMoves.push(right + boardWidth);
+        (updating ? newMoves : legalMoves).push(right + boardWidth);
+        if (board[right + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     } else {
       if (board[right - boardWidth][0] === 'b' || board[right - boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(right - boardWidth);
+        (updating ? newMoves : legalMoves).push(right - boardWidth);
+        if (board[right - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (board[right + boardWidth][0] === 'b' || board[right + boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(right + boardWidth);
+        (updating ? newMoves : legalMoves).push(right + boardWidth);
+        if (board[right + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (pieceIdx > 47) {
@@ -479,30 +565,36 @@ function knightMove(pieceIdx) {
         // if the selected piece is on the h file, then do not run sequential code
       } else if (board[down + 1][0] === 'b' || board[down + 1] === 'em') {
         // if the placement is an opponent or em, then push the index
-          legalMoves.push(down + 1);
+        (updating ? newMoves : legalMoves).push(down + 1);
+        if (board[down + 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (modal === 0) {
         // if the selected piece is on the a file, then do not run sequential code
       } else if (board[down - 1][0] === 'b' || board[down - 1] === 'em') {
         // if the placement is an opponent or em, then push the index
-          legalMoves.push(down - 1);
+        (updating ? newMoves : legalMoves).push(down - 1);
+        if (board[down - 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (modal < 2 || board[left + boardWidth] === undefined || board[left - boardWidth] === undefined) {
       // if the piece is the a or b file, or the placement is undefined, then only run sequential code
       if (pieceIdx > 55 && modal > 1 && board[left - boardWidth][0] !== 'w') {
-        legalMoves.push(left - boardWidth);
+        (updating ? newMoves : legalMoves).push(left - boardWidth);
+        if (board[left - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       } else if (pieceIdx < 8 && modal > 1 && board[left + boardWidth][0] !== 'w') {
-        legalMoves.push(left + boardWidth);
+        (updating ? newMoves : legalMoves).push(left + boardWidth);
+        if (board[left + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     } else {
       if (board[left + boardWidth][0] === 'b' || board[left + boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(left + boardWidth);
+        (updating ? newMoves : legalMoves).push(left + boardWidth);
+        if (board[left + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (board[left - boardWidth][0] === 'b' || board[left - boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(left - boardWidth);
+        (updating ? newMoves : legalMoves).push(left - boardWidth);
+        if (board[left - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
   } else if (piece[0] === 'b') {
@@ -514,30 +606,36 @@ function knightMove(pieceIdx) {
         // If the piece is on the other ranks but on the a file, then do not run sequential code
       } else if (board[up - 1][0] === 'w' || board[up - 1] === 'em') {
         // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the left.
-        legalMoves.push(up - 1);
-        }
+        (updating ? newMoves : legalMoves).push(up - 1);
+        if (board[up - 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
       if (modal === 7) {
         // If the piece is on the other ranks but on the h file, then do not run sequential code
       } else if (board[up + 1][0] === 'w' || board[up + 1] === 'em') {
         // otherwise if the placement is em and is an opponent, then push the index which is two squares up and one to the right.
-          legalMoves.push(up + 1);
+        (updating ? newMoves : legalMoves).push(up + 1);
+        if (board[up + 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (modal > 5 || board[right - boardWidth] === undefined || board[right + boardWidth] === undefined) {
       // if the piece is the g or h file, or the placement is undefined, then only run sequential code
       if (pieceIdx > 55 && modal < 6 && board[right - boardWidth][0] !== 'b') {
-        legalMoves.push(right - boardWidth);
+        (updating ? newMoves : legalMoves).push(right - boardWidth);
+        if (board[right - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       } else if (pieceIdx < 8 && modal < 6 && board[right + boardWidth][0] !== 'b') {
-        legalMoves.push(right + boardWidth);
+        (updating ? newMoves : legalMoves).push(right + boardWidth);
+        if (board[right + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     } else {
       if (board[right - boardWidth][0] === 'w' || board[right - boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(right - boardWidth);
+        (updating ? newMoves : legalMoves).push(right - boardWidth);
+        if (board[right - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (board[right + boardWidth][0] === 'w' || board[right + boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(right + boardWidth);
+        (updating ? newMoves : legalMoves).push(right + boardWidth);
+        if (board[right + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (pieceIdx > 47) {
@@ -547,35 +645,41 @@ function knightMove(pieceIdx) {
         // if the selected piece is on the h file, then do not run sequential code
       } else if (board[down + 1][0] === 'w' || board[down + 1] === 'em') {
         // if the placement is an opponent or em, then push the index
-          legalMoves.push(down + 1);
+        (updating ? newMoves : legalMoves).push(down + 1);
+        if (board[down + 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (modal === 0) {
         // if the selected piece is on the a file, then do not run sequential code
       } else if (board[down - 1][0] === 'w' || board[down - 1] === 'em') {
         // if the placement is an opponent or em, then push the index
-          legalMoves.push(down - 1);
+        (updating ? newMoves : legalMoves).push(down - 1);
+        if (board[down - 1][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
     if (modal < 2 || board[left + boardWidth] === undefined || board[left - boardWidth] === undefined) {
       // if the piece is the a or b file, or the placement is undefined, then only run sequential code
       if (pieceIdx > 55 && modal > 1 && board[left - boardWidth][0] !== 'b') {
-        legalMoves.push(left - boardWidth);
+        (updating ? newMoves : legalMoves).push(left - boardWidth);
+        if (board[left - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       } else if (pieceIdx < 8 && modal > 1 && board[left + boardWidth][0] !== 'b') {
-        legalMoves.push(left + boardWidth);
+        (updating ? newMoves : legalMoves).push(left + boardWidth);
+        if (board[left + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     } else {
       if (board[left + boardWidth][0] === 'w' || board[left + boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(left + boardWidth);
+        (updating ? newMoves : legalMoves).push(left + boardWidth);
+        if (board[left + boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
       if (board[left - boardWidth][0] === 'w' || board[left - boardWidth] === 'em') {
         // if placement is an opponent or em, then push the index
-        legalMoves.push(left - boardWidth);
+        (updating ? newMoves : legalMoves).push(left - boardWidth);
+        if (board[left - boardWidth][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       }
     }
   }
 }
-function rookMove(pieceIdx) {
+function rookMove(pieceIdx, checking = false, updating = false) {
   let squareAbove = pieceIdx - boardWidth;
   let squareBelow = pieceIdx + boardWidth;
   let modal = pieceIdx % boardWidth;
@@ -584,59 +688,71 @@ function rookMove(pieceIdx) {
   if (piece[0] === 'w') {
     while (board[squareAbove] === undefined || board[squareAbove] === 'em' || board[squareAbove][0] === 'b') {
       if (board[squareAbove] === undefined) break;
-      legalMoves.push(squareAbove);
+      (updating ? newMoves : legalMoves).push(squareAbove);
+      if (board[squareAbove][1] === 'k' && checking) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx;
+      }
       if (board[squareAbove][0] === 'b') break;
       squareAbove -= boardWidth;
     }
     while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'em' || board[pieceIdx + right][0] === 'b') {
       if (modal === 7 || board[pieceIdx + right] === undefined) break;
-      legalMoves.push(pieceIdx + right);
+      (updating ? newMoves : legalMoves).push(pieceIdx + right);
+      if (board[pieceIdx + right][1] === 'k' && checking && !isInCheck) {
+        isInCheck = true, check = turn, checkedIdx = pieceIdx
+      };
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'b') break;
       right++;
     }
     while (board[squareBelow] === undefined || board[squareBelow] === 'em' || board[squareBelow][0] === 'b') {
       if (modal === 7 || board[squareBelow] === undefined) break;
-      legalMoves.push(squareBelow);
+      (updating ? newMoves : legalMoves).push(squareBelow);
+      if (board[squareBelow][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if (board[squareBelow][0] === 'b') break;
       squareBelow += boardWidth;
     }
     while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'em' || board[pieceIdx - left][0] === 'b') {
       if (modal === 0 || board[pieceIdx - left] === undefined) break;
-      legalMoves.push(pieceIdx - left);
+      (updating ? newMoves : legalMoves).push(pieceIdx - left);
+      if (board[pieceIdx - left][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'b') break;
       left++;
     }
   } else if (piece[0] === 'b') {
     while (board[squareAbove] === undefined || board[squareAbove] === 'em' || board[squareAbove][0] === 'w') {
       if (board[squareAbove] === undefined) break;
-      legalMoves.push(squareAbove);
+      (updating ? newMoves : legalMoves).push(squareAbove);
+      if (board[squareAbove][1] === 'k' && checking) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if (board[squareAbove][0] === 'w') break;
       squareAbove -= boardWidth;
     }
     while (board[pieceIdx + right] === undefined || board[pieceIdx + right] === 'em' || board[pieceIdx + right][0] === 'w') {
       if (modal === 7 || board[pieceIdx + right] === undefined) break;
-      legalMoves.push(pieceIdx + right);
+      (updating ? newMoves : legalMoves).push(pieceIdx + right);
+      if (board[pieceIdx + right][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if ((pieceIdx + right) % boardWidth === 7 || board[pieceIdx + right][0] === 'w') break;
       right++;
     }
     while (board[squareBelow] === undefined || board[squareBelow] === 'em' || board[squareBelow][0] === 'w') {
       if (board[squareBelow] === undefined) break;
-      legalMoves.push(squareBelow);
+      (updating ? newMoves : legalMoves).push(squareBelow);
+      if (board[squareBelow][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if (board[squareBelow][0] === 'w') break;
       squareBelow += boardWidth;
     }
     while (board[pieceIdx - left] === undefined || board[pieceIdx - left] === 'em' || board[pieceIdx - left][0] === 'w') {
       if (modal === 0 || board[pieceIdx - right] === undefined) break;
-      legalMoves.push(pieceIdx - left);
+      (updating ? newMoves : legalMoves).push(pieceIdx - left);
+      if (board[pieceIdx - left][1] === 'k' && checking && !isInCheck) isInCheck = true, check = turn, checkedIdx = pieceIdx;
       if ((pieceIdx - left) % boardWidth === 0 || board[pieceIdx - left][0] === 'w') break;
       left++;
     }
   }
 }
-function queenMove(pieceIdx) {
+function queenMove(pieceIdx, checking = false, updating = false) {
   // Queeny behaves like both of thes pieces combined.
-  bishopMove(pieceIdx);
-  rookMove(pieceIdx);
+  bishopMove(pieceIdx, checking, updating);
+  rookMove(pieceIdx, checking, updating);
 }
 function kingMove(pieceIdx) {
   let squareAbove = pieceIdx - boardWidth;
@@ -645,15 +761,15 @@ function kingMove(pieceIdx) {
   if (piece[0] === 'w') {
     if (pieceIdx < 8 || board[squareAbove] === undefined) {
     } else if (board[squareAbove] === 'em' || board[squareAbove][0] === 'b') {
-        legalMoves.push(squareAbove);
-      }
-    if (modal === 7) { 
+      legalMoves.push(squareAbove);
+    }
+    if (modal === 7) {
     } else {
       if (board[squareAbove + 1] === undefined) {
       } else if (board[squareAbove + 1] === 'em' || board[squareAbove + 1][0] === 'b') {
         legalMoves.push(squareAbove + 1);
       }
-      if(board[pieceIdx + 1] === undefined) {
+      if (board[pieceIdx + 1] === undefined) {
       } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'b') {
         legalMoves.push(pieceIdx + 1);
       }
@@ -684,15 +800,15 @@ function kingMove(pieceIdx) {
   } else if (piece[0] === 'b') {
     if (pieceIdx < 8 || board[squareAbove] === undefined) {
     } else if (board[squareAbove] === 'em' || board[squareAbove][0] === 'w') {
-        legalMoves.push(squareAbove);
-      }
+      legalMoves.push(squareAbove);
+    }
     if (modal === 7) {
     } else {
       if (board[squareAbove + 1] === undefined) {
       } else if (board[squareAbove + 1] === 'em' || board[squareAbove + 1][0] === 'w') {
         legalMoves.push(squareAbove + 1);
       }
-      if(board[pieceIdx + 1] === undefined) {
+      if (board[pieceIdx + 1] === undefined) {
       } else if (board[pieceIdx + 1] === 'em' || board[pieceIdx + 1][0] === 'w') {
         legalMoves.push(pieceIdx + 1);
       }
@@ -723,11 +839,7 @@ function kingMove(pieceIdx) {
   }
 }
 function getWinner() {
-  if (board.indexOf('wk') === -1) {
-    return 'bk';
-  } else if (board.indexOf('bk') === -1) {
-    return 'wk';
-  } else {
-    return null;
-  }
+  if (board.indexOf('wk') === -1) return 'bk';
+  else if (board.indexOf('bk') === -1) return 'wk';
+  else return null;
 }
